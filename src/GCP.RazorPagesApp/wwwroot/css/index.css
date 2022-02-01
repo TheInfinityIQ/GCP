@@ -1,0 +1,57 @@
+﻿table {
+    width: 100%;
+}
+
+thead {
+    border: 1px solid black;
+}
+
+tbody {
+    border: 1px solid black;
+}
+
+th {
+    text-align: center;
+    border: 1px solid black;
+    font-family: Raleway;
+    font-weight: 500;
+}
+
+td {
+    padding: 1em;
+    font-family: Raleway;
+    font-weight: 300;
+}
+
+.colHead {
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    padding-left: 1em;
+}
+
+.col1 {
+    border-right: 1px dotted grey;
+}
+
+.col2 {
+    border-right: 1px dotted grey;
+}
+
+.col3 {
+    border-right: 1px dotted grey;
+}
+
+.col4 {
+    text-align: center;
+    border: 1px solid black;
+}
+
+.create {
+    color: deepskyblue;
+    font-size: 1em;
+    text-align: right;
+}
+
+.subtitle {
+    font-style: italic;
+}

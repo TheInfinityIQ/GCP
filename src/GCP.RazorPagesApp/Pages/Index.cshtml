@@ -4,7 +4,64 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<head>
+    <link href="./css/index.css" rel="stylesheet" />
+
+    <!-- Raleway Font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Game Choosing Program</h1>
+        <p class="subtitle">For when you want to hangout with friends but have the game selection be unbiased!</p>
+    </header>
+    <main>
+        <h2 class="create">
+            Create New +
+        </h2>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="4">Games in the Bag of Selection!</th>
+                </tr>
+                <tr>
+                    <td class="col col1 colHead">Game title</td>
+                    <td class="col col2 colHead">Added by</td>
+                    <td class="col col3 colHead">Likeness score</td>
+                    <td class="col col4">CRUD (Admin Only)</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="col col1">CIV V</td>
+                    <td class="col col2">Everett, Ian, James</td>
+                    <td class="col col3">8 (2, 3, 3)</td>
+                    <td class="col col4">Edit || Remove || ManageEndorsement</td>
+                </tr>
+                <tr>
+                    <td class="col col1">Planetary Annihilation</td>
+                    <td class="col col2">Dawson</td>
+                    <td class="col col3">3</td>
+                    <td class="col col4">Edit || Remove || ManageEndorsement</td>
+                </tr>
+                <tr>
+                    <td class="col col1">RimWorld Multiplayer</td>
+                    <td class="col col2">Dawson, Ian, James</td>
+                    <td class="col col3">5 (3, 1, 1)</td>
+                    <td class="col col4">Edit || Remove || ManageEndorsement</td>
+                </tr>
+                <tr>
+                    <td class="col col1">Tekken 7</td>
+                    <td class="col col2">Everett</td>
+                    <td class="col col3">2</td>
+                    <td class="col col4">Edit || Remove || ManageEndorsement</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+    </footer>
+</body>
