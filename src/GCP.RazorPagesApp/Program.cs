@@ -1,8 +1,15 @@
+
+using GCP.RazorPagesApp.Data;
+
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddDbContext<GCPContext>(options =>
+	options.UseNpgsql(builder.Configuration.GetConnectionString("GCPContext")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
