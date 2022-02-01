@@ -17,6 +17,7 @@ Once we start to have some resemblance of an application we'll start to split th
     - *`issue`* or *`iss`*
     - *`hotfix`* or *`hot`*
     - *`refactor`* or *`cleanup`* or *`clean`*
+    - *`wip`* (work in progress)
   - **`id`**: would be the GitHub issue Id prefixed with `GH-`
 
 Example: **`dragwar/feat/GH-9`**
