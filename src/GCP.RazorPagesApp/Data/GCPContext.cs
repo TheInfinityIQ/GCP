@@ -11,6 +11,5 @@ public class GCPContext : DbContext
 
 	}
 
-	public DbSet<Game> Game { get; set; }
-
+	public DbSet<Game> Game { get; set; } = default!; // NOTE: = default! is to remove warnings
 }
