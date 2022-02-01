@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GCP.RazorPagesApp.Data;
 
-public class GCPContext	: DbContext
+public class GCPContext : DbContext
 {
 	public GCPContext(DbContextOptions<GCPContext> options) : base(options)
 	{
