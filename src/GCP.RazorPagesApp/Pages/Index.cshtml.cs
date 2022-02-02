@@ -9,6 +9,7 @@ namespace GCP.RazorPagesApp.Pages
 		public IndexModel(ILogger<IndexModel> logger)
 		{
 			_logger = logger;
+			_ = _logger; // NOTE: for ignoring message/warning
 		}
 
 		public void OnGet()
