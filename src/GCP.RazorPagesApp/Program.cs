@@ -3,6 +3,7 @@ using System.Globalization;
 
 using EFCore.NamingConventions.Internal;
 
+using GCP.RazorPagesApp;
 using GCP.RazorPagesApp.Data;
 
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,14 @@ builder.Services.AddDbContext<GCPContext>(options =>
 
 	options.UseSnakeCaseNamingConvention();
 });
+
+
+builder.Services.AddMinimalApiServices();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,4 +50,9 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.UseSwagger();
+app.MapMinimalApiEndpoints();
+app.UseSwaggerUI();
+
 app.Run();
