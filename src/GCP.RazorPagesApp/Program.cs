@@ -5,7 +5,9 @@ using EFCore.NamingConventions.Internal;
 
 using GCP.RazorPagesApp;
 using GCP.RazorPagesApp.Data;
+using GCP.RazorPagesApp.Data.Entities;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +27,16 @@ builder.Services.AddDbContext<GCPContext>(options =>
 	options.UseSnakeCaseNamingConvention();
 });
 
+builder.Services.AddIdentity<User, Role>(options =>
+	{
+		options.SignIn.RequireConfirmedAccount = false;
+	})
+	.AddDefaultUI()
+	.AddDefaultTokenProviders()
+	.AddSignInManager()
+	.AddUserManager<UserManager<User>>()
+	.AddRoleManager<RoleManager<Role>>()
+	.AddEntityFrameworkStores<GCPContext>();
 
 builder.Services.AddMinimalApiServices();
 builder.Services.AddEndpointsApiExplorer();
@@ -46,7 +58,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
