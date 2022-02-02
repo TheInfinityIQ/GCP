@@ -1,4 +1,8 @@
 
+using System.Globalization;
+
+using EFCore.NamingConventions.Internal;
+
 using GCP.RazorPagesApp.Data;
 
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<GCPContext>(options =>
-	options.UseNpgsql(builder.Configuration.GetConnectionString("GCPContext")));
+{
+	options.UseNpgsql(builder.Configuration.GetConnectionString("GCPContext"), npgsqlOptions =>
+	{
+		var snakeCaseNameRewriter = new SnakeCaseNameRewriter(CultureInfo.InvariantCulture);
+		var migrationTableName = snakeCaseNameRewriter.RewriteName("__EFMigrationsHistory");
+		npgsqlOptions.MigrationsHistoryTable(migrationTableName);
+	});
+
+	options.UseSnakeCaseNamingConvention();
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
