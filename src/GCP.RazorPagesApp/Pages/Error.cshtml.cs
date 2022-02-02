@@ -18,6 +18,7 @@ namespace GCP.RazorPagesApp.Pages
 		public ErrorModel(ILogger<ErrorModel> logger)
 		{
 			_logger = logger;
+			_ = _logger; // NOTE: for ignoring message/warning
 		}
 
 		public void OnGet()
