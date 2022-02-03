@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics;
+using System.Text.Json;
 
 using GCP.RazorPagesApp.Data.Entities;
 
@@ -156,6 +157,8 @@ public class Seeder : ISeeder
 			return;
 		}
 
+		var sw = Stopwatch.StartNew();
+
 		ValidateOptions();
 		await HandleDatabaseMigrationOptionsAsync(cancellationToken);
 		await TestConnectionAsync(cancellationToken);
@@ -185,8 +188,25 @@ public class Seeder : ISeeder
 		}
 		_logger.LogInformation("Seeded user(s) successfully.");
 
+
+		_logger.LogInformation("Seeding game(s)...");
+		if (await _db.Game.AnyAsync(cancellationToken) is false)
+		{
+			await _db.Game.AddRangeAsync(new Game[]
+			{
+				new() { GameLink = "https://store.steampowered.com/app/8930/Sid_Meiers_Civilization_V/", Score = 8, User = "Everett, Ian, James" },
+				new() { GameLink = "https://store.steampowered.com/app/386070/Planetary_Annihilation_TITANS/", Score = 3, User = "Dawson" },
+				new() { GameLink = "https://store.steampowered.com/app/294100/RimWorld/", Score = 5, User = "Everett, Ian, James" },
+				new() { GameLink = "https://store.steampowered.com/app/8930/Tekken_7/", Score = 2, User = "Everett, Ian, James" },
+			});
+		}
+		_logger.LogInformation("Seeded game(s).");
+
+
 		_logger.LogInformation("Saving data...");
 		await _db.SaveChangesAsync(cancellationToken);
-		_logger.LogInformation("Saved data successfully.");
+
+		sw.Stop();
+		_logger.LogInformation("Saved data successfully. ELAPSED: {time}", sw.Elapsed);
 	}
 }
