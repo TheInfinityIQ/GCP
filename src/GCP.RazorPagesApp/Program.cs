@@ -6,6 +6,8 @@ using EFCore.NamingConventions.Internal;
 using GCP.RazorPagesApp;
 using GCP.RazorPagesApp.Data;
 using GCP.RazorPagesApp.Data.Entities;
+using GCP.RazorPagesApp.Data.Seeding;
+using GCP.RazorPagesApp.Utilities;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +40,8 @@ builder.Services.AddIdentity<User, Role>(options =>
 	.AddRoleManager<RoleManager<Role>>()
 	.AddEntityFrameworkStores<GCPContext>();
 
+builder.Services.AddSeeder();
+
 builder.Services.AddMinimalApiServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -66,5 +70,7 @@ app.MapRazorPages();
 app.UseSwagger();
 app.MapMinimalApiEndpoints();
 app.UseSwaggerUI();
+
+await app.RunSeederAsync();
 
 app.Run();
