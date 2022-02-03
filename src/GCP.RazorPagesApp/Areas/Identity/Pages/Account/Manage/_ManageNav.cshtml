@@ -1,4 +1,4 @@
-﻿@using GCP.RazorPagesApp.Data.Entities
+@using GCP.RazorPagesApp.Data.Entities
 @inject SignInManager<User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
