@@ -7,7 +7,6 @@ using GCP.RazorPagesApp;
 using GCP.RazorPagesApp.Data;
 using GCP.RazorPagesApp.Data.Entities;
 using GCP.RazorPagesApp.Data.Seeding;
-using GCP.RazorPagesApp.Utilities;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
