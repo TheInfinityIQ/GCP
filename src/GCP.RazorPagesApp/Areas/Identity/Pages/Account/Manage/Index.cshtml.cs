@@ -4,11 +4,13 @@
 
 using System.ComponentModel.DataAnnotations;
 
+using GCP.RazorPagesApp.Data;
 using GCP.RazorPagesApp.Data.Entities;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace GCP.RazorPagesApp.Areas.Identity.Pages.Account.Manage
 {
@@ -16,13 +18,16 @@ namespace GCP.RazorPagesApp.Areas.Identity.Pages.Account.Manage
 	{
 		private readonly UserManager<User> _userManager;
 		private readonly SignInManager<User> _signInManager;
+		private readonly GCPContext _db;
 
 		public IndexModel(
 			UserManager<User> userManager,
-			SignInManager<User> signInManager)
+			SignInManager<User> signInManager,
+			GCPContext db)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
+			_db = db;
 		}
 
 		/// <summary>
@@ -58,6 +63,9 @@ namespace GCP.RazorPagesApp.Areas.Identity.Pages.Account.Manage
 			[Phone]
 			[Display(Name = "Phone number")]
 			public string PhoneNumber { get; set; }
+
+			[Display(Name = "Display name")]
+			public string DisplayName { get; set; }
 		}
 
 		private async Task LoadAsync(User user)
@@ -69,7 +77,8 @@ namespace GCP.RazorPagesApp.Areas.Identity.Pages.Account.Manage
 
 			Input = new InputModel
 			{
-				PhoneNumber = phoneNumber
+				PhoneNumber = phoneNumber,
+				DisplayName = user.DisplayName,
 			};
 		}
 
@@ -85,7 +94,7 @@ namespace GCP.RazorPagesApp.Areas.Identity.Pages.Account.Manage
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostAsync()
+		public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken = default)
 		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user is null)
@@ -108,6 +117,20 @@ namespace GCP.RazorPagesApp.Areas.Identity.Pages.Account.Manage
 					StatusMessage = "Unexpected error when trying to set phone number.";
 					return RedirectToPage();
 				}
+			}
+
+			Input.DisplayName = Input.DisplayName?.Trim();
+			if (Input.DisplayName != user.DisplayName)
+			{
+				if (await _db.Users.Where(u => u.DisplayName != null && u.Id != user.Id).AnyAsync(u => u.DisplayName == Input.DisplayName, cancellationToken))
+				{
+					ModelState.AddModelError($"{nameof(Input)}.{nameof(Input.DisplayName)}", "Display name is already taken!");
+					await LoadAsync(user);
+					return Page();
+				}
+				user.DisplayName = Input.DisplayName;
+
+				await _db.SaveChangesAsync(cancellationToken);
 			}
 
 			await _signInManager.RefreshSignInAsync(user);

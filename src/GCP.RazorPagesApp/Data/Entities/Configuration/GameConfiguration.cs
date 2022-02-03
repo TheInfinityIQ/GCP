@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace GCP.RazorPagesApp.Data.Entities;
+namespace GCP.RazorPagesApp.Data.Entities.Configuration;
 
 public class GameConfiguration : IEntityTypeConfiguration<Game>
 {
