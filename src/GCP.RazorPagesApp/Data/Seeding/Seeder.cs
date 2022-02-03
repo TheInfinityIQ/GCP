@@ -127,10 +127,10 @@ public class Seeder : ISeeder
 	{
 		var joinedRoleNames = string.Join("','", roles);
 		var user = new User() { Email = email, UserName = email };
-		var createRoleResult = await _userManager.CreateAsync(user, password);
-		if (!createRoleResult.Succeeded)
+		var createUserResult = await _userManager.CreateAsync(user, password);
+		if (!createUserResult.Succeeded)
 		{
-			var errorDetails = JsonSerializer.Serialize(createRoleResult.Errors);
+			var errorDetails = JsonSerializer.Serialize(createUserResult.Errors);
 			var error = new SeederException($"Error during seeding - Failed to create '{email}' user. {errorDetails}");
 			_logger.LogError(error, "Failed to create '{email}' user. {errorDetails}", email, errorDetails);
 			throw error;
