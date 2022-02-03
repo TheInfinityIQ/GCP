@@ -18,16 +18,16 @@ namespace GCP.RazorPagesApp.Areas.Identity.Pages.Account.Manage
 	{
 		private readonly UserManager<User> _userManager;
 		private readonly SignInManager<User> _signInManager;
-		private readonly GCPContext _db;
+		private readonly GCPContext _context;
 
 		public IndexModel(
 			UserManager<User> userManager,
 			SignInManager<User> signInManager,
-			GCPContext db)
+			GCPContext context)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
-			_db = db;
+			_context = context;
 		}
 
 		/// <summary>
@@ -122,7 +122,7 @@ namespace GCP.RazorPagesApp.Areas.Identity.Pages.Account.Manage
 			Input.DisplayName = Input.DisplayName?.Trim();
 			if (Input.DisplayName != user.DisplayName)
 			{
-				if (await _db.Users.Where(u => u.DisplayName != null && u.Id != user.Id).AnyAsync(u => u.DisplayName == Input.DisplayName, cancellationToken))
+				if (await _context.Users.Where(u => u.DisplayName != null && u.Id != user.Id).AnyAsync(u => u.DisplayName == Input.DisplayName, cancellationToken))
 				{
 					ModelState.AddModelError($"{nameof(Input)}.{nameof(Input.DisplayName)}", "Display name is already taken!");
 					await LoadAsync(user);
@@ -130,7 +130,7 @@ namespace GCP.RazorPagesApp.Areas.Identity.Pages.Account.Manage
 				}
 				user.DisplayName = Input.DisplayName;
 
-				await _db.SaveChangesAsync(cancellationToken);
+				await _context.SaveChangesAsync(cancellationToken);
 			}
 
 			await _signInManager.RefreshSignInAsync(user);

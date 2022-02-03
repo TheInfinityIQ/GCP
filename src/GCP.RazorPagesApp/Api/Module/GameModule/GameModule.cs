@@ -13,9 +13,9 @@ public class GameModule : BaseModule
 
 	public override void MapEndpoints(IEndpointRouteBuilder app)
 	{
-		var getGameList = app.MapGet(BaseUrl, async (GCPContext db, CancellationToken cancellationToken) =>
+		var getGameList = app.MapGet(BaseUrl, async (GCPContext context, CancellationToken cancellationToken) =>
 		{
-			var games = await db.Game.Select(g => new GameListItemDTO(g)).ToListAsync(cancellationToken);
+			var games = await context.Game.Select(g => new GameListItemDTO(g)).ToListAsync(cancellationToken);
 			return Results.Ok(games);
 		});
 		getGameList
@@ -23,9 +23,9 @@ public class GameModule : BaseModule
 			.WithTags(nameof(GameModule))
 			.Produces<GameListItemDTO[]>(200);
 
-		var getGameById = app.MapGet($"{BaseUrl}/{{id:int}}", async (int id, GCPContext db, CancellationToken cancellationToken) =>
+		var getGameById = app.MapGet($"{BaseUrl}/{{id:int}}", async (int id, GCPContext context, CancellationToken cancellationToken) =>
 		{
-			var game = await db.Game.Where(x => x.Id == id).Select(g => new GameListItemDTO(g)).SingleOrDefaultAsync(cancellationToken);
+			var game = await context.Game.Where(x => x.Id == id).Select(g => new GameListItemDTO(g)).SingleOrDefaultAsync(cancellationToken);
 			if (game is null)
 			{
 				return Results.NotFound();
@@ -38,7 +38,7 @@ public class GameModule : BaseModule
 			.Produces<GameListItemDTO>(200)
 			.Produces(404);
 
-		var postGame = app.MapPost(BaseUrl, async (CreateGameDTO inputDTO, GCPContext db, CancellationToken cancellationToken) =>
+		var postGame = app.MapPost(BaseUrl, async (CreateGameDTO inputDTO, GCPContext context, CancellationToken cancellationToken) =>
 		{
 			var (link, score, user) = inputDTO;
 
@@ -65,8 +65,8 @@ public class GameModule : BaseModule
 
 			var game = new Data.Entities.Game { Score = score, GameLink = link, User = user };
 
-			await db.Game.AddAsync(game, cancellationToken);
-			await db.SaveChangesAsync(cancellationToken);
+			await context.Game.AddAsync(game, cancellationToken);
+			await context.SaveChangesAsync(cancellationToken);
 
 			var dto = new GameListItemDTO(game);
 
@@ -80,9 +80,9 @@ public class GameModule : BaseModule
 			.Produces<HttpValidationProblemDetails>(400)
 			.Produces(404);
 
-		var putGame = app.MapPut($"{BaseUrl}/{{id:int}}", async (int id, CreateGameDTO inputDTO, GCPContext db, CancellationToken cancellationToken) =>
+		var putGame = app.MapPut($"{BaseUrl}/{{id:int}}", async (int id, CreateGameDTO inputDTO, GCPContext context, CancellationToken cancellationToken) =>
 		{
-			var game = await db.Game.Where(x => x.Id == id).SingleOrDefaultAsync(cancellationToken);
+			var game = await context.Game.Where(x => x.Id == id).SingleOrDefaultAsync(cancellationToken);
 			if (game is null)
 			{
 				return Results.NotFound();
@@ -115,8 +115,8 @@ public class GameModule : BaseModule
 			game.Score = score;
 			game.User = user;
 
-			db.Game.Update(game);
-			await db.SaveChangesAsync(cancellationToken);
+			context.Game.Update(game);
+			await context.SaveChangesAsync(cancellationToken);
 
 			var dto = new GameListItemDTO(game);
 
@@ -130,16 +130,16 @@ public class GameModule : BaseModule
 			.Produces<HttpValidationProblemDetails>(400)
 			.Produces(404);
 
-		var deleteGame = app.MapDelete($"{BaseUrl}/{{id:int}}", async (int id, GCPContext db, CancellationToken cancellationToken) =>
+		var deleteGame = app.MapDelete($"{BaseUrl}/{{id:int}}", async (int id, GCPContext context, CancellationToken cancellationToken) =>
 		{
-			var game = await db.Game.Where(x => x.Id == id).SingleOrDefaultAsync(cancellationToken);
+			var game = await context.Game.Where(x => x.Id == id).SingleOrDefaultAsync(cancellationToken);
 			if (game is null)
 			{
 				return Results.NotFound();
 			}
 
-			db.Remove(game);
-			await db.SaveChangesAsync(cancellationToken);
+			context.Remove(game);
+			await context.SaveChangesAsync(cancellationToken);
 
 			var dto = new GameListItemDTO(game);
 

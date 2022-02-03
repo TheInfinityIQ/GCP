@@ -13,17 +13,17 @@ public class Seeder : ISeeder
 {
 	private readonly ILogger<Seeder> _logger;
 	private readonly IOptions<SeederOptions> _options;
-	private readonly GCPContext _db;
+	private readonly GCPContext _context;
 	private readonly UserManager<User> _userManager;
 	private readonly RoleManager<Role> _roleManager;
 
 	public ISet<DatabaseMigrationOption> DatabaseMigrationOptions => _options.Value.DatabaseMigrationOptions;
 
-	public Seeder(ILogger<Seeder> logger, IOptions<SeederOptions> options, GCPContext db, UserManager<User> userManager, RoleManager<Role> roleManager)
+	public Seeder(ILogger<Seeder> logger, IOptions<SeederOptions> options, GCPContext context, UserManager<User> userManager, RoleManager<Role> roleManager)
 	{
 		_logger = logger;
 		_options = options;
-		_db = db;
+		_context = context;
 		_userManager = userManager;
 		_roleManager = roleManager;
 	}
@@ -67,25 +67,25 @@ public class Seeder : ISeeder
 		if (DatabaseMigrationOptions.Contains(DatabaseMigrationOption.Drop))
 		{
 			_logger.LogInformation("Dropping database...");
-			await _db.Database.EnsureDeletedAsync(cancellationToken);
+			await _context.Database.EnsureDeletedAsync(cancellationToken);
 			_logger.LogInformation("Dropped database successfully.");
 		}
 
 		if (DatabaseMigrationOptions.Contains(DatabaseMigrationOption.Create))
 		{
 			_logger.LogInformation("Creating database...");
-			await _db.Database.EnsureCreatedAsync(cancellationToken);
+			await _context.Database.EnsureCreatedAsync(cancellationToken);
 			_logger.LogInformation("Created database successfully.");
 		}
 
 		if (DatabaseMigrationOptions.Contains(DatabaseMigrationOption.Migrate))
 		{
-			var pendingMigrations = await _db.Database.GetPendingMigrationsAsync(cancellationToken);
+			var pendingMigrations = await _context.Database.GetPendingMigrationsAsync(cancellationToken);
 			if (pendingMigrations.Any())
 			{
 				_logger.LogInformation("Migrating...");
 				_logger.LogInformation("executing pending migrations:\n'{pendingMigrations}'", string.Join("',\n'", pendingMigrations));
-				await _db.Database.MigrateAsync(cancellationToken);
+				await _context.Database.MigrateAsync(cancellationToken);
 				_logger.LogInformation("Executed pending migrations successfully.");
 			}
 			else
@@ -98,9 +98,9 @@ public class Seeder : ISeeder
 	private async Task TestConnectionAsync(CancellationToken cancellationToken = default)
 	{
 		_logger.LogInformation("Testing database connection...");
-		if (await _db.Database.CanConnectAsync(cancellationToken) is false)
+		if (await _context.Database.CanConnectAsync(cancellationToken) is false)
 		{
-			var providerName = _db.Database.ProviderName;
+			var providerName = _context.Database.ProviderName;
 			var error = new SeederException($"Error during seeding - Couldn't connect to '{providerName}' database to seed data. Please check connection string.");
 			_logger.LogError(error, "Couldn't connect to '{providerName}' database to seed data. Please check connection string.", providerName);
 			throw error;
@@ -167,7 +167,7 @@ public class Seeder : ISeeder
 		const string moderatorRoleName = "moderator";
 
 		_logger.LogInformation("Seeding role(s)...");
-		if (await _db.Roles.AnyAsync(cancellationToken) is false)
+		if (await _context.Roles.AnyAsync(cancellationToken) is false)
 		{
 			await CreateRoleAsync(adminRoleName);
 			await CreateRoleAsync(moderatorRoleName);
@@ -175,7 +175,7 @@ public class Seeder : ISeeder
 		_logger.LogInformation("Seeded role(s) successfully.");
 
 		_logger.LogInformation("Seeding user(s)...");
-		if (await _db.Users.AnyAsync(cancellationToken) is false)
+		if (await _context.Users.AnyAsync(cancellationToken) is false)
 		{
 			var adminRole = await _roleManager.FindByNameAsync(adminRoleName);
 			var moderatorRole = await _roleManager.FindByNameAsync(moderatorRoleName);
@@ -190,9 +190,9 @@ public class Seeder : ISeeder
 
 
 		_logger.LogInformation("Seeding game(s)...");
-		if (await _db.Game.AnyAsync(cancellationToken) is false)
+		if (await _context.Game.AnyAsync(cancellationToken) is false)
 		{
-			await _db.Game.AddRangeAsync(new Game[]
+			await _context.Game.AddRangeAsync(new Game[]
 			{
 				new() { GameLink = "https://store.steampowered.com/app/8930/Sid_Meiers_Civilization_V/", Score = 8, User = "Everett, Ian, James" },
 				new() { GameLink = "https://store.steampowered.com/app/386070/Planetary_Annihilation_TITANS/", Score = 3, User = "Dawson" },
@@ -204,7 +204,7 @@ public class Seeder : ISeeder
 
 
 		_logger.LogInformation("Saving data...");
-		await _db.SaveChangesAsync(cancellationToken);
+		await _context.SaveChangesAsync(cancellationToken);
 
 		sw.Stop();
 		_logger.LogInformation("Saved data successfully. ELAPSED: {time}", sw.Elapsed);
