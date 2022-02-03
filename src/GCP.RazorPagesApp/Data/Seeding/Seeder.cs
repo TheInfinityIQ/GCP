@@ -151,6 +151,11 @@ public class Seeder : ISeeder
 
 	public async Task SeedAsync(CancellationToken cancellationToken = default)
 	{
+		if (_options.Value.SkipSeed)
+		{
+			return;
+		}
+
 		ValidateOptions();
 		await HandleDatabaseMigrationOptionsAsync(cancellationToken);
 		await TestConnectionAsync(cancellationToken);
