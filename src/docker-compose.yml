@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  web:
+    container_name: web
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: ./GCP.RazorPagesApp/Dockerfile
+      args:
+        - buildConfiguration=Debug
+    ports:
+      - "9001:80"
+    environment:
+      - CONNECTIONSTRINGS__GCPCONTEXT=Server=db;Port=5432;Database=GCP;User Id=postgres;Password=password
+      - SEEDEROPTIONS__SKIPSEED=false
+      - SEEDEROPTIONS__DATABASEMIGRATIONOPTIONS__0=migrate
+      - ASPNETCORE_ENVIRONMENT=Development
+    links:
+      - db
+    networks:
+      - backend
+  db:
+    container_name: db
+    image: postgres
+    ports:
+      - "9002:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+    networks:
+      - backend
+networks:
+  backend:
+    driver: "bridge"
