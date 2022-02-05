@@ -15,6 +15,7 @@ services:
       - CONNECTIONSTRINGS__GCPCONTEXT=Server=db;Port=5432;Database=GCP;User Id=postgres;Password=password
       - SEEDEROPTIONS__SKIPSEED=false
       - SEEDEROPTIONS__DATABASEMIGRATIONOPTIONS__0=migrate
+      # - SEEDEROPTIONS__DATABASEMIGRATIONOPTIONS__1=none # skips any other DATABASEMIGRATIONOPTIONS value -- no drop/create/migrate commands will take place from Seeder
       - ASPNETCORE_ENVIRONMENT=Development
     links:
       - db

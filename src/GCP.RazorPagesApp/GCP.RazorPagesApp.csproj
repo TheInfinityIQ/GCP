@@ -30,8 +30,8 @@
 		<Folder Include="Data\Scripts\" />
 	</ItemGroup>
 
-	<!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="powershell ./Data/generate-script.ps1" Condition="'$(DOTNET_RUNNING_IN_CONTAINER)' != 'true'" />
-	</Target>-->
+	</Target>
 
 </Project>
