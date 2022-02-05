@@ -1,4 +1,9 @@
 version: "3.9"
+
+volumes:
+  gcp_db_data:
+    name: GCP_DB_DATA
+
 services:
   web:
     container_name: web
@@ -28,6 +33,8 @@ services:
       - "9002:5432"
     environment:
       - POSTGRES_PASSWORD=password
+    volumes:
+      - gcp_db_data:/var/lib/postgresql/data
     networks:
       - backend
 networks:
