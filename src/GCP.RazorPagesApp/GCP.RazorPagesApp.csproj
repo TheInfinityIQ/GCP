@@ -26,4 +26,12 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<Folder Include="Data\Scripts\" />
+	</ItemGroup>
+
+	<!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="powershell ./Data/generate-script.ps1" Condition="'$(DOTNET_RUNNING_IN_CONTAINER)' != 'true'" />
+	</Target>-->
+
 </Project>

@@ -16,10 +16,16 @@ COPY . .
 WORKDIR "/src/GCP.RazorPagesApp"
 RUN dotnet build "GCP.RazorPagesApp.csproj" -c "$buildConfiguration" -o /app/build
 
+FROM build AS script
+RUN dotnet tool install -g dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+RUN dotnet ef migrations script -i -o "./Data/Scripts/migrations.sql" -c "$buildConfiguration" 
+
 FROM build AS publish
 RUN dotnet publish "GCP.RazorPagesApp.csproj" -c "$buildConfiguration" -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY --from=script /src/GCP.RazorPagesApp/Data/Scripts/ ./Scripts/
 ENTRYPOINT ["dotnet", "GCP.RazorPagesApp.dll"]
