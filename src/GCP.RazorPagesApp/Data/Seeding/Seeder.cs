@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text.Json;
 
 using GCP.RazorPagesApp.Data.Entities;
@@ -192,13 +193,301 @@ public class Seeder : ISeeder
 		_logger.LogInformation("Seeding game(s)...");
 		if (await _context.Game.AnyAsync(cancellationToken) is false)
 		{
+			var strategy = new Genre()
+			{
+				Name = "Strategy",
+				NormalizedName = "Strategy".ToUpperInvariant(),
+			};
+			var fighting = new Genre()
+			{
+				Name = "Fighting",
+				NormalizedName = "Fighting".ToUpperInvariant(),
+			};
+			var sport = new Genre()
+			{
+				Name = "Sport",
+				NormalizedName = "Sport".ToUpperInvariant(),
+			};
+			var turnBased = new Genre()
+			{
+				Name = "Turn-Based",
+				NormalizedName = "Turn-Based".ToUpperInvariant(),
+			};
+			var realTimeTactics = new Genre()
+			{
+				Name = "Real Time Tactics",
+				NormalizedName = "Real Time Tactics".ToUpperInvariant(),
+			};
+
+			var windows = new Platform()
+			{
+				Name = "Windows",
+				NormalizedName = "Windows".ToUpperInvariant(),
+			};
+			var mac = new Platform()
+			{
+				Name = "OS X",
+				NormalizedName = "OS X".ToUpperInvariant(),
+			};
+			var linux = new Platform()
+			{
+				Name = "Linux",
+				NormalizedName = "Linux".ToUpperInvariant(),
+			};
+			var xbox = new Platform()
+			{
+				Name = "Xbox",
+				NormalizedName = "Xbox".ToUpperInvariant(),
+			};
+			var playstation = new Platform()
+			{
+				Name = "Playstation",
+				NormalizedName = "Playstation".ToUpperInvariant(),
+			};
+
+			var publisher2KGames = new Publisher()
+			{
+				Name = "2K Games",
+				NormalizedName = "2K Games".ToUpperInvariant(),
+			};
+			var publisherAspyr = new Publisher()
+			{
+				Name = "Aspyr",
+				NormalizedName = "Aspyr".ToUpperInvariant(),
+			};
+			var publisherPlanetaryAnnihilationInc = new Publisher()
+			{
+				Name = "Planetary Annihilation Inc",
+				NormalizedName = "Planetary Annihilation Inc".ToUpperInvariant(),
+			};
+			var publisherBandaiNamcoEntertainment = new Publisher()
+			{
+				Name = "Bandai Namco Entertainment",
+				NormalizedName = "Bandai Namco Entertainment".ToUpperInvariant(),
+			};
+			var publisherLudeonStudios = new Publisher()
+			{
+				Name = "Ludeon Studios",
+				NormalizedName = "Ludeon Studios".ToUpperInvariant(),
+			};
+
+			var steam = new Retailer()
+			{
+				Name = "Steam",
+				NormalizedName = "Steam".ToUpperInvariant(),
+			};
+			var epicGames = new Retailer()
+			{
+				Name = "Epic Games",
+				NormalizedName = "Epic Games".ToUpperInvariant(),
+			};
+
+			await _context.AddRangeAsync(new object[]
+			{
+				strategy,
+				fighting,
+				sport,
+				turnBased,
+				realTimeTactics,
+
+				windows,
+				mac,
+				linux,
+				xbox,
+				playstation,
+
+				publisher2KGames,
+				publisherAspyr,
+				publisherPlanetaryAnnihilationInc,
+				publisherBandaiNamcoEntertainment,
+				publisherLudeonStudios,
+
+				steam,
+				epicGames,
+
+			}, cancellationToken);
+
+
 			await _context.Game.AddRangeAsync(new Game[]
 			{
-				new() { GameLink = "https://store.steampowered.com/app/8930/Sid_Meiers_Civilization_V/", Score = 8, User = "Everett, Ian, James" },
-				new() { GameLink = "https://store.steampowered.com/app/386070/Planetary_Annihilation_TITANS/", Score = 3, User = "Dawson" },
-				new() { GameLink = "https://store.steampowered.com/app/294100/RimWorld/", Score = 5, User = "Everett, Ian, James" },
-				new() { GameLink = "https://store.steampowered.com/app/8930/Tekken_7/", Score = 2, User = "Everett, Ian, James" },
-			});
+				new()
+				{
+					Title = "Tekken 7",
+					NormalizedTitle = "Tekken 7".ToUpperInvariant(),
+					MaxPlayers = 2,
+					ReleaseDate = new DateOnly(2015, 3, 18),
+					SupportsOnlinePlay = true,
+					Genres = new List<Genre>() { fighting, sport, },
+					GamePublishers = new List<GamePublisher>()
+					{
+						new()
+						{
+							Publisher = publisherBandaiNamcoEntertainment,
+							Platforms = new List<Platform>()
+							{
+								windows,
+								playstation,
+								xbox,
+							},
+						},
+					},
+					Retailers = new List<Retailer>() { steam, epicGames, },
+					GameLinks = new List<GameLink>()
+					{
+						new()
+						{
+							Type = LinkType.Store,
+							Label = "steam store page",
+							Link = new("https://store.steampowered.com/app/8930/Tekken_7/"),
+						},
+					},
+					Endorsements = await _context.Users.AsNoTracking()
+						.Select(u => u.Id)
+						.OrderBy(u => EF.Functions.Random())
+						.Select(u => new GameEndorsement()
+						{
+							UserId = u,
+							Weight = RandomNumberGenerator.GetInt32(-3, 4),
+						})
+						.ToListAsync(cancellationToken),
+				},
+				new()
+				{
+					Title = "Sid Meiers Civilization V",
+					NormalizedTitle = "Sid Meiers Civilization V".ToUpperInvariant(),
+					MaxPlayers = 8,
+					ReleaseDate = new DateOnly(2010, 9, 21),
+					SupportsOnlinePlay = true,
+					Genres = new List<Genre>() { strategy, turnBased, },
+					GamePublishers = new List<GamePublisher>()
+					{
+						new()
+						{
+							Publisher = publisher2KGames,
+							Platforms = new List<Platform>()
+							{
+								windows,
+							},
+						},
+						new()
+						{
+							Publisher = publisherAspyr,
+							Platforms = new List<Platform>()
+							{
+								mac,
+								linux,
+							},
+						},
+					},
+					Retailers = new List<Retailer>() { steam, epicGames, },
+					GameLinks = new List<GameLink>()
+					{
+						new()
+						{
+							Type = LinkType.Store,
+							Label = "steam store page",
+							Link = new("https://store.steampowered.com/app/8930/Sid_Meiers_Civilization_V/"),
+						},
+						new()
+						{
+							Type = LinkType.Video,
+							Label = "trailer",
+							Link = new("https://cdn.cloudflare.steamstatic.com/steam/apps/5690/movie480.webm?t=1447353146"),
+						},
+					},
+					Endorsements = await _context.Users.AsNoTracking()
+						.Select(u => u.Id)
+						.OrderBy(u => EF.Functions.Random())
+						.Select(u => new GameEndorsement()
+						{
+							UserId = u,
+							Weight = RandomNumberGenerator.GetInt32(-3, 4),
+						})
+						.ToListAsync(cancellationToken),
+				},
+				new()
+				{
+					Title = "Planetary Annihilation TITANS",
+					NormalizedTitle = "Planetary Annihilation TITANS".ToUpperInvariant(),
+					MaxPlayers = 8,
+					ReleaseDate = new DateOnly(2014, 9, 5),
+					SupportsOnlinePlay = true,
+					Genres = new List<Genre>() { strategy, realTimeTactics, },
+					GamePublishers = new List<GamePublisher>()
+					{
+						new()
+						{
+							Publisher = publisherPlanetaryAnnihilationInc,
+							Platforms = new List<Platform>()
+							{
+								windows,
+								mac,
+								linux,
+							},
+						},
+					},
+					Retailers = new List<Retailer>() { steam, },
+					GameLinks = new List<GameLink>()
+					{
+						new()
+						{
+							Type = LinkType.Store,
+							Label = "steam store page",
+							Link = new("https://store.steampowered.com/app/386070/Planetary_Annihilation_TITANS/"),
+						},
+					},
+					Endorsements = await _context.Users.AsNoTracking()
+						.Select(u => u.Id)
+						.OrderBy(u => EF.Functions.Random())
+						.Select(u => new GameEndorsement()
+						{
+							UserId = u,
+							Weight = RandomNumberGenerator.GetInt32(-3, 4),
+						})
+						.ToListAsync(cancellationToken),
+				},
+				new()
+				{
+					Title = "RimWorld",
+					NormalizedTitle = "RimWorld".ToUpperInvariant(),
+					MaxPlayers = 1,
+					ReleaseDate = new DateOnly(2018, 10, 17),
+					SupportsOnlinePlay = false,
+					Genres = new List<Genre>() { strategy, },
+					GamePublishers = new List<GamePublisher>()
+					{
+						new()
+						{
+							Publisher = publisherLudeonStudios,
+							Platforms = new List<Platform>()
+							{
+								windows,
+								mac,
+								linux,
+							},
+						},
+					},
+					Retailers = new List<Retailer>() { steam, },
+					GameLinks = new List<GameLink>()
+					{
+						new()
+						{
+							Type = LinkType.Store,
+							Label = "steam store page",
+							Link = new("https://store.steampowered.com/app/294100/RimWorld/"),
+						},
+					},
+					Endorsements = await _context.Users.AsNoTracking()
+						.Select(u => u.Id)
+						.OrderBy(u => EF.Functions.Random())
+						.Select(u => new GameEndorsement()
+						{
+							UserId = u,
+							Weight =  RandomNumberGenerator.GetInt32(-3, 4),
+						})
+						.ToListAsync(cancellationToken),
+				},
+			}, cancellationToken);
 		}
 		_logger.LogInformation("Seeded game(s).");
 
