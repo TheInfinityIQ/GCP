@@ -1,5 +1,6 @@
 
 using System.Globalization;
+using System.Text.Json.Serialization;
 
 using EFCore.NamingConventions.Internal;
 
@@ -7,7 +8,9 @@ using GCP.RazorPagesApp;
 using GCP.RazorPagesApp.Data;
 using GCP.RazorPagesApp.Data.Entities;
 using GCP.RazorPagesApp.Data.Seeding;
+using GCP.RazorPagesApp.Utilities;
 
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,6 +50,14 @@ builder.Services.AddIdentity<User, Role>(options =>
 
 builder.Services.AddSeeder();
 
+builder.Services.Configure<JsonOptions>(options =>
+{
+	options.SerializerOptions.AllowTrailingCommas = true;
+	options.SerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+	options.SerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
+	options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddMinimalApiServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -74,7 +85,13 @@ app.MapRazorPages();
 
 app.UseSwagger();
 app.MapMinimalApiEndpoints();
-app.UseSwaggerUI();
+app.UseSwaggerUI(options =>
+{
+	options.DisplayOperationId();
+	options.DisplayRequestDuration();
+	options.EnableDeepLinking();
+	options.EnableTryItOutByDefault();
+});
 
 await app.RunSeederAsync();
 
