@@ -18,7 +18,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<GCPContext>(options =>
 {
-	options.UseNpgsql(builder.Configuration.GetConnectionString("GCPContext"), npgsqlOptions =>
+	var connectionString = builder.Configuration.GetConnectionString("GCPContext");
+	options.UseNpgsql(connectionString, npgsqlOptions =>
 	{
 		var snakeCaseNameRewriter = new SnakeCaseNameRewriter(CultureInfo.InvariantCulture);
 		var migrationTableName = snakeCaseNameRewriter.RewriteName("__EFMigrationsHistory");
@@ -26,6 +27,11 @@ builder.Services.AddDbContext<GCPContext>(options =>
 	});
 
 	options.UseSnakeCaseNamingConvention();
+
+#if DEBUG
+	options.EnableDetailedErrors();
+	options.EnableSensitiveDataLogging();
+#endif
 });
 
 builder.Services.AddIdentity<User, Role>(options =>

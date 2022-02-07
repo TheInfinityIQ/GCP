@@ -1,0 +1,43 @@
+version: "3.9"
+
+volumes:
+  gcp_db_data:
+    name: ${GCP_VOLUME_ID-GCP_DB_DATA}
+
+services:
+  web:
+    container_name: web
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: ./GCP.RazorPagesApp/Dockerfile
+      args:
+        - buildConfiguration=${BUILD_CONFIGURATION-Release}
+    ports:
+      - "9001:80"
+    environment:
+      - CONNECTIONSTRINGS__GCPCONTEXT=Server=db;Port=5432;Database=GCP;User Id=${PG_USER-postgres};Password=${PG_PASSWORD-password}
+      - SEEDEROPTIONS__SKIPSEED=${GCP_SEEDER_SKIP-false}
+      - SEEDEROPTIONS__DATABASEMIGRATIONOPTIONS__0=${GCP_SEEDER_DB_MIG_OPT-none}
+      # - SEEDEROPTIONS__DATABASEMIGRATIONOPTIONS__1=none # skips any other DATABASEMIGRATIONOPTIONS value -- no drop/create/migrate commands will take place from Seeder
+      - ASPNETCORE_ENVIRONMENT=${GCP_ENV-Production}
+    links:
+      - db
+    networks:
+      - backend
+  db:
+    container_name: db
+    image: postgres
+    ports:
+      - "9002:5432"
+    environment:
+      - POSTGRES_USER=${PG_USER-postgres}
+      - POSTGRES_PASSWORD=${PG_PASSWORD-password}
+    volumes:
+      - gcp_db_data:/var/lib/postgresql/data
+    networks:
+      - backend
+networks:
+  backend:
+    driver: "bridge"
