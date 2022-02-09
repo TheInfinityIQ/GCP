@@ -8,6 +8,8 @@ let logTitle s x =
     printfn "%s%A" s x
     x
 
+
+
 type Command =
     { CaseHandling: StringComparison
       Group: string
@@ -15,13 +17,30 @@ type Command =
       Description: string
       Handler: string [] -> unit
       Children: Command seq }
-    static member defaultCommand =
+
+module Command =
+    let defaultCommand =
         { CaseHandling = StringComparison.InvariantCultureIgnoreCase
           Group = ""
           Tags = []
           Description = ""
           Handler = ignore
           Children = [] }
+
+    let getMapOfTagValues (cmd) (args: string []) =
+        let getArgsForTag (t: string) =
+            args
+            |> Array.map (fun a -> a.Trim())
+            |> Array.mapi (fun i a -> t.Equals(a, cmd.CaseHandling), i + 1)
+            |> Array.filter (fun (b, i) -> b && args |> Array.tryItem i |> Option.isSome)
+            |> Array.map (fun (_, i) -> i)
+            |> Array.map (fun i -> args.[i])
+
+        cmd.Tags
+        |> Seq.map (fun t -> t.Trim())
+        |> Seq.map (fun t -> t, getArgsForTag t)
+        |> Map.ofSeq
+
 
 type CommandBuilder(group: string) =
     new() = CommandBuilder("ROOT")
@@ -70,22 +89,7 @@ type CommandBuilder(group: string) =
 
     [<CustomOperation("handler")>]
     member __.Handler(cmd, h: Map<string, string []> -> unit) =
-        let getMapOfTagValues cmd (args: string []) =
-            let getArgsForTag (t: string) =
-                args
-                |> Array.map (fun a -> a.Trim())
-                |> Array.mapi (fun i a -> t.Equals(a, cmd.CaseHandling), i + 1)
-                |> Array.filter (fun (b, i) -> b && args |> Array.tryItem i |> Option.isSome)
-                |> Array.map (fun (_, i) -> i)
-                |> Array.map (fun i -> args.[i])
-
-            cmd.Tags
-            |> Seq.map (fun t -> t.Trim())
-            |> Seq.map (fun t -> t, getArgsForTag t)
-            |> Map.ofSeq
-
-        let getMap args = getMapOfTagValues cmd args
-
+        let getMap args = Command.getMapOfTagValues cmd args
         { cmd with Handler = (fun args -> h (getMap args)) }
 
     [<CustomOperation("children")>]

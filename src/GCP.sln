@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dotfiles", "dotfiles", "{1F
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GCP.Cli", "GCP.Cli\GCP.Cli.fsproj", "{427AD6C5-6E1D-455D-822D-BACDB8594A89}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GCP.Cli.Tests", "GCP.Cli.Tests\GCP.Cli.Tests.fsproj", "{5A37EFF8-FE18-417E-BAA5-1ED79D56A216}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{427AD6C5-6E1D-455D-822D-BACDB8594A89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{427AD6C5-6E1D-455D-822D-BACDB8594A89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{427AD6C5-6E1D-455D-822D-BACDB8594A89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A37EFF8-FE18-417E-BAA5-1ED79D56A216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A37EFF8-FE18-417E-BAA5-1ED79D56A216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A37EFF8-FE18-417E-BAA5-1ED79D56A216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A37EFF8-FE18-417E-BAA5-1ED79D56A216}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
