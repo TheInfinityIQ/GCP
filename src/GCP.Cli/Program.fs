@@ -1,131 +1,4 @@
-﻿(* // AN ATTEMPT TO PARSING ARGS // *)
-// type ArgType =
-//     | FloatingValue of value: string
-//     | Tag of tag: string * value: string
-//     | Group of group: string * tags: ArgType seq
-//     | Nothing
-
-// module ArgType =
-//     let isNothing =
-//         function
-//         | Nothing -> true
-//         | _ -> false
-
-//     let isNotNothing = isNothing >> not
-
-
-// let rec r (g: string) (l: string list) : ArgType seq =
-//     seq {
-//         match l with
-//         | [] -> yield Nothing
-//         | [ x ] -> yield FloatingValue x
-//         | (x: string) :: xs ->
-//             let a = r x xs |> Seq.toArray
-
-//             if x.StartsWith('-') then
-//                 let nextHead = xs.Tail.Head
-
-//                 let aaa = (r nextHead xs.Tail)
-
-//                 yield! aaa
-//                 yield Tag(x, xs.Head)
-//             else
-//                 yield Group(x, a)
-//         | _ -> yield Nothing
-//     }
-//     |> Seq.filter ArgType.isNotNothing
-
-
-
-
-
-// let result =
-//     [| "migration"
-//        "add"
-//        "-o"
-//        "C:/code"
-//        "-n"
-//        "name"
-//        "--someVal"
-//        "aaa" |]
-//     |> Array.toList
-//     |> r "ROOT"
-
-// result
-// |> logTitle "ALL: "
-// |> Seq.filter (function
-//     | Group _ -> true
-//     | _ -> false)
-// |> Seq.collect (function
-//     | Group (_, r) -> r
-//     | _ -> failwith "death")
-// |> Seq.collect (function
-//     | Group (_, r) -> r
-//     | x -> [ x ])
-// |> Seq.toList
-// |> logTitle "Last val: "
-// |> ignore
-
-
-// let rec getFloatingValues l =
-//     let r =
-//         l
-//         |> Seq.collect (function
-//             | Group (_, l) -> l
-//             | FloatingValue x -> [ FloatingValue x ]
-//             | _ -> [])
-
-//     let baseCase =
-//         r
-//         |> Seq.forall (function
-//             | FloatingValue _ -> true
-//             | _ -> false)
-
-//     if baseCase then
-//         r
-//     else
-//         getFloatingValues r
-
-// seq {
-//     //get last most inner group
-//     yield! result |> getFloatingValues
-// }
-// |> logTitle "AAAA: "
-// |> ignore
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-open System
+﻿open System
 
 let log x =
     printfn "%A" x
@@ -196,12 +69,24 @@ type CommandBuilder(group: string) =
     member __.Handler(cmd, p: string [] -> 'a, h: 'a -> unit) = { cmd with Handler = p >> h }
 
     [<CustomOperation("handler")>]
-    member __.Handler(cmd, p1: string [] -> 'a, p2, h: 'a -> 'b -> unit) =
-        { cmd with Handler = (fun args -> h (p1 args) (p2 args)) }
+    member __.Handler(cmd, h: Map<string, string []> -> unit) =
+        let getMapOfTagValues cmd (args: string []) =
+            let getArgsForTag (t: string) =
+                args
+                |> Array.map (fun a -> a.Trim())
+                |> Array.mapi (fun i a -> t.Equals(a, cmd.CaseHandling), i + 1)
+                |> Array.filter (fun (b, i) -> b && args |> Array.tryItem i |> Option.isSome)
+                |> Array.map (fun (_, i) -> i)
+                |> Array.map (fun i -> args.[i])
 
-    [<CustomOperation("handler")>]
-    member __.Handler(cmd, p1: string [] -> 'a, p2, p3, h: 'a -> 'b -> 'c -> unit) =
-        { cmd with Handler = (fun args -> h (p1 args) (p2 args) (p3 args)) }
+            cmd.Tags
+            |> Seq.map (fun t -> t.Trim())
+            |> Seq.map (fun t -> t, getArgsForTag t)
+            |> Map.ofSeq
+
+        let getMap args = getMapOfTagValues cmd args
+
+        { cmd with Handler = (fun args -> h (getMap args)) }
 
     [<CustomOperation("children")>]
     member __.Children(cmd, c: Command) =
@@ -212,31 +97,99 @@ type CommandBuilder(group: string) =
         { cmd with Children = (cmd.Children |> Seq.toList) @ (c |> Seq.toList) }
 
 
-let args = [| "myRoot"; "gcp"; "-a"; "123" |]
-
 
 
 let command g = CommandBuilder(g)
-let rootCommand = command "ROOT"
+let rootCommand = CommandBuilder()
 
 let gcp =
     command "gcp" {
         ignoreCasing
         tags [ "-a"; "--add" ]
         description "represents the help description for the command."
+        // handler (fun (x: string []) -> printfn "Hello from hell. My args are -> '%A'" x)
+        handler (fun (x: Map<string, string []>) -> printfn "Hello from hell. My arg map is -> '%A'" x)
 
-        handler
-            (fun x -> x.[3] |> log |> Int32.tryParse)
-            (fun x -> x.[2] |> log |> Int32.tryParse)
-            (fun x -> x.[1] |> log |> Int32.tryParse)
-            (fun x y z -> printfn "Hello from hell. My args are -> '%A' '%A' '%A'" x y z)
+        children [ command "test" { tags "-as" } ]
+
     }
 
 
 
 let runner commands args =
-    commands
-    |> Seq.iter (fun x -> x.Handler(args |> Seq.toArray))
+    let args =
+        args |> logTitle "runnerArgs: " |> Seq.toArray
+
+    commands |> Seq.iter (fun x -> x.Handler args)
 
 
-runner [ gcp ] args
+let args =
+    [| "myRoot"
+       "gcp"
+       "-a"
+       "123"
+       "--option"
+       "myOptVal"
+       "myGroupVal"
+       "nextGroupHere"
+       "--nextGtag"
+       "nextGTagVal"
+       "nextGroupHereVal"
+       "lastGroup"
+       "lastGroupValue"
+       "--lastGroupTag"
+       "lastGroupTagValue" |]
+
+args
+|> Array.skipWhile (fun a -> a <> "gcp")
+|> Array.takeWhile (fun a ->
+    not (
+        [ "nextGroupHere"; "lastGroup" ]
+        |> List.contains a
+    ))
+// we should now have the cmd group's relevant args
+|> ignore
+
+let cmds = [ gcp ]
+
+cmds
+|> Seq.collect (fun x -> x.Children)
+|> Seq.map (fun x -> x.Group)
+|> logTitle "child groups:"
+|> ignore
+
+runner cmds args
+
+(*
+    NOTE
+    - we aren't parsing the tag values properly yet. (we look through each arg without checking if said arg is still part group's args)
+    - we only support top level commands (ROOT.exe <myTopLevelCmd> <Tag1> <Tag1Value> ...)
+        - we need to try looking into parsing something like:
+            - ROOT.exe <myTopLevelCmd> <myTopLevelCmdValue> <Tag1> <Tag1Value> <Tag2> <Tag2Value>
+            - ROOT.exe <myTopLevelCmd> <Tag1> <Tag1Value> <Tag2> <Tag2Value> <myTopLevelCmdValue>
+            - ROOT.exe <myTopLevelCmd> <Tag1> <Tag1Value> <Tag2> <Tag2Value> <myChildCmd> <myChildCmdValue> <ChildTag1> <ChildTag1Value> ...
+        - HINT: I think we can find the start of the cmd tags/values by using
+            - args |> skipWhile (fun a -> a <> cmd.Group)
+        - HINT: then maybe we can find the end by
+            - args |> skipWhile (fun a -> a <> cmd.Group) |> Array.takeWhile (fun a -> not (cmd.Children |> Seq.map (fun x -> x.) |> List.contains a))
+*)
+
+
+let ``should parse top level command tags`` =
+    // Arrange
+    let group = "GCP"
+    let args = [| group; "-a"; "123" |]
+
+    let cmd =
+        command group {
+            tags [ "-a" ]
+
+            handler (fun (m: Map<string, string []>) ->
+                // Assert
+                match m.TryFind "-a" with
+                | Some x when x |> Array.contains "123" -> ()
+                | _ -> failwith $"failed to parse one tag under a single top level group cmd.")
+        }
+
+    // Act
+    runner [ cmd ] args
