@@ -17,9 +17,7 @@ type Command =
       Description: string
       Handler: string [] -> unit
       Children: Command seq }
-
-module Command =
-    let defaultCommand =
+    static member defaultCommand =
         { CaseHandling = StringComparison.InvariantCultureIgnoreCase
           Group = ""
           Tags = []
@@ -27,6 +25,7 @@ module Command =
           Handler = ignore
           Children = [] }
 
+module Command =
     let getMapOfTagValues (cmd) (args: string []) =
         let getArgsForTag (t: string) =
             args
@@ -46,37 +45,42 @@ type CommandBuilder(group: string) =
     new() = CommandBuilder("ROOT")
 
     member __.Zero() =
-        { Command.defaultCommand with Group = group }
+        { Command.defaultCommand with
+              Group = group }
 
     member __.Yield(_) =
-        { Command.defaultCommand with Group = group }
+        { Command.defaultCommand with
+              Group = group }
 
     [<CustomOperation("casing")>]
     member __.CaseHandling(cmd, c) = { cmd with CaseHandling = c }
 
     [<CustomOperation("ignoreCasing")>]
     member __.IgnoreCasing(cmd) =
-        { cmd with CaseHandling = StringComparison.InvariantCultureIgnoreCase }
+        { cmd with
+              CaseHandling = StringComparison.InvariantCultureIgnoreCase }
 
     [<CustomOperation("ignoreCasing")>]
     member __.IgnoreCasing(cmd, b) =
         { cmd with
-            CaseHandling =
-                if b then
-                    StringComparison.InvariantCultureIgnoreCase
-                else
-                    StringComparison.InvariantCulture }
+              CaseHandling =
+                  if b then
+                      StringComparison.InvariantCultureIgnoreCase
+                  else
+                      StringComparison.InvariantCulture }
 
     [<CustomOperation("group")>]
     member __.Group(cmd, g) = { cmd with Group = g }
 
     [<CustomOperation("tags")>]
     member __.Tags(cmd, t: string seq) =
-        { cmd with Tags = (cmd.Tags |> Seq.toList) @ (t |> Seq.toList) }
+        { cmd with
+              Tags = (cmd.Tags |> Seq.toList) @ (t |> Seq.toList) }
 
     [<CustomOperation("tags")>]
     member __.Tags(cmd, t: string) =
-        { cmd with Tags = (cmd.Tags |> Seq.toList) @ [ t ] }
+        { cmd with
+              Tags = (cmd.Tags |> Seq.toList) @ [ t ] }
 
     [<CustomOperation("description")>]
     member __.Description(cmd, d) = { cmd with Description = d }
@@ -90,15 +94,19 @@ type CommandBuilder(group: string) =
     [<CustomOperation("handler")>]
     member __.Handler(cmd, h: Map<string, string []> -> unit) =
         let getMap args = Command.getMapOfTagValues cmd args
-        { cmd with Handler = (fun args -> h (getMap args)) }
+
+        { cmd with
+              Handler = (fun args -> h (getMap args)) }
 
     [<CustomOperation("children")>]
     member __.Children(cmd, c: Command) =
-        { cmd with Children = (cmd.Children |> Seq.toList) @ [ c ] }
+        { cmd with
+              Children = (cmd.Children |> Seq.toList) @ [ c ] }
 
     [<CustomOperation("children")>]
     member __.Children(cmd, c: Command seq) =
-        { cmd with Children = (cmd.Children |> Seq.toList) @ (c |> Seq.toList) }
+        { cmd with
+              Children = (cmd.Children |> Seq.toList) @ (c |> Seq.toList) }
 
 
 
@@ -146,11 +154,12 @@ let args =
 
 args
 |> Array.skipWhile (fun a -> a <> "gcp")
-|> Array.takeWhile (fun a ->
-    not (
-        [ "nextGroupHere"; "lastGroup" ]
-        |> List.contains a
-    ))
+|> Array.takeWhile
+    (fun a ->
+        not (
+            [ "nextGroupHere"; "lastGroup" ]
+            |> List.contains a
+        ))
 // we should now have the cmd group's relevant args
 |> ignore
 
@@ -177,23 +186,3 @@ runner cmds args
         - HINT: then maybe we can find the end by
             - args |> skipWhile (fun a -> a <> cmd.Group) |> Array.takeWhile (fun a -> not (cmd.Children |> Seq.map (fun x -> x.) |> List.contains a))
 *)
-
-
-let ``should parse top level command tags`` =
-    // Arrange
-    let group = "GCP"
-    let args = [| group; "-a"; "123" |]
-
-    let cmd =
-        command group {
-            tags [ "-a" ]
-
-            handler (fun (m: Map<string, string []>) ->
-                // Assert
-                match m.TryFind "-a" with
-                | Some x when x |> Array.contains "123" -> ()
-                | _ -> failwith $"failed to parse one tag under a single top level group cmd.")
-        }
-
-    // Act
-    runner [ cmd ] args
