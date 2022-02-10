@@ -1,1 +1,4 @@
-module Program = let [<EntryPoint>] main _ = 0
+module GCP.Cli.Tests.Program
+
+[<EntryPoint>]
+let main _ = 0

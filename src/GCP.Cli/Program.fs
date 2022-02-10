@@ -1,13 +1,38 @@
 ﻿open System
 
-let log x =
-    printfn "%A" x
-    x
+module internal Log =
+    let log x =
+        printf "%A" x
+        x
 
-let logTitle s x =
-    printfn "%s%A" s x
-    x
+    let logn x =
+        printfn "%A\n" x
+        x
 
+    let logt f x =
+        printf f x
+        x
+
+    let logtn f x =
+        printfn f x
+        x
+
+    module Error =
+        let log x =
+            eprintf "%A" x
+            x
+
+        let logn x =
+            eprintfn "%A" x
+            x
+
+        let logt f x =
+            eprintf f x
+            x
+
+        let logtn f x =
+            eprintfn f x
+            x
 
 
 type Command =
@@ -39,6 +64,15 @@ module Command =
         |> Seq.map (fun t -> t.Trim())
         |> Seq.map (fun t -> t, getArgsForTag t)
         |> Map.ofSeq
+
+    let run cmd args =
+        let args = args |> Seq.toArray
+        cmd.Handler args
+
+    let runAll cmds args =
+        let args = args |> Seq.toArray
+        cmds |> Seq.iter (fun x -> x.Handler args)
+
 
 
 type CommandBuilder(group: string) =
@@ -77,11 +111,6 @@ type CommandBuilder(group: string) =
         { cmd with
               Tags = (cmd.Tags |> Seq.toList) @ (t |> Seq.toList) }
 
-    [<CustomOperation("tags")>]
-    member __.Tags(cmd, t: string) =
-        { cmd with
-              Tags = (cmd.Tags |> Seq.toList) @ [ t ] }
-
     [<CustomOperation("description")>]
     member __.Description(cmd, d) = { cmd with Description = d }
 
@@ -111,67 +140,10 @@ type CommandBuilder(group: string) =
 
 
 
+
 let command g = CommandBuilder(g)
 let rootCommand = CommandBuilder()
 
-let gcp =
-    command "gcp" {
-        ignoreCasing
-        tags [ "-a"; "--add" ]
-        description "represents the help description for the command."
-        // handler (fun (x: string []) -> printfn "Hello from hell. My args are -> '%A'" x)
-        handler (fun (x: Map<string, string []>) -> printfn "Hello from hell. My arg map is -> '%A'" x)
-
-        children [ command "test" { tags "-as" } ]
-
-    }
-
-
-
-let runner commands args =
-    let args =
-        args |> logTitle "runnerArgs: " |> Seq.toArray
-
-    commands |> Seq.iter (fun x -> x.Handler args)
-
-
-let args =
-    [| "myRoot"
-       "gcp"
-       "-a"
-       "123"
-       "--option"
-       "myOptVal"
-       "myGroupVal"
-       "nextGroupHere"
-       "--nextGtag"
-       "nextGTagVal"
-       "nextGroupHereVal"
-       "lastGroup"
-       "lastGroupValue"
-       "--lastGroupTag"
-       "lastGroupTagValue" |]
-
-args
-|> Array.skipWhile (fun a -> a <> "gcp")
-|> Array.takeWhile
-    (fun a ->
-        not (
-            [ "nextGroupHere"; "lastGroup" ]
-            |> List.contains a
-        ))
-// we should now have the cmd group's relevant args
-|> ignore
-
-let cmds = [ gcp ]
-
-cmds
-|> Seq.collect (fun x -> x.Children)
-|> Seq.map (fun x -> x.Group)
-|> logTitle "child groups:"
-|> ignore
-
-runner cmds args
 
 (*
     NOTE
@@ -186,3 +158,61 @@ runner cmds args
         - HINT: then maybe we can find the end by
             - args |> skipWhile (fun a -> a <> cmd.Group) |> Array.takeWhile (fun a -> not (cmd.Children |> Seq.map (fun x -> x.) |> List.contains a))
 *)
+
+module Program =
+
+
+    let gcp =
+        command "gcp" {
+            ignoreCasing
+            tags [ "-a"; "--add" ]
+            description "represents the help description for the command."
+            // handler (fun (x: string []) -> printfn "Hello from hell. My args are -> '%A'" x)
+            handler (fun (x: Map<string, string []>) -> printfn "Hello from hell. My arg map is -> '%A'" x)
+
+            children [ command "test" { tags [ "-as" ] } ]
+
+        }
+
+
+    [<EntryPoint>]
+    let main args =
+        let args =
+            [| "myRoot"
+               "gcp"
+               "-a"
+               "123"
+               "--option"
+               "myOptVal"
+               "myGroupVal"
+               "nextGroupHere"
+               "--nextGtag"
+               "nextGTagVal"
+               "nextGroupHereVal"
+               "lastGroup"
+               "lastGroupValue"
+               "--lastGroupTag"
+               "lastGroupTagValue" |]
+
+        args
+        |> Array.skipWhile (fun a -> a <> "gcp")
+        |> Array.takeWhile
+            (fun a ->
+                not (
+                    [ "nextGroupHere"; "lastGroup" ]
+                    |> List.contains a
+                ))
+        // we should now have the cmd group's relevant args
+        |> ignore
+
+        let cmds = [ gcp ]
+
+        cmds
+        |> Seq.collect (fun x -> x.Children)
+        |> Seq.map (fun x -> x.Group)
+        |> Log.logtn "child groups: %A"
+        |> ignore
+
+        Command.runAll cmds args
+
+        0
