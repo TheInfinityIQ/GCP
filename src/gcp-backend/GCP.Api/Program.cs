@@ -9,6 +9,7 @@ using GCP.Api.Data.Seeding;
 using GCP.Api.Utilities;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,13 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+	var policy = new CorsPolicy();
+	builder.Configuration.GetRequiredSection("CORS").Bind(policy);
+	options.AddDefaultPolicy(policy);
+});
 
 builder.Services.AddControllers(options =>
 {
@@ -60,8 +68,9 @@ builder.Services.AddAuthentication(options =>
 	})
 	.AddJwtBearer(options =>
 	{
+		var (validAudience, validIssuer, secretKey, _) = builder.Configuration.GetJwtOptions();
 		var config = builder.Configuration;
-		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:SecretKey"]!));
+		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
 		options.SaveToken = true;
 		options.RequireHttpsMetadata = false;
@@ -69,8 +78,8 @@ builder.Services.AddAuthentication(options =>
 		{
 			ValidateIssuer = true,
 			ValidateAudience = true,
-			ValidAudience = config["JWT:ValidAudience"],
-			ValidIssuer = config["JWT:ValidIssuer"],
+			ValidAudience = validAudience,
+			ValidIssuer = validIssuer,
 			IssuerSigningKey = key,
 		};
 	});
@@ -114,7 +123,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-	app.UseExceptionHandler("/Error");
+	app.UseExceptionHandler();
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
@@ -122,6 +131,8 @@ else
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
