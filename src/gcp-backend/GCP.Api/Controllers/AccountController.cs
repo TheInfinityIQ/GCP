@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 
 using GCP.Api.Data.Entities;
+using GCP.Api.Utilities;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -156,11 +157,12 @@ public class AccountController : ApiController
 				authClaims.Add(new Claim(ClaimTypes.Role, userRole));
 			}
 
-			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SecretKey"]!));
-			var expiryTimeSpan = _configuration.GetValue("JWT:ExpiryTimeSpan", TimeSpan.FromMinutes(30));
+			var (validAudience, validIssuer, secretKey, expiryTimeSpan) = _configuration.GetJwtOptions();
+
+			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 			var token = new JwtSecurityToken(
-				issuer: _configuration["JWT:ValidIssuer"],
-				audience: _configuration["JWT:ValidAudience"],
+				issuer: validIssuer,
+				audience: validAudience,
 				expires: DateTime.Now.Add(expiryTimeSpan),
 				claims: authClaims,
 				signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
