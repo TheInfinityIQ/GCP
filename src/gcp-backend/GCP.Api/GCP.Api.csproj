@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="powershell ./Data/generate-script.ps1" Condition="'$(DOTNET_RUNNING_IN_CONTAINER)' != 'true'" />
+		<Exec Command="powershell ./Data/generate-script.ps1" Condition="'$(GCP_GEN_SCRIPT)' == 'true' AND '$(DOTNET_RUNNING_IN_CONTAINER)' != 'true'" />
 	</Target>
 
 </Project>
