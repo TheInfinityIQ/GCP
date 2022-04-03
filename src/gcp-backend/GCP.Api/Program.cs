@@ -8,11 +8,15 @@ using GCP.Api.Data.Seeding;
 using GCP.Api.Utilities;
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
+builder.Services.AddControllers(options =>
+{
+	options.Filters.Add(new AuthorizeFilter());
+});
 
 builder.Services.AddDbContext<GCPContext>(options =>
 {
@@ -44,6 +48,10 @@ builder.Services.AddIdentity<User, Role>(options =>
 	.AddRoleManager<RoleManager<Role>>()
 	.AddEntityFrameworkStores<GCPContext>();
 
+
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
+
 builder.Services.AddSeeder();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -65,17 +73,21 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapControllers();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(options =>
+{
+	options.DisplayOperationId();
+	options.DisplayRequestDuration();
+	options.EnableTryItOutByDefault();
+});
 
 await app.RunSeederAsync();
 
