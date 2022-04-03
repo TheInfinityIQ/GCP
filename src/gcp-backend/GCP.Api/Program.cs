@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text;
 
 using EFCore.NamingConventions.Internal;
 
@@ -7,9 +8,12 @@ using GCP.Api.Data.Entities;
 using GCP.Api.Data.Seeding;
 using GCP.Api.Utilities;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,14 +52,57 @@ builder.Services.AddIdentity<User, Role>(options =>
 	.AddRoleManager<RoleManager<Role>>()
 	.AddEntityFrameworkStores<GCPContext>();
 
+builder.Services.AddAuthentication(options =>
+	{
+		options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+		options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+		options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+	})
+	.AddJwtBearer(options =>
+	{
+		var config = builder.Configuration;
+		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:SecretKey"]!));
 
-builder.Services.AddAuthentication();
+		options.SaveToken = true;
+		options.RequireHttpsMetadata = false;
+		options.TokenValidationParameters = new TokenValidationParameters()
+		{
+			ValidateIssuer = true,
+			ValidateAudience = true,
+			ValidAudience = config["JWT:ValidAudience"],
+			ValidIssuer = config["JWT:ValidIssuer"],
+			IssuerSigningKey = key,
+		};
+	});
 builder.Services.AddAuthorization();
 
 builder.Services.AddSeeder();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(swagger =>
+{
+	var jwtScheme = new OpenApiSecurityScheme()
+	{
+		Name = "Authorization",
+		Type = SecuritySchemeType.ApiKey,
+		Scheme = JwtBearerDefaults.AuthenticationScheme,
+		BearerFormat = "JWT",
+		In = ParameterLocation.Header,
+		Description = "Enter ‘Bearer’ [space] and then your valid token in the text input below.\r\n\r\nExample: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'",
+	};
+	swagger.AddSecurityDefinition(jwtScheme.Scheme, jwtScheme);
+	swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+	{
+		[new()
+		{
+			Reference = new OpenApiReference
+			{
+				Type = ReferenceType.SecurityScheme,
+				Id = jwtScheme.Scheme,
+			},
+		}] = Array.Empty<string>(),
+	});
+});
 
 var app = builder.Build();
 
