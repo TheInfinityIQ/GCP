@@ -11,7 +11,12 @@ const count = ref(0);
   </header>
 
   <main>
-
+    <article class=".frosted-container">
+      <section class="lists-search">
+        <label for="list-search">Search Lists</label>
+        <input type="text" id="list-search" />
+      </section>
+    </article>
   </main>
 
   <footer>
@@ -40,6 +45,7 @@ header {
   top: 0;
   left: 0;
   width: 100vw;
+  height: 10vh;
 
   display: flex;
   justify-content: center;
@@ -51,6 +57,27 @@ header {
 }
 
 // Main content
+
+main {
+  position: fixed;
+  top: 0;
+
+  width: 100vw;
+  height: 90vh;
+
+  background-image: url("./assets/backsplash.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-origin: border-box;
+  background-position-x: 0;
+  background-position-y: center;
+
+  border: 1px solid blue;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .search-menu {
   margin: 0 1.5em;
@@ -122,27 +149,6 @@ h3 {
   font-size: 1.05em;
 }
 
-main {
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  padding: 0px;
-  margin: 0;
-
-  width: 100vw;
-  height: 90vh;
-
-  background-image: url("./assets/backsplash.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-origin: border-box;
-  background-position-x: 0;
-  background-position-y: center;
-
-  border: 1px solid blue;
-}
-
 .circle {
   display: flex;
 
@@ -168,5 +174,9 @@ a {
   &:hover {
     color: black;
   }
+}
+
+input, label {
+  display: block;
 }
 </style>
