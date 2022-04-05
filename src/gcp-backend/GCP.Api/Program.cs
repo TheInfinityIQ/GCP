@@ -25,6 +25,8 @@ builder.Services.AddCors(options =>
 	options.AddDefaultPolicy(policy);
 });
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddControllers(options =>
 {
 	options.Filters.Add(new AuthorizeFilter());
