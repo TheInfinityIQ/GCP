@@ -14,32 +14,50 @@ const stuff = ref([1, 2]);
 
   <!-- Content in body should adjust image so that there is no whitespace -->
   <section class="search-menu">
-      <section class="search-field">
-        <p>Search for games:</p>
-        <input type="text" id="search" />
-      </section>
+    <section class="search-field">
+      <p>Search for games:</p>
+      <input type="text" id="search" />
       <section class="pill-menus">
-        <div class="pill-menu" id="sort"><p>Sort: Newest</p></div>
-        <div class="pill-menu" id="platform"><p>Sort: Platform</p></div>
-      </section>
-      <section class="pill-menu-contents">
-        <div class="pill-menu-content pill-menu-sort">
-          <ul>
-            <li>Newest</li>
-            <li>Oldest</li>
-            <li>Most People</li>
-            <li>Most Active</li>
-          </ul>
+        <div class="pill-menu" id="sort">
+          <p>Sort: Newest</p>
         </div>
-        <div class="pill-menu-content pill-menu-platform">
-          <ul>
-            <li>Steam</li>
-            <li>Xbox</li>
-            <li>Playstation</li>
-            <li>Web</li>
-          </ul>
+        <div class="pill-menu" id="platform">
+          <p>Sort: Platform</p>
         </div>
+        <section class="pill-menu-contents">
+          <div class="pill-menu-content pill-menu-sort">
+            <ul>
+              <li>Newest</li>
+              <li>Oldest</li>
+              <li>Most People</li>
+              <li>Most Active</li>
+            </ul>
+          </div>
+          <div class="pill-menu-content pill-menu-platform">
+            <ul>
+              <li>Steam</li>
+              <li>Xbox</li>
+              <li>Playstation</li>
+              <li>Web</li>
+            </ul>
+          </div>
+        </section>
       </section>
+    </section>
+    <section class="game-lists">
+      <div class="list">
+        <h3>RimWorld</h3>
+        <p>This is the RimWorld game descriptions</p>
+      </div>
+      <div class="list">
+        <h3>RimWorld</h3>
+        <p>This is the RimWorld game descriptions</p>
+      </div>
+      <div class="list">
+        <h3>RimWorld</h3>
+        <p>This is the RimWorld game descriptions</p>
+      </div>
+    </section>
   </section>
   <!-- Body end -->
 
@@ -77,7 +95,7 @@ header {
 
 .search-menu {
   display: grid;
-  grid-template-rows: 2fr 1fr 3fr;
+  grid-template-rows: 15vh 10vh 3fr;
 }
 
 .search-field {
@@ -99,8 +117,10 @@ header {
 }
 
 .search-field > input {
-  width: 80vw;
+  width: 79vw; // 80vw would stick out a bit
   height: 5vh;
+
+  margin-bottom: 0.5em;
 
   border: 0;
   border-radius: 5px;
@@ -111,6 +131,12 @@ header {
 
 .search-menu {
   margin-top: 20vh;
+
+  background-color: #051522;
+  border-radius: 15px;
+  width: 80vw;
+  height: 80vh;
+  margin: 20vh 10vw 0 10vw;
 }
 
 .frosted-background {
@@ -126,8 +152,6 @@ header {
   justify-self: center;
   width: 80vw;
   height: 5vh;
-
-  border: 1px solid white;
 }
 
 .pill-menu {
@@ -147,6 +171,20 @@ header {
 
 .pill-menu-contents {
   display: none;
+}
+
+.game-lists {
+  margin-top: 1em;
+  
+  width: 80vw;
+  height: auto;
+
+  display: flex; 
+  flex-direction: column;
+}
+
+.game-lists > .list {
+  border: 1px solid white;
 }
 
 //Footer
