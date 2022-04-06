@@ -7,20 +7,22 @@ const stuff = ref([1, 2]);
 <template>
   <!-- Header start -->
   <header class="inline">
-      <img src="./assets/Logo.svg" alt="Logo" />
-      <h1>Game Chooser Program</h1>
+    <img src="./assets/Logo.svg" alt="Logo" />
+    <h1>Game Chooser Program</h1>
   </header>
   <!-- Header end -->
 
   <!-- Content in body should adjust image so that there is no whitespace -->
   <section class="search-menu">
-    <div class="frosted-background">
       <section class="search-field">
         <p>Search for games:</p>
-        <input type="text" id="search">
+        <input type="text" id="search" />
       </section>
-      <div class="pill-menu" id="sort"></div>
-      <div class="pill-menu" id="platform"></div>
+      <section class="pill-menus">
+        <div class="pill-menu" id="sort"><p>Sort: Newest</p></div>
+        <div class="pill-menu" id="platform"><p>Sort: Platform</p></div>
+      </section>
+      <section class="pill-menu-contents">
         <div class="pill-menu-content pill-menu-sort">
           <ul>
             <li>Newest</li>
@@ -37,7 +39,7 @@ const stuff = ref([1, 2]);
             <li>Web</li>
           </ul>
         </div>
-    </div>
+      </section>
   </section>
   <!-- Body end -->
 
@@ -73,8 +75,12 @@ header {
 
 // Search Menu
 
-.search-field {
+.search-menu {
+  display: grid;
+  grid-template-rows: 2fr 1fr 3fr;
+}
 
+.search-field {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
 }
@@ -82,7 +88,7 @@ header {
 .search-field > p {
   margin-bottom: 0.25em;
   padding: 0;
-  
+
   color: white;
 
   font-weight: 900;
@@ -95,7 +101,7 @@ header {
 .search-field > input {
   width: 80vw;
   height: 5vh;
-  
+
   border: 0;
   border-radius: 5px;
 
@@ -110,7 +116,37 @@ header {
 .frosted-background {
   border: 1px solid white;
 
-  height: 100vh
+  height: 100vh;
+}
+
+.pill-menus {
+  display: inline-flex;
+
+  justify-content: space-between;
+  justify-self: center;
+  width: 80vw;
+  height: 5vh;
+
+  border: 1px solid white;
+}
+
+.pill-menu {
+  border: 1px solid green;
+  border-radius: 5px;
+
+  background-color: #0e3d63;
+
+  width: 20vw;
+  height: 4vh;
+}
+
+.pill-menu > p {
+  color: white;
+  font-size: 0.5em;
+}
+
+.pill-menu-contents {
+  display: none;
 }
 
 //Footer
@@ -130,7 +166,7 @@ footer > nav > ul {
 }
 
 //Defaults
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap");
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -164,8 +200,13 @@ h1 {
   margin-left: 0.25em;
 }
 
-h1, h2, h3, h4, h5, p {
-  font-family: 'Inter', sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  font-family: "Inter", sans-serif;
 }
 
 .circle {
