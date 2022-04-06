@@ -82,81 +82,12 @@ const count = ref(0);
 @import "./assets/style.scss";
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #a9b5c1;
-  margin-top: 60px;
-}
-
-// Header
-
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  z-index: 1;
-
-  border: 1px solid white;
-}
-
-// Main content
-
-.search-menu {
-  margin: 0 1.5em;
-}
-
-.game-listing {
-  border: 1px solid white;
-}
-
-// Footer
-
-footer {
-  height: 10vh;
-  width: 100%;
-
-  background-color: black;
-
-  position: fixed;
-
-  bottom: 0;
-  left: 0;
-  border: 1px solid white;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-label {
-  margin: 0 0.5em;
-  font-weight: bold;
-}
-
-code {
-  background-color: #eee;
-  padding: 2px 4px;
-  border-radius: 4px;
-  color: #304455;
-}
-
-// Default stylings
-h1,
-h2,
-h3,
-h4,
-h5,
-p {
-  font-family: "Inter", sans-serif;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #a9b5c1;
+    margin-top: 60px;
 }
 
 html,
@@ -206,27 +137,6 @@ footer > nav > ul {
 
     padding: 1em 0rem;
     margin: 0px;
-}
-
-main {
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  padding: 0px;
-  margin: 0;
-
-  width: 100vw;
-  height: 90vh;
-
-  background-image: url("./assets/backsplash.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-origin: border-box;
-  background-position-x: 0;
-  background-position-y: center;
-
-  border: 1px solid blue;
 }
 
 .circle {
