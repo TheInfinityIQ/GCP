@@ -16,6 +16,8 @@ public class GameMetadata
 	public HashSet<string> Genres { get; init; } = new HashSet<string>();
 	public HashSet<string> Platforms { get; init; } = new HashSet<string>();
 	public HashSet<string> Launchers { get; init; } = new HashSet<string>();
+	public HashSet<string> Developers { get; set; } = new HashSet<string>();
+	public HashSet<string> Publishers { get; set; } = new HashSet<string>();
 
 
 	public string? IconUrl { get; set; }

@@ -15,11 +15,13 @@ public class SteamController : ApiController
 	private static readonly ConcurrentDictionary<long, string> _steamGameNames = new();
 	private readonly ILogger<SteamController> _logger;
 	private readonly HttpClient _httpClient;
+	private readonly IConfiguration _configuration;
 
-	public SteamController(ILogger<SteamController> logger, HttpClient httpClient)
+	public SteamController(ILogger<SteamController> logger, HttpClient httpClient, IConfiguration configuration)
 	{
 		_logger = logger;
 		_httpClient = httpClient;
+		_configuration = configuration;
 	}
 
 	[HttpPost("parse-vdf")]
@@ -83,7 +85,12 @@ public class SteamController : ApiController
 		{
 			_logger.LogInformation("[START] Updating steam game cache.");
 
-			var steamAppListUri = new Uri("https://api.steampowered.com/ISteamApps/GetAppList/v2/");
+			var steamApiKey = _configuration["SteamAPIKey"];
+
+			var baseUrl = new UriBuilder();
+			var steamAppListUri = !string.IsNullOrWhiteSpace(steamApiKey)
+				? new Uri($"https://api.steampowered.com/ISteamApps/GetAppList/v2/?key={steamApiKey}")
+				: new Uri("https://api.steampowered.com/ISteamApps/GetAppList/v2/");
 			var getSteamAppResponse = await _httpClient.GetAsync(steamAppListUri, cancellationToken);
 			var steamAppJson = await getSteamAppResponse.Content.ReadAsStringAsync(cancellationToken);
 
