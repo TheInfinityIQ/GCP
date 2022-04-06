@@ -49,12 +49,8 @@ namespace GCP.Api.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("normalized_name");
 
-                    b.Property<DateOnly?>("ReleaseDate")
-                        .HasColumnType("date")
-                        .HasColumnName("release_date");
-
-                    b.Property<string>("SteamAppId")
-                        .HasColumnType("text")
+                    b.Property<long?>("SteamAppId")
+                        .HasColumnType("bigint")
                         .HasColumnName("steam_app_id");
 
                     b.HasKey("Id")

@@ -1,5 +1,4 @@
-﻿using System;
-using GCP.Api.Data.Entities;
+﻿using GCP.Api.Data.Entities;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -8,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GCP.Api.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class EarlyGame : Migration
+    public partial class GameEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,8 +21,7 @@ namespace GCP.Api.Data.Migrations
                     name = table.Column<string>(type: "text", nullable: false),
                     normalized_name = table.Column<string>(type: "text", nullable: false),
                     metadata = table.Column<GameMetadata>(type: "jsonb", nullable: false),
-                    steam_app_id = table.Column<string>(type: "text", nullable: true),
-                    release_date = table.Column<DateOnly>(type: "date", nullable: true)
+                    steam_app_id = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {

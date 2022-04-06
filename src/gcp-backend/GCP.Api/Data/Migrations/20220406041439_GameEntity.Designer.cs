@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GCP.Api.Data.Migrations
 {
     [DbContext(typeof(GCPContext))]
-    [Migration("20220403101907_EarlyGame")]
-    partial class EarlyGame
+    [Migration("20220406041439_GameEntity")]
+    partial class GameEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,12 +52,8 @@ namespace GCP.Api.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("normalized_name");
 
-                    b.Property<DateOnly?>("ReleaseDate")
-                        .HasColumnType("date")
-                        .HasColumnName("release_date");
-
-                    b.Property<string>("SteamAppId")
-                        .HasColumnType("text")
+                    b.Property<long?>("SteamAppId")
+                        .HasColumnType("bigint")
                         .HasColumnName("steam_app_id");
 
                     b.HasKey("Id")
