@@ -57,6 +57,30 @@ const stuff = ref([1, 2]);
         <h3>RimWorld</h3>
         <p>This is the RimWorld game descriptions</p>
       </div>
+      <div class="list">
+        <h3>RimWorld</h3>
+        <p>This is the RimWorld game descriptions</p>
+      </div>
+      <div class="list">
+        <h3>RimWorld</h3>
+        <p>This is the RimWorld game descriptions</p>
+      </div>
+      <div class="list">
+        <h3>RimWorld</h3>
+        <p>This is the RimWorld game descriptions</p>
+      </div>
+      <div class="list">
+        <h3>RimWorld</h3>
+        <p>This is the RimWorld game descriptions</p>
+      </div>
+      <div class="list">
+        <h3>RimWorld</h3>
+        <p>This is the RimWorld game descriptions</p>
+      </div>
+      <div class="list">
+        <h3>RimWorld</h3>
+        <p>This is the RimWorld game descriptions</p>
+      </div>
     </section>
   </section>
   <!-- Body end -->
@@ -177,14 +201,30 @@ header {
   margin-top: 1em;
   
   width: 80vw;
-  height: auto;
+  height: 60vh;
 
   display: flex; 
   flex-direction: column;
+
+  overflow: scroll;
 }
 
 .game-lists > .list {
   border: 1px solid white;
+
+  text-align: start;
+
+  padding-left: 2em;
+
+  max-height: 10em;
+}
+
+.game-lists > .list > p {
+  font-size: 0.75em;
+}
+
+.game-lists > .list > h3 {
+  font-weight: 900;
 }
 
 //Footer
