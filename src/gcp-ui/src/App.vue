@@ -20,11 +20,6 @@ const stuff = ref([1, 2]);
       <section class="pill-menus">
         <div class="pill-menu" id="sort">
           <p>Sort: Newest</p>
-        </div>
-        <div class="pill-menu" id="platform">
-          <p>Sort: Platform</p>
-        </div>
-        <section class="pill-menu-contents">
           <div class="pill-menu-content pill-menu-sort">
             <ul>
               <li>Newest</li>
@@ -33,6 +28,9 @@ const stuff = ref([1, 2]);
               <li>Most Active</li>
             </ul>
           </div>
+        </div>
+        <div class="pill-menu" id="platform">
+          <p>Sort: Platform</p>
           <div class="pill-menu-content pill-menu-platform">
             <ul>
               <li>Steam</li>
@@ -41,7 +39,7 @@ const stuff = ref([1, 2]);
               <li>Web</li>
             </ul>
           </div>
-        </section>
+        </div>
       </section>
     </section>
     <section class="game-lists">
@@ -179,42 +177,48 @@ header {
 }
 
 .pill-menu {
-  border: 1px solid green;
-  border-radius: 5px;
+  border-radius: 8px;
 
   background-color: #0e3d63;
 
-  width: 20vw;
+  width: 25vw;
   height: 4vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pill-menu > p {
   color: white;
-  font-size: 0.5em;
+  font-size: 0.75em;
 }
 
-.pill-menu-contents {
+.pill-menu-content {
+  position: relative;
   display: none;
+}
+
+.pill-menu-content > ul > li {
+  display: inline-block;
 }
 
 .game-lists {
   margin-top: 1em;
-  
+
   width: 80vw;
   height: 60vh;
 
-  display: flex; 
+  display: flex;
   flex-direction: column;
 
   overflow: scroll;
 }
 
 .game-lists > .list {
-  border: 1px solid white;
-
   text-align: start;
 
-  padding-left: 2em;
+  padding: 0 2em;
 
   max-height: 10em;
 }
@@ -285,6 +289,7 @@ h4,
 h5,
 p {
   font-family: "Inter", sans-serif;
+  color: white;
 }
 
 .circle {
