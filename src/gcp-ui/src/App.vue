@@ -135,7 +135,7 @@ header {
   font-size: 1.15em;
 
   justify-self: start;
-  margin-left: 12vw;
+  margin-left: 0;
 }
 
 .search-field > input {
