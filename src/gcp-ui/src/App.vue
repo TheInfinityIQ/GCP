@@ -42,40 +42,44 @@ const stuff = ref([1, 2]);
         </div>
       </section>
     </section>
-    <section class="game-lists">
-      <div class="list">
+    <section class="search-results">
+      <form action="https://localhost:5001/steam/parse-vdf" method="post"> <!-- method post is default but I'm being explicit -->
+        <label for="fname">File: </label>
+        <input type="file" id="fname" name="fname" />
+      </form>
+      <div class="game-list">
         <h3>RimWorld</h3>
         <p>This is the RimWorld game descriptions</p>
       </div>
-      <div class="list">
+      <div class="game-list">
         <h3>RimWorld</h3>
         <p>This is the RimWorld game descriptions</p>
       </div>
-      <div class="list">
+      <div class="game-list">
         <h3>RimWorld</h3>
         <p>This is the RimWorld game descriptions</p>
       </div>
-      <div class="list">
+      <div class="game-list">
         <h3>RimWorld</h3>
         <p>This is the RimWorld game descriptions</p>
       </div>
-      <div class="list">
+      <div class="game-list">
         <h3>RimWorld</h3>
         <p>This is the RimWorld game descriptions</p>
       </div>
-      <div class="list">
+      <div class="game-list">
         <h3>RimWorld</h3>
         <p>This is the RimWorld game descriptions</p>
       </div>
-      <div class="list">
+      <div class="game-list">
         <h3>RimWorld</h3>
         <p>This is the RimWorld game descriptions</p>
       </div>
-      <div class="list">
+      <div class="game-list">
         <h3>RimWorld</h3>
         <p>This is the RimWorld game descriptions</p>
       </div>
-      <div class="list">
+      <div class="game-list">
         <h3>RimWorld</h3>
         <p>This is the RimWorld game descriptions</p>
       </div>
@@ -203,7 +207,7 @@ header {
   display: inline-block;
 }
 
-.game-lists {
+.search-results {
   margin-top: 1em;
 
   width: 80vw;
@@ -215,7 +219,7 @@ header {
   overflow: scroll;
 }
 
-.game-lists > .list {
+.search-results > .game-list {
   text-align: start;
 
   padding: 0 2em;
@@ -223,11 +227,11 @@ header {
   max-height: 10em;
 }
 
-.game-lists > .list > p {
+.search-results > .game-list > p {
   font-size: 0.75em;
 }
 
-.game-lists > .list > h3 {
+.search-results > .game-list > h3 {
   font-weight: 900;
 }
 
