@@ -123,7 +123,7 @@ builder.Services.AddSwaggerGen(swagger =>
 builder.Services.AddScoped<ISteamSerivce, SteamSerivce>(sp =>
 {
 	IMemoryCache cache = sp.GetRequiredService<IMemoryCache>();
-	var steamAppNameCache = cache.Get<IDictionary<long, string>>("steamAppNames");
+	var steamAppNameCache = cache.Get<IDictionary<long, string>>(GCPConst.CacheKey.SteamAppNames);
 	if (steamAppNameCache is null)
 	{
 		var fileInfo = new FileInfo("./steamAppList.json");
@@ -133,7 +133,7 @@ builder.Services.AddScoped<ISteamSerivce, SteamSerivce>(sp =>
 			steamAppNameCache = SteamSerivce.ParseSteamAppNames(appListJson);
 		}
 
-		cache.Set("steamAppNames", steamAppNameCache ??= new Dictionary<long, string>());
+		cache.Set(GCPConst.CacheKey.SteamAppNames, steamAppNameCache ??= new Dictionary<long, string>());
 	}
 
 	var ss = ActivatorUtilities.CreateInstance<SteamSerivce>(sp);

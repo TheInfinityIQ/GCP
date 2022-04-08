@@ -11,6 +11,7 @@ using GCP.Api.DTOs;
 using GCP.Api.Utilities;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace GCP.Api.Services;
 
@@ -24,15 +25,17 @@ public class SteamSerivce : ISteamSerivce
 {
 	private readonly ConcurrentDictionary<long, string> _steamGameNames = new();
 	private readonly ILogger<SteamController> _logger;
-	private readonly HttpClient _httpClient;
 	private readonly IConfiguration _configuration;
+	private readonly IMemoryCache _memoryCache;
+	private readonly HttpClient _httpClient;
 	private readonly GCPContext _context;
 
-	public SteamSerivce(ILogger<SteamController> logger, HttpClient httpClient, IConfiguration configuration, GCPContext context)
+	public SteamSerivce(ILogger<SteamController> logger, IConfiguration configuration, IMemoryCache memoryCache, HttpClient httpClient, GCPContext context)
 	{
 		_logger = logger;
 		_httpClient = httpClient;
 		_configuration = configuration;
+		_memoryCache = memoryCache;
 		_context = context;
 	}
 
@@ -150,9 +153,12 @@ public class SteamSerivce : ISteamSerivce
 		return GCPResult.Success<ParseVdfResponseDTO>(new(games));
 	}
 
-	public async Task<IDictionary<long, string>> GetSteamAppListAsync(CancellationToken cancellationToken)
+	public async Task<GCPResult<IDictionary<long, string>>> GetSteamAppListAsync(CancellationToken cancellationToken)
 	{
-		_logger.LogInformation("[START] Updating steam game cache.");
+		if (_memoryCache.TryGetValue<IDictionary<long, string>>(GCPConst.CacheKey.SteamAppNames, out var steamAppNames) && steamAppNames is not null)
+		{
+			return GCPResult.Success(steamAppNames);
+		}
 
 		var steamAppListUri = _configuration.TryGetSteamApiKey(out var steamApiKey)
 			? new Uri($"https://api.steampowered.com/ISteamApps/GetAppList/v2/?key={steamApiKey}")
@@ -161,9 +167,7 @@ public class SteamSerivce : ISteamSerivce
 		var steamAppJson = await getSteamAppResponse.Content.ReadAsStringAsync(cancellationToken);
 
 		var result = ParseSteamAppNames(steamAppJson);
-
-		_logger.LogInformation("[FINISH] Updated steam game cache.");
-
-		return result;
+		_memoryCache.Set(GCPConst.CacheKey.SteamAppNames, result);
+		return GCPResult.Success(result);
 	}
 }
