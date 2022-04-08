@@ -17,10 +17,13 @@ public enum GCPErrorCode
 	// Domain errors
 	EmptyVdfFile = GCPErrorCodeExtensions.DomainErrorStartingPoint,
 	FailedToParseGameLibraryVdfFile,
+	FailedToParseGameDetails,
 	FailedToGetSteamAppList,
 
 	EmailIsAlreadyTaken,
 	DisplayNameIsAlreadyTaken,
+
+	MissingConfiguration,
 }
 
 public static class GCPErrorCodeExtensions

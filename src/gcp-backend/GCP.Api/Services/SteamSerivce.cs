@@ -18,6 +18,8 @@ namespace GCP.Api.Services;
 public interface ISteamSerivce
 {
 	SteamSerivce AddOrUpdateSteamAppNameCache(IDictionary<long, string> steamAppNameCache);
+	Task<GCPResult<IDictionary<long, string>>> GetSteamAppListAsync(CancellationToken cancellationToken);
+	Task<GCPResult<SteamAppDetailsDTO>> GetSteamAppDetailsAsync(long appId, CancellationToken cancellationToken);
 	Task<GCPResult<ParseVdfResponseDTO>> ParseVdfAsync(ParseVdfRequestDTO requestDTO, CancellationToken cancellationToken = default);
 }
 
@@ -41,7 +43,7 @@ public class SteamSerivce : ISteamSerivce
 
 	public static IDictionary<long, string> ParseSteamAppNames(string appListJson)
 	{
-		var jDoc = JsonDocument.Parse(appListJson);
+		using var jDoc = JsonDocument.Parse(appListJson);
 		var steamApps = jDoc.RootElement
 			.GetProperty("applist")
 			.GetProperty("apps");
@@ -155,7 +157,8 @@ public class SteamSerivce : ISteamSerivce
 
 	public async Task<GCPResult<IDictionary<long, string>>> GetSteamAppListAsync(CancellationToken cancellationToken)
 	{
-		if (_memoryCache.TryGetValue<IDictionary<long, string>>(GCPConst.CacheKey.SteamAppNames, out var steamAppNames) && steamAppNames is not null)
+		var cacheKey = GCPConst.CacheKey.SteamAppNames;
+		if (_memoryCache.TryGetValue<IDictionary<long, string>>(cacheKey, out var steamAppNames) && steamAppNames is not null)
 		{
 			return GCPResult.Success(steamAppNames);
 		}
@@ -163,11 +166,36 @@ public class SteamSerivce : ISteamSerivce
 		var steamAppListUri = _configuration.TryGetSteamApiKey(out var steamApiKey)
 			? new Uri($"https://api.steampowered.com/ISteamApps/GetAppList/v2/?key={steamApiKey}")
 			: new Uri("https://api.steampowered.com/ISteamApps/GetAppList/v2/");
-		var getSteamAppResponse = await _httpClient.GetAsync(steamAppListUri, cancellationToken);
-		var steamAppJson = await getSteamAppResponse.Content.ReadAsStringAsync(cancellationToken);
+		var getSteamAppNamesListResponse = await _httpClient.GetAsync(steamAppListUri, cancellationToken);
+		var steamAppNamesListJson = await getSteamAppNamesListResponse.Content.ReadAsStringAsync(cancellationToken);
 
-		var result = ParseSteamAppNames(steamAppJson);
+		var result = ParseSteamAppNames(steamAppNamesListJson);
 		_memoryCache.Set(GCPConst.CacheKey.SteamAppNames, result);
+		return GCPResult.Success(result);
+	}
+
+	public async Task<GCPResult<SteamAppDetailsDTO>> GetSteamAppDetailsAsync(long appId, CancellationToken cancellationToken)
+	{
+		var cacheKey = GCPConst.CacheKey.GetSteamAppDetailsKey(appId);
+		if (_memoryCache.TryGetValue<SteamAppDetailsDTO>(cacheKey, out var steamAppDetails) && steamAppDetails is not null)
+		{
+			return GCPResult.Success(steamAppDetails);
+		}
+
+		//var steamApiKey = _configuration.GetSteamApiKey();
+		var steamAppListUri = new Uri($"https://store.steampowered.com/api/appdetails?appids={appId}");
+		var getSteamAppDetailsResponse = await _httpClient.GetAsync(steamAppListUri, cancellationToken);
+		var steamAppDetailsJson = await getSteamAppDetailsResponse.Content.ReadAsStringAsync(cancellationToken);
+
+		using var jDoc = JsonDocument.Parse(steamAppDetailsJson);
+		var dataRoot = jDoc.RootElement.GetProperty(appId.ToString()).GetProperty("data");
+
+		var result = JsonSerializer.Deserialize<SteamAppDetailsDTO>(dataRoot);
+		if (result is null)
+		{
+			return GCPResult.Failure<SteamAppDetailsDTO>(GCPErrorCode.FailedToParseGameDetails, $"failed to parse steam [{appId}] app details.");
+		}
+		_memoryCache.Set(cacheKey, result);
 		return GCPResult.Success(result);
 	}
 }

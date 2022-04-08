@@ -34,5 +34,19 @@ public class SteamController : ApiController<SteamController>
 		var result = await _steamSerivce.ParseVdfAsync(request, cancellationToken);
 		return HandleResult(result);
 	}
+
+	[HttpGet("app")]
+	public async Task<ActionResult<IDictionary<long, string>>> Get(CancellationToken cancellationToken = default)
+	{
+		var result = await _steamSerivce.GetSteamAppListAsync(cancellationToken);
+		return HandleResult(result);
+	}
+
+	[HttpGet("app/{id:long}")]
+	public async Task<ActionResult<SteamAppDetailsDTO>> Get(long id, CancellationToken cancellationToken = default)
+	{
+		var result = await _steamSerivce.GetSteamAppDetailsAsync(id, cancellationToken);
+		return HandleResult(result);
+	}
 }
 
