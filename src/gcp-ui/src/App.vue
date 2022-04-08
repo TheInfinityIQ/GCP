@@ -236,7 +236,7 @@ header {
   overflow: scroll;
 }
 
-.search-results > .game-list {
+.search-results .game-list{
   text-align: start;
 
   padding: 0 2em;
@@ -244,11 +244,16 @@ header {
   max-height: 10em;
 }
 
-.search-results > .game-list > p {
+.search-results ul {
+  margin: 0;
+  padding: 0;
+}
+
+.search-results .game-list > p {
   font-size: 0.75em;
 }
 
-.search-results > .game-list > h3 {
+.search-results .game-list h3 {
   font-weight: 900;
 }
 
