@@ -2,6 +2,15 @@
 import HelloWorld from "./components/HelloWorld.vue";
 import { ref } from "vue";
 const stuff = ref([1, 2]);
+
+  let games = Array();
+
+  for (let index = 0; index < 15; index++) {
+    games.push({
+      title: 'RimWorld',
+      desc: 'This is the RimWorld game descriptions'
+    });
+  }
 </script>
 
 <template>
@@ -20,7 +29,7 @@ const stuff = ref([1, 2]);
       <section class="pill-menus">
         <div class="pill-menu" id="sort">
           <p>Sort: Newest</p>
-          <div class="pill-menu-content pill-menu-sort">
+          <div class="dropdown-content pill-menu-sort">
             <ul>
               <li>Newest</li>
               <li>Oldest</li>
@@ -31,7 +40,7 @@ const stuff = ref([1, 2]);
         </div>
         <div class="pill-menu" id="platform">
           <p>Sort: Platform</p>
-          <div class="pill-menu-content pill-menu-platform">
+          <div class="dropdown-content pill-menu-platform">
             <ul>
               <li>Steam</li>
               <li>Xbox</li>
@@ -47,42 +56,12 @@ const stuff = ref([1, 2]);
         <label for="fname">File: </label>
         <input type="file" id="fname" name="fname" />
       </form>
-      <div class="game-list">
-        <h3>RimWorld</h3>
-        <p>This is the RimWorld game descriptions</p>
-      </div>
-      <div class="game-list">
-        <h3>RimWorld</h3>
-        <p>This is the RimWorld game descriptions</p>
-      </div>
-      <div class="game-list">
-        <h3>RimWorld</h3>
-        <p>This is the RimWorld game descriptions</p>
-      </div>
-      <div class="game-list">
-        <h3>RimWorld</h3>
-        <p>This is the RimWorld game descriptions</p>
-      </div>
-      <div class="game-list">
-        <h3>RimWorld</h3>
-        <p>This is the RimWorld game descriptions</p>
-      </div>
-      <div class="game-list">
-        <h3>RimWorld</h3>
-        <p>This is the RimWorld game descriptions</p>
-      </div>
-      <div class="game-list">
-        <h3>RimWorld</h3>
-        <p>This is the RimWorld game descriptions</p>
-      </div>
-      <div class="game-list">
-        <h3>RimWorld</h3>
-        <p>This is the RimWorld game descriptions</p>
-      </div>
-      <div class="game-list">
-        <h3>RimWorld</h3>
-        <p>This is the RimWorld game descriptions</p>
-      </div>
+      <ul>
+        <li v-for="game in games" class="game-list">
+          <h3>{{ game.title }}</h3>
+          <p>{{ game.desc }}</p>
+        </li>
+      </ul>
     </section>
   </section>
   <!-- Body end -->
@@ -171,6 +150,25 @@ header {
   height: 100vh;
 }
 
+// div {
+//   /* arrow */
+
+// position: static;
+// left: 82.76%;
+// right: 8.05%;
+// top: 42%;
+// bottom: 42%;
+
+// border: 1px solid rgba(255, 255, 255, 0.5);
+
+// /* Inside auto layout */  
+// flex: none;
+// order: 1;
+// flex-grow: 0;
+// margin: 0px 11px;
+
+// }
+
 .pill-menus {
   display: inline-flex;
 
@@ -193,17 +191,36 @@ header {
   justify-content: center;
 }
 
+.pill-menu-sort {
+
+}
+
+.pill-menu-platform {
+
+}
+
+.dropdown-content > ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-content > ul > li {
+  border: 1px solid white;
+  background-color: white;
+}
+
 .pill-menu > p {
   color: white;
   font-size: 0.75em;
 }
 
-.pill-menu-content {
+// HER EHRHEHERHEHHER
+.dropdown-content {
   position: relative;
-  display: none;
+  // display: none;
 }
 
-.pill-menu-content > ul > li {
+.dropdown-content > ul > li {
   display: inline-block;
 }
 
@@ -294,6 +311,10 @@ h5,
 p {
   font-family: "Inter", sans-serif;
   color: white;
+}
+
+ul {
+  list-style-type: none;
 }
 
 .circle {
