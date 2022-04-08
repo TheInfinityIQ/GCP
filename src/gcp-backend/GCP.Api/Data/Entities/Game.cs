@@ -6,6 +6,8 @@ public class Game
 	public string NormalizedName { get; set; } = default!;
 	public GameMetadata Metadata { get; init; } = new GameMetadata();
 	public long? SteamAppId { get; set; }
+
+	public ICollection<User> Owners { get; set; } = new List<User>();
 }
 
 

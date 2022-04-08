@@ -6,18 +6,18 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
 {
 	public void Configure(EntityTypeBuilder<Game> builder)
 	{
-		builder.Property(x => x.Name)
+		builder.Property(g => g.Name)
 			.IsRequired()
 			.IsUnicode();
-		builder.Property(x => x.NormalizedName)
+		builder.Property(g => g.NormalizedName)
 			.IsRequired()
 			.IsUnicode();
 
-		builder.Property(x => x.Metadata).HasColumnType("jsonb");
+		builder.Property(g => g.Metadata).HasColumnType("jsonb");
 
-		builder.HasIndex(x => x.Metadata);
-		builder.HasIndex(x => x.Name).IsUnique();
-		builder.HasIndex(x => x.NormalizedName).IsUnique();
-		builder.HasIndex(x => x.SteamAppId).IsUnique();
+		builder.HasIndex(g => g.Metadata);
+		builder.HasIndex(g => g.Name).IsUnique();
+		builder.HasIndex(g => g.NormalizedName).IsUnique();
+		builder.HasIndex(g => g.SteamAppId).IsUnique();
 	}
 }
