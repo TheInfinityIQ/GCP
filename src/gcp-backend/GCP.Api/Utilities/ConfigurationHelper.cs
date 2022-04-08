@@ -3,13 +3,13 @@ public static class ConfigurationHelper
 {
 	public static bool TryGetSteamApiKey(this IConfiguration configuration!!, out string steamApiKey)
 	{
-		steamApiKey = configuration["SteamApiKey"]!;
+		steamApiKey = configuration["SteamAPIKey"]!;
 		return string.IsNullOrWhiteSpace(steamApiKey);
 	}
 
 	public static string GetSteamApiKey(this IConfiguration configuration!!)
 		=> !TryGetSteamApiKey(configuration, out var apiKey)
-			? throw new MissingConfigurationException("SteamApiKey")
+			? throw new MissingConfigurationException("SteamAPIKey")
 			: apiKey;
 
 	public static (string ValidAudience, string ValidIssuer, string SecretKey, TimeSpan ExpiryTimeSpan) GetJwtOptions(this IConfiguration configuration!!)

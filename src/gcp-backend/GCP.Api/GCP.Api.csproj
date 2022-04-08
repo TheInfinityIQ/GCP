@@ -17,8 +17,8 @@
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.0-preview.2.22153.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.2.22153.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0-preview.2.22153.1">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0-preview.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
@@ -26,6 +26,12 @@
 
 	<ItemGroup>
 		<Folder Include="Data\Scripts\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="steamAppList.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
