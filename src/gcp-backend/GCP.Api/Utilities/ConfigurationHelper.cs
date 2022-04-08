@@ -4,7 +4,7 @@ public static class ConfigurationHelper
 	public static bool TryGetSteamApiKey(this IConfiguration configuration!!, out string steamApiKey)
 	{
 		steamApiKey = configuration["SteamAPIKey"]!;
-		return string.IsNullOrWhiteSpace(steamApiKey);
+		return !string.IsNullOrWhiteSpace(steamApiKey);
 	}
 
 	public static string GetSteamApiKey(this IConfiguration configuration!!)
