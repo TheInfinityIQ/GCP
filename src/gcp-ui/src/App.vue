@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
 import { ref } from "vue";
+import vSelect from "vue-select";
+
+let sort: string[] = ["Newest", "Activity", "Population"];
+let platform: string[] = ["Windows", "Linux", "Mac"];
+
 const stuff = ref([1, 2]);
 
-  let games = Array();
+let games: { title: string, desc: string }[] = [];
 
-  for (let index = 0; index < 15; index++) {
-    games.push({
-      title: 'RimWorld',
-      desc: 'This is the RimWorld game descriptions'
-    });
-  }
+for (let index = 0; index < 15; index++) {
+  games.push({
+    title: 'RimWorld',
+    desc: 'This is the RimWorld game descriptions'
+  });
+}
 </script>
 
 <template>
@@ -27,33 +31,14 @@ const stuff = ref([1, 2]);
       <p>Search for games:</p>
       <input type="text" id="search" />
       <section class="pill-menus">
-        <div class="pill-menu" id="sort">
-          <p>Sort: Newest</p>
-          <div class="dropdown-content pill-menu-sort">
-            <ul>
-              <li>Newest</li>
-              <li>Oldest</li>
-              <li>Most People</li>
-              <li>Most Active</li>
-            </ul>
-          </div>
-        </div>
-        <div class="pill-menu" id="platform">
-          <p>Sort: Platform</p>
-          <div class="dropdown-content pill-menu-platform">
-            <ul>
-              <li>Steam</li>
-              <li>Xbox</li>
-              <li>Playstation</li>
-              <li>Web</li>
-            </ul>
-          </div>
-        </div>
+        <v-select label="title" :options="sort" class="pill-menu"></v-select>
+        <v-select label="title" :options="platform" class="pill-menu"></v-select>
       </section>
     </section>
     <section class="search-results">
-      <form action="https://localhost:5001/steam/parse-vdf" method="post"> <!-- method post is default but I'm being explicit -->
-        <label for="fname">File: </label>
+      <form action="https://localhost:5001/steam/parse-vdf" method="post">
+        <!-- method post is default but I'm being explicit -->
+        <label for="fname">File:</label>
         <input type="file" id="fname" name="fname" />
       </form>
       <ul>
@@ -80,9 +65,38 @@ const stuff = ref([1, 2]);
 </template>
 
 <style lang="scss">
-@import "./assets/style.scss";
+// @import "./assets/style.scss";
 
-//Header
+.vs__clear,
+.vs__open-indicator {
+  // display: none;
+  scale: 50%;
+  margin: 0;
+}
+
+.pill-menus {
+  display: flex;
+  justify-content: space-around;
+}
+
+.pill-menu {
+  width: 20%;
+
+  // padding: 0;
+
+  font-size: 0.4em;
+  // overflow: hidden;
+}
+
+.vs__dropdown-toggle {
+  height: 3em;
+}
+
+.vs__actions {
+  display: inline-flex;
+}
+
+Header
 header {
   position: absolute;
   top: 5vh;
@@ -150,78 +164,9 @@ header {
   height: 100vh;
 }
 
-// div {
-//   /* arrow */
-
-// position: static;
-// left: 82.76%;
-// right: 8.05%;
-// top: 42%;
-// bottom: 42%;
-
-// border: 1px solid rgba(255, 255, 255, 0.5);
-
-// /* Inside auto layout */  
-// flex: none;
-// order: 1;
-// flex-grow: 0;
-// margin: 0px 11px;
-
-// }
-
-.pill-menus {
+.pill-menu {
   display: inline-flex;
 
-  justify-content: space-between;
-  justify-self: center;
-  width: 80vw;
-  height: 5vh;
-}
-
-.pill-menu {
-  border-radius: 8px;
-
-  background-color: #0e3d63;
-
-  width: 25vw;
-  height: 4vh;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pill-menu-sort {
-
-}
-
-.pill-menu-platform {
-
-}
-
-.dropdown-content > ul {
-  display: flex;
-  flex-direction: column;
-}
-
-.dropdown-content > ul > li {
-  border: 1px solid white;
-  background-color: white;
-}
-
-.pill-menu > p {
-  color: white;
-  font-size: 0.75em;
-}
-
-// HER EHRHEHERHEHHER
-.dropdown-content {
-  position: relative;
-  // display: none;
-}
-
-.dropdown-content > ul > li {
-  display: inline-block;
 }
 
 .search-results {
@@ -236,7 +181,7 @@ header {
   overflow: scroll;
 }
 
-.search-results .game-list{
+.search-results .game-list {
   text-align: start;
 
   padding: 0 2em;
