@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import vSelect from "vue-select";
+import logo from './components/Logo.vue';
 
 let sort: string[] = ["New", "Hot", "Users"];
 let platform: string[] = ["Windows", "Linux", "Mac"];
@@ -18,11 +19,7 @@ for (let index = 0; index < 15; index++) {
 </script>
 
 <template>
-  <header class="inline">
-    <img src="./assets/Logo.svg" alt="Logo" />
-    <h1>Game Chooser Program</h1>
-  </header>
-
+  <logo />
   <div class="container-main">
     <section class="search-menu">
       <section class="search-field">
@@ -37,7 +34,7 @@ for (let index = 0; index < 15; index++) {
         <!-- <form action="https://localhost:5001/steam/parse-vdf" method="post">
           <label for="fname">File:</label>
           <input type="file" id="fname" name="fname" />
-        </form> -->
+        </form>-->
         <ul>
           <li v-for="game in games" class="game-list">
             <h3>{{ game.title }}</h3>
@@ -65,7 +62,6 @@ for (let index = 0; index < 15; index++) {
 <style lang="scss">
 // @import "./assets/style.scss";
 
-
 .vs__clear,
 .vs__open-indicator {
   // display: none;
@@ -84,24 +80,11 @@ for (let index = 0; index < 15; index++) {
 
 .vs__dropdown-toggle {
   height: 3em;
-  background: #fff !important; 
+  background: #fff !important;
 }
 
 .vs__actions {
   display: inline-flex;
-}
-
-header header {
-  position: absolute;
-  top: 5vh;
-  left: 0;
-
-  width: 100vw;
-  height: 10vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 // Search Menu
@@ -111,7 +94,7 @@ header header {
 
   background-color: #051522;
   border-radius: 15px;
-  
+
   margin: 2vh 0;
 
   padding: 0 1em;
@@ -261,7 +244,6 @@ p {
   font-family: "Inter", sans-serif;
   color: white;
 }
-
 
 .circle {
   display: flex;
