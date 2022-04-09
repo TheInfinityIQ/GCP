@@ -12,7 +12,7 @@ import { ref } from 'vue'
 <style lang="scss" scoped>
 header {
     position: absolute;
-    top: 5vh;
+    top: 1vh;
     left: 0;
 
     width: 100vw;
