@@ -36,11 +36,10 @@ for (let index = 0; index < 15; index++) {
       </section>
     </section>
     <section class="search-results">
-      <form action="https://localhost:5001/steam/parse-vdf" method="post">
-        <!-- method post is default but I'm being explicit -->
+      <!-- <form action="https://localhost:5001/steam/parse-vdf" method="post">
         <label for="fname">File:</label>
         <input type="file" id="fname" name="fname" />
-      </form>
+      </form> -->
       <ul>
         <li v-for="game in games" class="game-list">
           <h3>{{ game.title }}</h3>
@@ -78,19 +77,16 @@ for (let index = 0; index < 15; index++) {
 .pill-menus {
   display: flex;
   justify-content: space-around;
+
 }
 
 .pill-menu {
-  width: 20%;
-
-  // padding: 0;
-
-  font-size: 0.4em;
-  // overflow: hidden;
+  font-size: 0.6em;
 }
 
 .vs__dropdown-toggle {
   height: 3em;
+  background: #fff !important; 
 }
 
 .vs__actions {
