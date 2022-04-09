@@ -28,7 +28,7 @@ for (let index = 0; index < 15; index++) {
   <!-- Content in body should adjust image so that there is no whitespace -->
   <section class="search-menu">
     <section class="search-field">
-      <p>Search for games:</p>
+      <p class="search-games-text">Search for games:</p>
       <input type="text" id="search" />
       <section class="pill-menus">
         <v-select label="title" :options="sort" class="pill-menu"></v-select>
@@ -67,6 +67,7 @@ for (let index = 0; index < 15; index++) {
 <style lang="scss">
 // @import "./assets/style.scss";
 
+
 .vs__clear,
 .vs__open-indicator {
   // display: none;
@@ -96,8 +97,7 @@ for (let index = 0; index < 15; index++) {
   display: inline-flex;
 }
 
-Header
-header {
+header header {
   position: absolute;
   top: 5vh;
   left: 0;
@@ -125,6 +125,7 @@ header {
 .search-field > p {
   margin-bottom: 0.25em;
   padding: 0;
+  padding-left: 1.25em;
 
   color: white;
 
@@ -166,7 +167,6 @@ header {
 
 .pill-menu {
   display: inline-flex;
-
 }
 
 .search-results {
