@@ -4,7 +4,6 @@
 </script>
 
 <template>
-    <footer>
     <nav>
       <ul class="mobile-nav">
         <li class="circle">L</li>
@@ -12,18 +11,18 @@
         <li class="circle">A</li>
       </ul>
     </nav>
-  </footer>
 </template>
 
 <style  lang="scss" scoped>
-footer {
-    position: fixed;
+
+nav {
+  position: fixed;
     left: 0;
 
     height: 10vh;
 }
 
-footer > nav > ul {
+nav > ul {
     display: flex;
     justify-content: space-evenly;
 

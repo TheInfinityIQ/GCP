@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 import logo from './components/Logo.vue';
 import searchMenu from './components/Search-Menu.vue';
-import footer from './components/Footer.vue';
+import footerNav from './components/Footer.vue';
 
 </script>
 
@@ -12,12 +10,15 @@ import footer from './components/Footer.vue';
   <!-- Body end -->
   <searchMenu />
   <!-- Footer Start -->
-  <footer />
+  <footerNav />
+  
   <!-- Footer End -->
 </template>
 
 <style lang="scss">
 // @import "./assets/style.scss";
+
+// Positioning of comps
 
 //Defaults
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap");
