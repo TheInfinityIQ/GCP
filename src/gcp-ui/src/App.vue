@@ -1,204 +1,42 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import vSelect from "vue-select";
+
 import logo from './components/Logo.vue';
+import searchMenu from './components/Search-Menu.vue';
+import footer from './components/Footer.vue';
 
-let sort: string[] = ["New", "Hot", "Users"];
-let platform: string[] = ["Windows", "Linux", "Mac"];
-
-const stuff = ref([1, 2]);
-
-let games: { title: string, desc: string }[] = [];
-
-for (let index = 0; index < 15; index++) {
-  games.push({
-    title: 'RimWorld',
-    desc: 'This is the RimWorld game descriptions'
-  });
-}
 </script>
 
 <template>
   <logo />
-  <div class="container-main">
-    <section class="search-menu">
-      <section class="search-field">
-        <p class="search-games-text">Search for games</p>
-        <input type="text" id="search" />
-        <section class="pill-menus">
-          <v-select label="title" :options="sort" class="pill-menu"></v-select>
-          <v-select label="title" :options="platform" class="pill-menu"></v-select>
-        </section>
-      </section>
-      <section class="search-results">
-        <!-- <form action="https://localhost:5001/steam/parse-vdf" method="post">
-          <label for="fname">File:</label>
-          <input type="file" id="fname" name="fname" />
-        </form>-->
-        <ul>
-          <li v-for="game in games" class="game-list">
-            <h3>{{ game.title }}</h3>
-            <p>{{ game.desc }}</p>
-          </li>
-        </ul>
-      </section>
-    </section>
-  </div>
   <!-- Body end -->
-
+  <searchMenu />
   <!-- Footer Start -->
-  <footer>
-    <nav>
-      <ul class="mobile-nav">
-        <li class="circle">L</li>
-        <li class="circle">C</li>
-        <li class="circle">A</li>
-      </ul>
-    </nav>
-  </footer>
+  <footer />
   <!-- Footer End -->
 </template>
 
 <style lang="scss">
 // @import "./assets/style.scss";
 
+//Defaults
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap");
+
+// Search menu - Won't work if put into styles tag of Search-menu.vue
 .vs__clear,
 .vs__open-indicator {
-  // display: none;
-  scale: 50%;
-  margin: 0;
+    // display: none;
+    scale: 50%;
+    margin: 0;
 }
-
-.pill-menus {
-  display: flex;
-  justify-content: space-between;
-}
-
-.pill-menu {
-  font-size: 0.6em;
-}
-
 .vs__dropdown-toggle {
-  height: 3em;
-  background: #fff !important;
+    height: 3em;
+    background: #fff !important;
 }
 
 .vs__actions {
-  display: inline-flex;
+    display: inline-flex;
 }
-
-// Search Menu
-
-.container-main {
-  height: 80vh;
-
-  background-color: #051522;
-  border-radius: 15px;
-
-  margin: 2vh 0;
-
-  padding: 0 1em;
-}
-
-.search-menu {
-  display: grid;
-  grid-template-rows: 20% 10%;
-}
-
-.search-field > p {
-  margin-bottom: 0.25em;
-
-  color: white;
-
-  font-weight: 900;
-  font-size: 1.15em;
-
-  justify-self: center;
-  margin-left: 0;
-}
-
-.search-field > input {
-  width: 100%;
-  height: 5vh;
-
-  margin-bottom: 0.5em;
-
-  border: 0;
-  border-radius: 5px;
-  background-color: #437096;
-
-  justify-self: center;
-}
-
-.frosted-background {
-  border: 1px solid white;
-
-  height: 100vh;
-}
-
-.search-results {
-  margin-top: 1em;
-
-  width: 80vw;
-  height: 60vh;
-
-  display: flex;
-  flex-direction: column;
-
-  overflow: scroll;
-}
-
-.search-results .game-list {
-  text-align: start;
-
-  max-height: 10em;
-}
-
-.search-results > ul {
-  list-style-type: none;
-
-  margin: 0;
-  padding: 0;
-}
-
-.search-results > li {
-  margin: 0;
-  padding: 0;
-}
-
-.search-results .game-list > p {
-  font-size: 0.75em;
-}
-
-.search-results .game-list h3 {
-  font-weight: 900;
-}
-
-//Footer
-footer {
-  position: fixed;
-  left: 0;
-
-  height: 10vh;
-}
-
-footer > nav > ul {
-  display: flex;
-  justify-content: space-evenly;
-
-  position: fixed;
-  bottom: 0;
-  background-color: #051522;
-
-  height: 3.5em;
-  width: 100vw;
-
-  padding: 1em 0rem;
-  margin: 0px;
-}
-
-//Defaults
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap");
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
