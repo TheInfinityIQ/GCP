@@ -6,7 +6,7 @@ let platform: string[] = ["Windows", "Linux", "Mac"];
 
 let games: { title: string, desc: string }[] = [];
 
-for (let index = 0; index < 15; index++) {
+for (let index = 0; index < 10; index++) {
     games.push({
         title: 'RimWorld',
         desc: 'This is the RimWorld game descriptions'
@@ -56,14 +56,16 @@ for (let index = 0; index < 15; index++) {
 // Search Menu
 
 .container-main {
-    height: 80vh;
+    min-height: 80vh;
 
     background-color: #051522;
     border-radius: 15px;
 
-    margin: 2vh 0;
+    margin: 2vh 5vw;
 
     padding: 0 1em;
+
+    overflow: hidden;
 }
 
 .search-menu {
@@ -98,9 +100,7 @@ for (let index = 0; index < 15; index++) {
 
 .search-results {
     margin-top: 1em;
-
-    width: 80vw;
-    height: 60vh;
+    max-height: 60vh; // Enables overflow scroll because it will resize without max height
 
     display: flex;
     flex-direction: column;
@@ -110,18 +110,11 @@ for (let index = 0; index < 15; index++) {
 
 .search-results .game-list {
     text-align: start;
-
-    max-height: 10em;
 }
 
 .search-results > ul {
     list-style-type: none;
 
-    margin: 0;
-    padding: 0;
-}
-
-.search-results > li {
     margin: 0;
     padding: 0;
 }

@@ -15,19 +15,9 @@
 
 <style  lang="scss" scoped>
 
-nav {
-  position: fixed;
-    left: 0;
-
-    height: 10vh;
-}
-
 nav > ul {
     display: flex;
     justify-content: space-evenly;
-
-    position: fixed;
-    bottom: 0;
     background-color: #051522;
 
     height: 3.5em;
