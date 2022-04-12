@@ -37,10 +37,12 @@ for (let index = 0; index < 13; index++) {
                     </li>
                 </ul>
             </section>
-        </section>  </div>
+        </section>
+    </div>
 </template>
 
-<style lang="scss" scoped>.pill-menus {
+<style lang="scss" scoped>
+.pill-menus {
     display: flex;
     justify-content: space-between;
 }
@@ -52,8 +54,6 @@ for (let index = 0; index < 13; index++) {
 // Search Menu
 
 .container-main {
-    min-height: 80vh;
-
     border-radius: 15px;
     background-color: rgba(5, 21, 34, 0.75);
 
@@ -121,4 +121,5 @@ for (let index = 0; index < 13; index++) {
 
 .search-results .game-list h3 {
     font-weight: 900;
-}</style>
+}
+</style>

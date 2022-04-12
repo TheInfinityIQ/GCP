@@ -26,17 +26,18 @@ import footerNav from './components/Footer.vue';
 // Search menu - Won't work if put into styles tag of Search-menu.vue
 .vs__clear,
 .vs__open-indicator {
-    // display: none;
-    scale: 50%;
-    margin: 0;
+  // display: none;
+  scale: 50%;
+  margin: 0;
 }
+
 .vs__dropdown-toggle {
-    height: 3em;
-    background: #fff !important;
+  height: 3em;
+  background: #fff !important;
 }
 
 .vs__actions {
-    display: inline-flex;
+  display: inline-flex;
 }
 
 #app {
@@ -45,7 +46,12 @@ import footerNav from './components/Footer.vue';
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #a9b5c1;
-  margin-top: 60px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  max-height: 100vh;
 }
 
 body {
@@ -62,9 +68,6 @@ html,
 body {
   margin: 0px;
   padding: 0;
-
-  display: flex;
-  justify-content: center;
 }
 
 h1 {
