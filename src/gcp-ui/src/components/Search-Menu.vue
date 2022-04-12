@@ -55,13 +55,44 @@ for (let index = 0; index < 13; index++) {
 
 .container-main {
     border-radius: 15px;
-    background-color: rgba(5, 21, 34, 0.75);
+    // background-color: rgba(5, 21, 34, 1.75);
 
     margin: 2vh 5vw;
 
     padding: 0 1em;
 
     overflow: hidden;
+
+
+    position: relative;
+    top: 0;
+
+
+    &::before {
+        content: '';
+        border-radius: 15px;
+        background-image: url("../assets/backsplash.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        background-origin: border-box;
+        background-position-x: center;
+        background-position-y: center;
+
+        filter: blur(2px);
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        z-index: -1;
+
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
 }
 
 .search-menu {
