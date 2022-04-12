@@ -6,6 +6,7 @@ using EFCore.NamingConventions.Internal;
 using GCP.Api.Data;
 using GCP.Api.Data.Entities;
 using GCP.Api.Data.Seeding;
+using GCP.Api.Services;
 using GCP.Api.Utilities;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -25,6 +27,7 @@ builder.Services.AddCors(options =>
 	options.AddDefaultPolicy(policy);
 });
 
+builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
 
 builder.Services.AddControllers(options =>
@@ -114,6 +117,30 @@ builder.Services.AddSwaggerGen(swagger =>
 		}] = Array.Empty<string>(),
 	});
 });
+
+
+
+builder.Services.AddScoped<ISteamSerivce, SteamSerivce>(sp =>
+{
+	IMemoryCache cache = sp.GetRequiredService<IMemoryCache>();
+	var steamAppNameCache = cache.Get<IDictionary<long, string>>(GCPConst.CacheKey.SteamAppNames);
+	if (steamAppNameCache is null)
+	{
+		var fileInfo = new FileInfo("./steamAppList.json");
+		if (fileInfo is { Exists: true, Length: > 0 })
+		{
+			var appListJson = File.ReadAllText(fileInfo.FullName);
+			steamAppNameCache = SteamSerivce.ParseSteamAppNames(appListJson);
+		}
+
+		cache.Set(GCPConst.CacheKey.SteamAppNames, steamAppNameCache ??= new Dictionary<long, string>());
+	}
+
+	var ss = ActivatorUtilities.CreateInstance<SteamSerivce>(sp);
+	ss.AddOrUpdateSteamAppNameCache(steamAppNameCache);
+	return ss;
+});
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 var app = builder.Build();
 
