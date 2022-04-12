@@ -36,7 +36,7 @@ public record SteamAppDetailsDTO(
 	//[property: JsonPropertyName("support_info")] SupportInfo SupportInfo,
 	[property: JsonPropertyName("background")] string Background,
 	[property: JsonPropertyName("background_raw")] string BackgroundRaw//,
-	//[property: JsonPropertyName("content_descriptors")] ContentDescriptors ContentDescriptors
+																	   //[property: JsonPropertyName("content_descriptors")] ContentDescriptors ContentDescriptors
 );
 
 public record PcRequirements(
