@@ -6,7 +6,7 @@ let platform: string[] = ["Windows", "Linux", "Mac"];
 
 let games: { title: string, desc: string }[] = [];
 
-for (let index = 0; index < 10; index++) {
+for (let index = 0; index < 13; index++) {
     games.push({
         title: 'RimWorld',
         desc: 'This is the RimWorld game descriptions'
@@ -37,14 +37,10 @@ for (let index = 0; index < 10; index++) {
                     </li>
                 </ul>
             </section>
-        </section>
-    </div>
+        </section>  </div>
 </template>
 
-<style lang="scss" scoped>
-
-
-.pill-menus {
+<style lang="scss" scoped>.pill-menus {
     display: flex;
     justify-content: space-between;
 }
@@ -58,8 +54,8 @@ for (let index = 0; index < 10; index++) {
 .container-main {
     min-height: 80vh;
 
-    background-color: #051522;
     border-radius: 15px;
+    background-color: rgba(5, 21, 34, 0.75);
 
     margin: 2vh 5vw;
 
@@ -73,7 +69,7 @@ for (let index = 0; index < 10; index++) {
     grid-template-rows: 20% 10%;
 }
 
-.search-field > p {
+.search-field>p {
     margin-bottom: 0.25em;
 
     color: white;
@@ -85,7 +81,7 @@ for (let index = 0; index < 10; index++) {
     margin-left: 0;
 }
 
-.search-field > input {
+.search-field>input {
     width: 100%;
     height: 5vh;
 
@@ -112,18 +108,17 @@ for (let index = 0; index < 10; index++) {
     text-align: start;
 }
 
-.search-results > ul {
+.search-results>ul {
     list-style-type: none;
 
     margin: 0;
     padding: 0;
 }
 
-.search-results .game-list > p {
+.search-results .game-list>p {
     font-size: 0.75em;
 }
 
 .search-results .game-list h3 {
     font-weight: 900;
-}
-</style>
+}</style>

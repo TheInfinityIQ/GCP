@@ -11,7 +11,6 @@ import footerNav from './components/Footer.vue';
   <searchMenu />
   <!-- Footer Start -->
   <footerNav />
-  
   <!-- Footer End -->
 </template>
 
@@ -19,6 +18,7 @@ import footerNav from './components/Footer.vue';
 // @import "./assets/style.scss";
 
 // Positioning of comps
+
 
 //Defaults
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap");
@@ -52,7 +52,6 @@ body {
   background-image: url("./assets/backsplash.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  // background-size: 100vw 80vh;
 
   background-origin: border-box;
   background-position-x: center;
