@@ -2,6 +2,9 @@
 using GCP.Api.DTOs;
 using GCP.Api.Services;
 
+using Gameloop.Vdf;
+using Gameloop.Vdf.Linq;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,18 +36,24 @@ public class SteamController : ApiController<SteamController>
 		var request = new ParseVdfRequestDTO(UserId, fs);
 		var result = await _steamSerivce.ParseVdfAsync(request, cancellationToken);
 		return HandleResult(result);
-	}
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "failed to retrieve steam games");
+			AddEmptyModelError("[INTERNAL] failed to retrieve steam games");
+			return StatusCode(500, ModelState);
+		}
 
 	[HttpGet("app")]
 	public async Task<ActionResult<IDictionary<long, string>>> Get(CancellationToken cancellationToken = default)
-	{
+		{
 		var result = await _steamSerivce.GetSteamAppListAsync(cancellationToken);
 		return HandleResult(result);
-	}
+		}
 
 	[HttpGet("app/{id:long}")]
 	public async Task<ActionResult<SteamAppDetailsDTO>> Get(long id, CancellationToken cancellationToken = default)
-	{
+		{
 		var result = await _steamSerivce.GetSteamAppDetailsAsync(id, cancellationToken);
 		return HandleResult(result);
 	}
