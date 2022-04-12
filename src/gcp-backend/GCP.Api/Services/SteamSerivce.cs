@@ -17,8 +17,8 @@ namespace GCP.Api.Services;
 
 public interface ISteamSerivce
 {
-	SteamSerivce AddOrUpdateSteamAppNameCache(IDictionary<long, string> steamAppNameCache);
-	Task<GCPResult<IDictionary<long, string>>> GetSteamAppListAsync(CancellationToken cancellationToken);
+	SteamSerivce AddOrUpdateSteamAppNameCache(SteamAppListDTO steamAppNameCache);
+	Task<GCPResult<SteamAppListDTO>> GetSteamAppListAsync(CancellationToken cancellationToken);
 	Task<GCPResult<SteamAppDetailsDTO>> GetSteamAppDetailsAsync(long appId, CancellationToken cancellationToken);
 	Task<GCPResult<ParseVdfResponseDTO>> ParseVdfAsync(ParseVdfRequestDTO requestDTO, CancellationToken cancellationToken = default);
 }
@@ -41,7 +41,7 @@ public class SteamSerivce : ISteamSerivce
 		_context = context;
 	}
 
-	public static IDictionary<long, string> ParseSteamAppNames(string appListJson)
+	public static SteamAppListDTO ParseSteamAppNames(string appListJson)
 	{
 		using var jDoc = JsonDocument.Parse(appListJson);
 		var steamApps = jDoc.RootElement
@@ -54,14 +54,15 @@ public class SteamSerivce : ISteamSerivce
 			.Where(x => x.AppId is > 0 && !string.IsNullOrWhiteSpace(x.Name))
 			.GroupBy(x => x.AppId, (k, r) => r.Where(x => !string.IsNullOrWhiteSpace(x.Name)).FirstOrDefault())
 			.OrderBy(x => x.AppId)
-			.ToDictionary(x => x.AppId, x => x.Name!);
+			.Select(x => new SteamAppListItemDTO(x.AppId, x.Name!))
+			.ToArray();
 
-		return steamAppNames;
+		return new SteamAppListDTO(steamAppNames);
 	}
 
-	public SteamSerivce AddOrUpdateSteamAppNameCache(IDictionary<long, string> steamAppNameCache)
+	public SteamSerivce AddOrUpdateSteamAppNameCache(SteamAppListDTO steamAppNameCache)
 	{
-		foreach (var (appId, appName) in steamAppNameCache)
+		foreach (var (appId, appName) in steamAppNameCache.SteamApps)
 		{
 			if (_steamGameNames.ContainsKey(appId))
 			{
@@ -155,10 +156,10 @@ public class SteamSerivce : ISteamSerivce
 		return GCPResult.Success<ParseVdfResponseDTO>(new(games));
 	}
 
-	public async Task<GCPResult<IDictionary<long, string>>> GetSteamAppListAsync(CancellationToken cancellationToken)
+	public async Task<GCPResult<SteamAppListDTO>> GetSteamAppListAsync(CancellationToken cancellationToken)
 	{
 		var cacheKey = GCPConst.CacheKey.SteamAppNames;
-		if (_memoryCache.TryGetValue<IDictionary<long, string>>(cacheKey, out var steamAppNames) && steamAppNames is not null)
+		if (_memoryCache.TryGetValue<SteamAppListDTO>(cacheKey, out var steamAppNames) && steamAppNames is not null)
 		{
 			return GCPResult.Success(steamAppNames);
 		}

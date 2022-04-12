@@ -6,6 +6,7 @@ using EFCore.NamingConventions.Internal;
 using GCP.Api.Data;
 using GCP.Api.Data.Entities;
 using GCP.Api.Data.Seeding;
+using GCP.Api.DTOs;
 using GCP.Api.Services;
 using GCP.Api.Utilities;
 
@@ -123,7 +124,7 @@ builder.Services.AddSwaggerGen(swagger =>
 builder.Services.AddScoped<ISteamSerivce, SteamSerivce>(sp =>
 {
 	IMemoryCache cache = sp.GetRequiredService<IMemoryCache>();
-	var steamAppNameCache = cache.Get<IDictionary<long, string>>(GCPConst.CacheKey.SteamAppNames);
+	var steamAppNameCache = cache.Get<SteamAppListDTO>(GCPConst.CacheKey.SteamAppNames);
 	if (steamAppNameCache is null)
 	{
 		var fileInfo = new FileInfo("./steamAppList.json");
@@ -133,7 +134,7 @@ builder.Services.AddScoped<ISteamSerivce, SteamSerivce>(sp =>
 			steamAppNameCache = SteamSerivce.ParseSteamAppNames(appListJson);
 		}
 
-		cache.Set(GCPConst.CacheKey.SteamAppNames, steamAppNameCache ??= new Dictionary<long, string>());
+		cache.Set(GCPConst.CacheKey.SteamAppNames, steamAppNameCache ??= new SteamAppListDTO(Array.Empty<SteamAppListItemDTO>()));
 	}
 
 	var ss = ActivatorUtilities.CreateInstance<SteamSerivce>(sp);

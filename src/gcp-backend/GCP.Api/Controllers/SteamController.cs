@@ -36,7 +36,7 @@ public class SteamController : ApiController<SteamController>
 	}
 
 	[HttpGet("app")]
-	public async Task<ActionResult<IDictionary<long, string>>> Get(CancellationToken cancellationToken = default)
+	public async Task<ActionResult<SteamAppListDTO>> Get(CancellationToken cancellationToken = default)
 	{
 		var result = await _steamSerivce.GetSteamAppListAsync(cancellationToken);
 		return HandleResult(result);
