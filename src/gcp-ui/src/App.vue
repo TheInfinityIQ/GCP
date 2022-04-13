@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
-import {RouterLink, RouterView} from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router'
 
 import logo from './components/Logo.vue';
-// import userGameList from './components/UserGameList.vue';
+import userGameList from './components/UserGameList.vue';
 // import searchGameList from './components/SearchGameList.vue';
 import footerNav from './components/Footer.vue';
+import SearchGameList from './components/SearchGameList.vue';
 // import hellowWorld from './components/HelloWorld.vue'
 
 </script>
@@ -13,9 +14,12 @@ import footerNav from './components/Footer.vue';
 <template>
   <logo />
   <!-- Body end -->
-  <router-view></router-view>
-  <router-link to="/searchGames">Go to Searched</router-link>
+  <!-- <router-link to="/searchGames">Go to Searched</router-link>
   <router-link to="/userGames">Go to UserGameList</router-link>
+  <router-link to="/userAccount">Go to userAccount</router-link> -->
+
+  <router-view></router-view>
+
   <!-- Footer Start -->
   <footer-nav />
   <!-- Footer End -->
@@ -56,9 +60,7 @@ import footerNav from './components/Footer.vue';
   justify-content: space-between;
   height: 100vh;
   max-height: 100vh;
-}
 
-body {
   background-image: url("./assets/backsplash.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -66,6 +68,10 @@ body {
   background-origin: border-box;
   background-position-x: center;
   background-position-y: center;
+}
+
+body {
+  
 }
 
 html,
