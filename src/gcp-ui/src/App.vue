@@ -1,19 +1,21 @@
 <script setup lang="ts">
 
-import logo from './components/logo.vue';
-import userGameList from './components/UserGameList.vue';
-import searchGameList from './components/SearchGameList.vue';
-import footerNav from './components/footer.vue';
-import hellowWorld from './components/HelloWorld.vue'
+import {RouterLink, RouterView} from 'vue-router'
+
+import logo from './components/Logo.vue';
+// import userGameList from './components/UserGameList.vue';
+// import searchGameList from './components/SearchGameList.vue';
+import footerNav from './components/Footer.vue';
+// import hellowWorld from './components/HelloWorld.vue'
 
 </script>
 
 <template>
   <logo />
   <!-- Body end -->
+  <router-view></router-view>
   <router-link to="/searchGames">Go to Searched</router-link>
   <router-link to="/userGames">Go to UserGameList</router-link>
-  <router-view></router-view>
   <!-- Footer Start -->
   <footer-nav />
   <!-- Footer End -->

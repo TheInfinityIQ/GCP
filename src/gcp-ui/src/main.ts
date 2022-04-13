@@ -9,7 +9,7 @@ import searchGameList from './components/SearchGameList.vue';
 import hellowWorld from './components/HelloWorld.vue'
 
 const routes = [
-    { path: '/', component: App},
+    // { path: '/', component: App},
     { path: '/searchGames', component: userGameList },
     { path: '/userGames', component: searchGameList },
     { path: '/hellowWorld', component: hellowWorld }
@@ -21,7 +21,7 @@ const routes = [
     routes, // short for `routes: routes`
   })
   
-  const app = createApp({})
+  const app = createApp(App)
 
   app.use(router)
 

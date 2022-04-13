@@ -1,5 +1,5 @@
 <script  setup lang="ts">
-import gameList from './game-list.vue';
+import gameList from './GameList.vue';
 
 let searchedGames: { title: string, desc: string }[] = [];
 
