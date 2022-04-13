@@ -22,15 +22,13 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="container-main">
-        <section class="search-menu">
-            <section class="search-field">
-                <p class="search-games-text">Search for games</p>
-                <input type="text" id="search" />
-                <section class="pill-menus">
-                    <v-select label="title" :options="sort" class="pill-menu"></v-select>
-                    <v-select label="title" :options="platform" class="pill-menu"></v-select>
-                </section>
+    <section class="search-menu">
+        <section class="search-field">
+            <p class="search-games-text">Search for games</p>
+            <input type="text" id="search" />
+            <section class="pill-menus">
+                <v-select label="title" :options="sort" class="pill-menu"></v-select>
+                <v-select label="title" :options="platform" class="pill-menu"></v-select>
             </section>
             <section class="search-results">
                 <ul>
@@ -41,7 +39,7 @@ const props = defineProps({
                 </ul>
             </section>
         </section>
-    </div>
+    </section>
 </template>
 
 <style lang="scss" scoped>
@@ -55,49 +53,6 @@ const props = defineProps({
 }
 
 // Search Menu
-
-.container-main {
-    border-radius: 15px;
-    // background-color: rgba(5, 21, 34, 1.75);
-
-    margin: 2vh 5vw;
-
-    padding: 0 1em;
-
-    overflow: hidden;
-
-
-    position: relative;
-    top: 0;
-
-
-    &::before {
-        content: '';
-        border-radius: 15px;
-        background-image: url("../assets/backsplash.jpg");
-        background-repeat: no-repeat;
-        background-size: cover;
-
-        background-origin: border-box;
-        background-position-x: center;
-        background-position-y: center;
-
-        filter: blur(2px);
-
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        z-index: -1;
-
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        width: 100%;
-    }
-}
-
 .search-field>p {
     margin-bottom: 0.25em;
 
@@ -119,8 +74,6 @@ const props = defineProps({
     border: 0;
     border-radius: 5px;
     background-color: #437096;
-
-    justify-self: center;
 }
 
 .search-results {

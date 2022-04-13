@@ -32,12 +32,7 @@ import footerNav from './footer.vue'
     </form>
 </template>
 
-<!-- <style>
-</style> -->
 
 <style scoped>
-    body > #app {
-        background-image: none;
-        background-color: #051522;
-    }
+
 </style>
