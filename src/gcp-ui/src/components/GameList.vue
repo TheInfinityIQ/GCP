@@ -2,46 +2,23 @@
 import vSelect from "vue-select";
 import { PropType, ref } from 'vue'
 
+
 // const searchGames = ref(true);
 
 let sort: string[] = ["New", "Hot", "Users"];
 let platform: string[] = ["Windows", "Linux", "Mac"];
 
-let searchedGames: { title: string, desc: string }[] = [];
-let userGames: { title: string, desc: string }[] = [];
-
-//To be got from API
-for (let index = 0; index < 13; index++) {
-  userGames.push({
-    title: 'YourGamesList',
-    desc: 'YadaYadaYada'
-  });
-}
-
-//To be got from API
-for (let index = 0; index < 3; index++) {
-  searchedGames.push({
-    title: 'SearchedGameList',
-    desc: 'This is the RimWorld game descriptions'
-  });
-}
-
 interface ListContent {
-    title: string, 
+    title: string,
     desc: string
 }
 
-// const props = withDefaults(defineProps<Props>(), {
-//     items: [{title: "test", desc: "Test"}]
-// })
-
 const props = defineProps({
-  items: {
-    type: Object as PropType<ListContent[]>,
-    required: true
-  }
+    items: {
+        type: Object as PropType<ListContent[]>,
+        required: true
+    },
 });
-
 </script>
 
 <template>

@@ -1,50 +1,21 @@
 <script setup lang="ts">
-import logo from './components/Logo.vue';
-import listContent from './components/ListContent.vue';
-import footerNav from './components/Footer.vue';
 
-let items = [{
-  title: 'YourGamesList',
-  desc: 'YadaYadaYada'
-},{
-  title: 'YourGamesList',
-  desc: 'YadaYadaYada'
-},{
-  title: 'YourGamesList',
-  desc: 'YadaYadaYada'
-},{
-  title: 'YourGamesList',
-  desc: 'YadaYadaYada'
-},{
-  title: 'YourGamesList',
-  desc: 'YadaYadaYada'
-},{
-  title: 'YourGamesList',
-  desc: 'YadaYadaYada'
-},{
-  title: 'YourGamesList',
-  desc: 'YadaYadaYada'
-},{
-  title: 'YourGamesList',
-  desc: 'YadaYadaYada'
-},{
-  title: 'YourGamesList',
-  desc: 'YadaYadaYada'
-},{
-  title: 'YourGamesList',
-  desc: 'YadaYadaYada'
-},{
-  title: 'YourGamesList',
-  desc: 'YadaYadaYada'
-}]
+import logo from './components/logo.vue';
+import userGameList from './components/UserGameList.vue';
+import searchGameList from './components/SearchGameList.vue';
+import footerNav from './components/footer.vue';
+import hellowWorld from './components/HelloWorld.vue'
+
 </script>
 
 <template>
   <logo />
   <!-- Body end -->
-  <listContent :items="items" />
+  <router-link to="/searchGames">Go to Searched</router-link>
+  <router-link to="/userGames">Go to UserGameList</router-link>
+  <router-view></router-view>
   <!-- Footer Start -->
-  <footerNav />
+  <footer-nav />
   <!-- Footer End -->
 </template>
 
