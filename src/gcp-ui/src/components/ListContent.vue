@@ -121,11 +121,6 @@ const props = defineProps({
     }
 }
 
-.search-menu {
-    display: grid;
-    grid-template-rows: 20% 10%;
-}
-
 .search-field>p {
     margin-bottom: 0.25em;
 
@@ -153,7 +148,7 @@ const props = defineProps({
 
 .search-results {
     margin-top: 1em;
-    max-height: 60vh; // Enables overflow scroll because it will resize without max height
+    max-height: 50vh; // Enables overflow scroll because it will resize without max height
 
     display: flex;
     flex-direction: column;
