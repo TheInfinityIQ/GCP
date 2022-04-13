@@ -1,14 +1,33 @@
 <script setup lang="ts">
 import logo from './components/Logo.vue';
-import searchMenu from './components/Search-Menu.vue';
+import listContent from './components/ListContent.vue';
 import footerNav from './components/Footer.vue';
 
+let items = [{
+  title: 'YourGamesList',
+  desc: 'YadaYadaYada'
+},{
+  title: 'YourGamesList',
+  desc: 'YadaYadaYada'
+},{
+  title: 'YourGamesList',
+  desc: 'YadaYadaYada'
+},{
+  title: 'YourGamesList',
+  desc: 'YadaYadaYada'
+},{
+  title: 'YourGamesList',
+  desc: 'YadaYadaYada'
+},{
+  title: 'YourGamesList',
+  desc: 'YadaYadaYada'
+}]
 </script>
 
 <template>
   <logo />
   <!-- Body end -->
-  <searchMenu />
+  <listContent :items="items" />
   <!-- Footer Start -->
   <footerNav />
   <!-- Footer End -->
@@ -16,9 +35,6 @@ import footerNav from './components/Footer.vue';
 
 <style lang="scss">
 // @import "./assets/style.scss";
-
-// Positioning of comps
-
 
 //Defaults
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap");

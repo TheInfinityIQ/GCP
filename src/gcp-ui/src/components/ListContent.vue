@@ -1,17 +1,52 @@
 <script setup lang="ts">
 import vSelect from "vue-select";
+import { PropType, ref } from 'vue'
+import { stringifyStyle } from "@vue/shared";
+
+// const searchGames = ref(true);
 
 let sort: string[] = ["New", "Hot", "Users"];
 let platform: string[] = ["Windows", "Linux", "Mac"];
 
-let games: { title: string, desc: string }[] = [];
+let searchedGames: { title: string, desc: string }[] = [];
+let userGames: { title: string, desc: string }[] = [];
 
+//To be got from API
 for (let index = 0; index < 13; index++) {
-    games.push({
-        title: 'RimWorld',
-        desc: 'This is the RimWorld game descriptions'
-    });
+  userGames.push({
+    title: 'YourGamesList',
+    desc: 'YadaYadaYada'
+  });
 }
+
+//To be got from API
+for (let index = 0; index < 3; index++) {
+  searchedGames.push({
+    title: 'SearchedGameList',
+    desc: 'This is the RimWorld game descriptions'
+  });
+}
+
+interface ListContent {
+    title: string, 
+    desc: string
+}
+
+interface ListArray { 
+    items?: ListContent[] 
+}
+
+// const props = withDefaults(defineProps<Props>(), {
+//     items: [{title: "test", desc: "Test"}]
+// })
+
+const props = defineProps({
+  items: {
+    type: Object as PropType<ListContent[]>,
+    required: true
+  }
+});
+
 </script>
 
 <template>
@@ -26,14 +61,10 @@ for (let index = 0; index < 13; index++) {
                 </section>
             </section>
             <section class="search-results">
-                <!-- <form action="https://localhost:5001/steam/parse-vdf" method="post">
-          <label for="fname">File:</label>
-          <input type="file" id="fname" name="fname" />
-                </form>-->
                 <ul>
-                    <li v-for="game in games" class="game-list">
-                        <h3>{{ game.title }}</h3>
-                        <p>{{ game.desc }}</p>
+                    <li v-for="list in items" class="game-list">
+                        <h3>{{ list.title }}</h3>
+                        <p>{{ list.desc }}</p>
                     </li>
                 </ul>
             </section>
