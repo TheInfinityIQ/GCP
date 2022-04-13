@@ -34,5 +34,4 @@ import footerNav from './footer.vue'
 
 
 <style scoped>
-
 </style>

@@ -1,32 +1,40 @@
 <script setup lang="ts">
-
+import { ref, onMounted } from "vue";
 import { RouterLink, RouterView } from 'vue-router'
 
 import logo from './components/Logo.vue';
-import userGameList from './components/UserGameList.vue';
+import UserGameList from './components/UserGameList.vue';
 // import searchGameList from './components/SearchGameList.vue';
-import footerNav from './components/Footer.vue';
+import FooterNav from './components/Footer.vue';
 import SearchGameList from './components/SearchGameList.vue';
 // import helloWorld from './components/HelloWorld.vue'
 
 
+//listen event
+// const bg = "no-bg"//from event
+// const wrapper = ref<HTMLDivElement>(null);
 
+// onMounted(() => {
+//   wrapper.value.style.display = "none";
+// });
 </script>
 
 <template>
-  <logo />
-  <!-- Body end -->
-  <!-- <router-link to="/searchGames">Go to Searched</router-link>
+  <div class="wrapper" ref="wrapper">
+    <logo />
+    <!-- Body end -->
+    <!-- <router-link to="/searchGames">Go to Searched</router-link>
   <router-link to="/userGames">Go to UserGameList</router-link>
   <router-link to="/userAccount">Go to userAccount</router-link> -->
 
-  <div class="container-main">
-    <router-view></router-view>
-  </div>
+    <div class="container-main">
+      <router-view></router-view>
+    </div>
 
-  <!-- Footer Start -->
-  <footer-nav />
-  <!-- Footer End -->
+    <!-- Footer Start -->
+    <footer-nav />
+    <!-- Footer End -->
+  </div>
 </template>
 
 <style lang="scss">
@@ -58,15 +66,15 @@ import SearchGameList from './components/SearchGameList.vue';
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #a9b5c1;
+}
 
+.wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
   max-height: 100vh;
-}
 
-body {
   background-image: url("./assets/backsplash.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -91,6 +99,7 @@ body {
   position: relative;
   top: 0;
 
+  z-index: 1;
 
   &::before {
     content: '';
