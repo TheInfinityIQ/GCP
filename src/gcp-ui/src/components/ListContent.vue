@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import vSelect from "vue-select";
 import { PropType, ref } from 'vue'
-import { stringifyStyle } from "@vue/shared";
 
 // const searchGames = ref(true);
 
@@ -30,10 +29,6 @@ for (let index = 0; index < 3; index++) {
 interface ListContent {
     title: string, 
     desc: string
-}
-
-interface ListArray { 
-    items?: ListContent[] 
 }
 
 // const props = withDefaults(defineProps<Props>(), {
