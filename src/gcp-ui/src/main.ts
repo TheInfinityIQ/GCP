@@ -8,12 +8,14 @@ import userGameList from './components/UserGameList.vue';
 import searchGameList from './components/SearchGameList.vue';
 import helloWorld from './components/HelloWorld.vue'
 import userAccount from './components/UserAccount.vue'
+import auth from './components/Auth.vue';
 
 const routes = [
   { path: '/searchGames', component: searchGameList },
   { path: '/userGames', component: userGameList },
   { path: '/hellowWorld', component: helloWorld },
   { path: '/userAccount', component: userAccount },
+  { path: '/auth', component: auth },
   { path: '/', component: searchGameList }
 ]
 

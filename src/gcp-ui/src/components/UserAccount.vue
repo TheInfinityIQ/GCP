@@ -43,11 +43,6 @@ import footerNav from './footer.vue'
 </style> -->
 
 <style scoped>
-body>#app {
-    background-image: none;
-    background-color: #051522;
-}
-
 input,
 label {
     margin: 0;
@@ -69,8 +64,6 @@ input {
 
 form {
     width: 100%;
-
-    overflow: scroll;
 
     display: flex;
     flex-direction: column;
