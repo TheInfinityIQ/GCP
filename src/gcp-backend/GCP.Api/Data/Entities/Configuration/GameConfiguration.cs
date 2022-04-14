@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GCP.Api.Utilities;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GCP.Api.Data.Entities.Configuration;
@@ -6,6 +8,7 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
 {
 	public void Configure(EntityTypeBuilder<Game> builder)
 	{
+		builder.ToTableSnakeCase(nameof(Game));
 		builder.Property(g => g.Name)
 			.IsRequired()
 			.IsUnicode();

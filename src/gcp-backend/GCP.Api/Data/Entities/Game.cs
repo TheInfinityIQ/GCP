@@ -7,7 +7,7 @@ public class Game
 	public GameMetadata Metadata { get; init; } = new GameMetadata();
 	public long? SteamAppId { get; set; }
 
-	public ICollection<User> Owners { get; set; } = new List<User>();
+	public ICollection<User> Owners { get; init; } = new List<User>();
 }
 
 
