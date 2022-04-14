@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using GCP.Api.Utilities;
 
-using GCP.Api.Utilities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GCP.Api.Data.Entities.Configuration;
 public class OwnedGameConfiguration : IEntityTypeConfiguration<OwnedGame>

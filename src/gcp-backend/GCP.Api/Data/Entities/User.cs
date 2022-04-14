@@ -5,5 +5,6 @@ namespace GCP.Api.Data.Entities;
 public class User : IdentityUser<int>
 {
 	public string DisplayName { get; set; } = default!;
-	public ICollection<Game> OwnedGames { get; set; } = new List<Game>();
+	public ICollection<Game> OwnedGames { get; init; } = new List<Game>();
+	public ICollection<GameList> JoinedGameLists { get; init; } = new List<GameList>();
 }
