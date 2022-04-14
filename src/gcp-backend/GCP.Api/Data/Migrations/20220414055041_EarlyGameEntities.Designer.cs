@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GCP.Api.Data.Migrations
 {
     [DbContext(typeof(GCPContext))]
-    [Migration("20220406041439_GameEntity")]
-    partial class GameEntity
+    [Migration("20220414055041_EarlyGameEntities")]
+    partial class EarlyGameEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,6 +75,25 @@ namespace GCP.Api.Data.Migrations
                         .HasDatabaseName("ix_game_steam_app_id");
 
                     b.ToTable("game", (string)null);
+                });
+
+            modelBuilder.Entity("GCP.Api.Data.Entities.OwnedGame", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("integer")
+                        .HasColumnName("game_id");
+
+                    b.HasKey("UserId", "GameId")
+                        .HasName("pk_owned_game");
+
+                    b.HasIndex("GameId")
+                        .HasDatabaseName("ix_owned_game_game_id");
+
+                    b.ToTable("owned_game", (string)null);
                 });
 
             modelBuilder.Entity("GCP.Api.Data.Entities.Role", b =>
@@ -333,6 +352,27 @@ namespace GCP.Api.Data.Migrations
                         .HasName("pk_user_token");
 
                     b.ToTable("user_token", (string)null);
+                });
+
+            modelBuilder.Entity("GCP.Api.Data.Entities.OwnedGame", b =>
+                {
+                    b.HasOne("GCP.Api.Data.Entities.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_owned_game_game_game_id");
+
+                    b.HasOne("GCP.Api.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_owned_game_users_user_id");
+
+                    b.Navigation("Game");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GCP.Api.Data.Entities.RoleClaim", b =>

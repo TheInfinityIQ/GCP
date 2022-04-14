@@ -365,7 +365,7 @@ namespace GCP.Api.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_owned_game_asp_net_users_user_id");
+                        .HasConstraintName("fk_owned_game_users_user_id");
 
                     b.Navigation("Game");
 
