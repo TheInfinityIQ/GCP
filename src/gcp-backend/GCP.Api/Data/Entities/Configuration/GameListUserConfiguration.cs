@@ -10,12 +10,12 @@ public class GameListUserConfiguration : IEntityTypeConfiguration<GameListUser>
 	public void Configure(EntityTypeBuilder<GameListUser> builder)
 	{
 		builder.ToTableSnakeCase(nameof(GameListUser));
-		builder.HasKey(z => new { z.GameListId, z.UserId });
-		builder.HasOne(z => z.GameList)
+		builder.HasKey(glu => new { glu.GameListId, glu.UserId });
+		builder.HasOne(glu => glu.GameList)
 			.WithMany()
-			.HasForeignKey(z => z.GameListId);
-		builder.HasOne(z => z.User)
+			.HasForeignKey(glu => glu.GameListId);
+		builder.HasOne(glu => glu.User)
 			.WithMany()
-			.HasForeignKey(z => z.UserId);
+			.HasForeignKey(glu => glu.UserId);
 	}
 }

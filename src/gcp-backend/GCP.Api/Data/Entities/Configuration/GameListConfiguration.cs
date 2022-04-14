@@ -36,6 +36,11 @@ public class GameListConfiguration : IEntityTypeConfiguration<GameList>
 			.IsRequired()
 			.HasForeignKey(gl => gl.OwnerId);
 
+		builder.HasOne(gl => gl.Owner)
+			.WithMany(u => u.OwnedGameLists)
+			.HasForeignKey(gl => gl.OwnerId)
+			.IsRequired();
+
 		builder.HasMany(gl => gl.Users)
 			.WithMany(u => u.JoinedGameLists)
 			.UsingEntity<GameListUser>();

@@ -9,12 +9,12 @@ public class OwnedGameConfiguration : IEntityTypeConfiguration<OwnedGame>
 	public void Configure(EntityTypeBuilder<OwnedGame> builder)
 	{
 		builder.ToTableSnakeCase(nameof(OwnedGame));
-		builder.HasKey(z => new { z.UserId, z.GameId });
-		builder.HasOne(z => z.Game)
+		builder.HasKey(og => new { og.UserId, og.GameId });
+		builder.HasOne(og => og.Game)
 			.WithMany()
-			.HasForeignKey(z => z.GameId);
-		builder.HasOne(z => z.User)
+			.HasForeignKey(og => og.GameId);
+		builder.HasOne(og => og.User)
 			.WithMany()
-			.HasForeignKey(z => z.UserId);
+			.HasForeignKey(og => og.UserId);
 	}
 }

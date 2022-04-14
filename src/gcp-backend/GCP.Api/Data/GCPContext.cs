@@ -15,6 +15,8 @@ public class GCPContext : IdentityDbContext<User, Role, int, UserClaim, UserRole
 
 	public DbSet<Game> Game => Set<Game>();
 	public DbSet<OwnedGame> OwnedGame => Set<OwnedGame>();
+	public DbSet<GameList> GameList => Set<GameList>();
+	public DbSet<GameListUser> GameListUser => Set<GameListUser>();
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
