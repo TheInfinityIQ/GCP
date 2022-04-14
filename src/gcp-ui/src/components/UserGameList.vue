@@ -14,5 +14,5 @@ for (let index = 0; index < 13; index++) {
 </script>
 
 <template>
-    <game-list :items="userGames" />
+    <game-list :items="userGames" :create="true"/>
 </template>

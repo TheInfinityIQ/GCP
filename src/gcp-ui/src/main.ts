@@ -5,6 +5,7 @@ import 'vue-select/dist/vue-select.css';
 // Routes
 import App from './App.vue'
 import userGameList from './components/UserGameList.vue';
+import createGameList from './components/CreateGameList.vue';
 import searchGameList from './components/SearchGameList.vue';
 import helloWorld from './components/HelloWorld.vue'
 import userAccount from './components/UserAccount.vue'
@@ -13,6 +14,7 @@ import auth from './components/Auth.vue';
 const routes = [
   { path: '/searchGames', component: searchGameList },
   { path: '/userGames', component: userGameList },
+  { path: '/userGames/create', component: createGameList },
   { path: '/hellowWorld', component: helloWorld },
   { path: '/userAccount', component: userAccount },
   { path: '/auth', component: auth },

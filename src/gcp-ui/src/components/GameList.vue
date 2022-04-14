@@ -18,6 +18,7 @@ const props = defineProps({
         type: Object as PropType<ListContent[]>,
         required: true
     },
+    create: Boolean
 });
 </script>
 
@@ -32,6 +33,12 @@ const props = defineProps({
             </section>
             <section class="search-results">
                 <ul>
+                    <li v-if="create" class="inline">
+                        <h3>
+                            Create New List
+                        </h3>
+                        <button>Create</button>
+                    </li>
                     <li v-for="list in items" class="game-list">
                         <h3>{{ list.title }}</h3>
                         <p>{{ list.desc }}</p>
@@ -63,6 +70,21 @@ const props = defineProps({
 
     justify-self: center;
     margin-left: 0;
+}
+
+button {
+    margin-left: 2em;
+    height: 3em;
+    align-self: center;
+}
+
+.inline {
+    // display: inline-flex;
+    // border: 1px solid white;
+    text-align: start;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .search-field>input {
