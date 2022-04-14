@@ -24,6 +24,8 @@ public enum GCPErrorCode
 	DisplayNameIsAlreadyTaken,
 
 	MissingConfiguration,
+
+	TitleIsAlreadyTaken,
 }
 
 public static class GCPErrorCodeExtensions
