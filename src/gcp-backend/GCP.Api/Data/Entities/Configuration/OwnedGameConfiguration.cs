@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using GCP.Api.Utilities;
+
 namespace GCP.Api.Data.Entities.Configuration;
 public class OwnedGameConfiguration : IEntityTypeConfiguration<OwnedGame>
 {
 	public void Configure(EntityTypeBuilder<OwnedGame> builder)
 	{
+		builder.ToTableSnakeCase(nameof(OwnedGame));
 		builder.HasKey(z => new { z.UserId, z.GameId });
 		builder.HasOne(z => z.Game)
 			.WithMany()

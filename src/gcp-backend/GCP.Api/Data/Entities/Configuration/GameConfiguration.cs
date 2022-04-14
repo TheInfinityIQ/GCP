@@ -19,5 +19,9 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
 		builder.HasIndex(g => g.Name).IsUnique();
 		builder.HasIndex(g => g.NormalizedName).IsUnique();
 		builder.HasIndex(g => g.SteamAppId).IsUnique();
+
+		builder.HasMany(g => g.Owners)
+			.WithMany(u => u.OwnedGames)
+			.UsingEntity<OwnedGame>();
 	}
 }
