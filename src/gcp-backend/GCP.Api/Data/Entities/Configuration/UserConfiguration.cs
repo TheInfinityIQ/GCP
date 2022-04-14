@@ -20,6 +20,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 		builder.HasIndex(u => u.DisplayName)
 			.IsUnique();
 
+		builder.HasMany(u => u.OwnedGameLists)
+			.WithOne(gl => gl.Owner)
+			.HasForeignKey(gl => gl.OwnerId)
+			.IsRequired();
+
 		builder.HasMany(u => u.OwnedGames)
 			.WithMany(g => g.Owners)
 			.UsingEntity<OwnedGame>();

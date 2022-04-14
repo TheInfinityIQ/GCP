@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GCP.Api.Data.Migrations
 {
     [DbContext(typeof(GCPContext))]
-    [Migration("20220414055440_EarlyGameListEntities")]
+    [Migration("20220414064312_EarlyGameListEntities")]
     partial class EarlyGameListEntities
     {
         /// <inheritdoc />
@@ -163,19 +163,12 @@ namespace GCP.Api.Data.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
 
-                    b.Property<int>("JoinedGameListsId")
-                        .HasColumnType("integer")
-                        .HasColumnName("joined_game_lists_id");
-
                     b.Property<DateTimeOffset>("JoinedOnUtc")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("joined_on_utc");
 
                     b.HasKey("GameListId", "UserId")
                         .HasName("pk_game_list_user");
-
-                    b.HasIndex("JoinedGameListsId")
-                        .HasDatabaseName("ix_game_list_user_joined_game_lists_id");
 
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_game_list_user_user_id");
@@ -463,7 +456,7 @@ namespace GCP.Api.Data.Migrations
             modelBuilder.Entity("GCP.Api.Data.Entities.GameList", b =>
                 {
                     b.HasOne("GCP.Api.Data.Entities.User", "Owner")
-                        .WithMany()
+                        .WithMany("OwnedGameLists")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -481,19 +474,12 @@ namespace GCP.Api.Data.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_game_list_user_game_list_game_list_id");
 
-                    b.HasOne("GCP.Api.Data.Entities.GameList", null)
-                        .WithMany()
-                        .HasForeignKey("JoinedGameListsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_game_list_user_game_list_joined_game_lists_id");
-
                     b.HasOne("GCP.Api.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_game_list_user_asp_net_users_user_id");
+                        .HasConstraintName("fk_game_list_user_users_user_id");
 
                     b.Navigation("GameList");
 
@@ -576,6 +562,11 @@ namespace GCP.Api.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_token_user_user_id");
+                });
+
+            modelBuilder.Entity("GCP.Api.Data.Entities.User", b =>
+                {
+                    b.Navigation("OwnedGameLists");
                 });
 #pragma warning restore 612, 618
         }

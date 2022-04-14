@@ -21,6 +21,7 @@ public abstract class ApiController<T> : Controller
 	protected readonly SignInManager<User> _signInManager;
 
 	protected int? UserId => GetUserIdOrNull();
+	protected bool IsAuthenticated => User?.Identity?.IsAuthenticated == true;
 
 	public ApiController(ILogger<T> logger, IHostEnvironment environment, IConfiguration configuration, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager)
 	{
