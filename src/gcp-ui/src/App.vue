@@ -2,38 +2,43 @@
 import { ref, onMounted } from "vue";
 import { RouterLink, RouterView } from 'vue-router'
 
-import logo from './components/Logo.vue';
+import Logo from './components/Logo.vue';
 import UserGameList from './components/UserGameList.vue';
 // import searchGameList from './components/SearchGameList.vue';
 import FooterNav from './components/Footer.vue';
 import SearchGameList from './components/SearchGameList.vue';
+import { BgType, Enum } from "./enums";
 // import helloWorld from './components/HelloWorld.vue'
 
 
-//listen event
-// const bg = "no-bg"//from event
-// const wrapper = ref<HTMLDivElement>(null);
+const blurBackClasses = ref<{ [field: string]: boolean }>({});
+const wrapperClasses = ref<{ [field: string]: boolean }>({});
+const changeBg = (type?: BgType): void => {
+  if (type === undefined || type === BgType.Default) {
+    return;
+  }
+  const containsBg = (t: BgType) => (type & t) === t;
 
-// onMounted(() => {
-//   wrapper.value.style.display = "none";
-// });
+  wrapperClasses.value["no-bg"] = containsBg(BgType.NoBackgroundPicture);
+  blurBackClasses.value["no-blur-bg"] = containsBg(BgType.NoBackgroundPicture);
+}
+
 </script>
 
 <template>
-  <div class="wrapper" ref="wrapper">
+  <div :class="{ 'wrapper': true, ...wrapperClasses }">
     <logo />
-    <!-- Body end -->
-    <!-- <router-link to="/searchGames">Go to Searched</router-link>
-  <router-link to="/userGames">Go to UserGameList</router-link>
-  <router-link to="/userAccount">Go to userAccount</router-link> -->
+    <!-- 
+      <router-link to="/searchGames">Go to Searched</router-link>
+      <router-link to="/userGames">Go to UserGameList</router-link>
+      <router-link to="/userAccount">Go to userAccount</router-link> 
+    -->
 
-    <div class="container-main">
-      <router-view></router-view>
+    <div :class="{ 'container-main': true, ...blurBackClasses }">
+      <router-view @bg-change="changeBg"></router-view>
     </div>
 
-    <!-- Footer Start -->
     <footer-nav />
-    <!-- Footer End -->
   </div>
 </template>
 
@@ -84,6 +89,11 @@ import SearchGameList from './components/SearchGameList.vue';
   background-position-y: center;
 }
 
+.wrapper.no-bg {
+  background-image: none;
+  background-color: #051522;
+}
+
 
 .container-main {
   border-radius: 15px;
@@ -128,6 +138,11 @@ import SearchGameList from './components/SearchGameList.vue';
   }
 }
 
+.container-main.no-blur-bg {
+  &::before {
+    display: none;
+  }
+}
 
 html,
 body {

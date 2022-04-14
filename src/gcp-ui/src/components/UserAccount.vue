@@ -1,6 +1,16 @@
-<script  setup lang="ts">
-import logo from './Logo.vue'
-import footerNav from './footer.vue'
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import { BgType } from '../enums';
+
+const emit = defineEmits<{
+    (event: "bg-change", type?: BgType): void
+}>();
+
+onMounted(() => {
+    emit("bg-change", BgType.NoBackgrounds);
+    // emit("bg-change", BgType.NoBlurBackground);
+    // emit("bg-change", BgType.NoBackgroundPicture);
+})
 
 </script>
 
