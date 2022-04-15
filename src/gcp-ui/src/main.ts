@@ -1,4 +1,4 @@
-import { createWebHashHistory, createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import { createApp } from 'vue';
 import 'vue-select/dist/vue-select.css';
 
