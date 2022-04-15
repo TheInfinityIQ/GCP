@@ -12,7 +12,10 @@ public record GameListDTO(
 	DateTimeOffset CreatedOnUtc,
 	DateTimeOffset? LastUpdatedOnUtc,
 	IEnumerable<UserDisplayNameDTO> Users);
-public record GameListSearchRequestDTO();
+public record GameListSearchRequestDTO(
+	[property: JsonIgnore] int? UserId,
+	bool? HasDiscord = null,
+	DateTimeOffset? ActiveFrom = null);
 public record GameListDetailsRequestDTO(int Id);
 public record GameListCreateRequestDTO(
 	string Title,
