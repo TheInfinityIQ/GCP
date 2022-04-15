@@ -53,8 +53,8 @@ public abstract class ApiController<T> : Controller
 		{
 			var key = (errorCode, (int)errorCode) switch
 			{
-				var (code, number) when number >= GCPErrorCodeExtensions.DomainErrorStartingPoint => $"B_{code}",
-				var (code, _) => $"E_{code}",
+				var (code, number) when number >= GCPErrorCodeExtensions.DomainErrorStartingPoint => $"B_{number}",
+				var (code, number) => $"E_{number}",
 			};
 			ModelState.AddModelError(key, message ?? "An error has occurred.");
 		}
@@ -72,6 +72,16 @@ public abstract class ApiController<T> : Controller
 		return NoContent();
 	}
 
+	protected virtual ActionResult HandleResult(GCPResult result, Func<GCPResult, ActionResult> successHandler)
+	{
+		if (result.Failed)
+		{
+			return HandleErrorResult(result);
+		}
+
+		return successHandler(result);
+	}
+
 	protected virtual ActionResult<TContent> HandleResult<TContent>(GCPResult<TContent> result)
 	{
 		if (result.Failed)
@@ -80,6 +90,16 @@ public abstract class ApiController<T> : Controller
 		}
 
 		return Ok(result.Content);
+	}
+
+	protected virtual ActionResult<TContent> HandleResult<TContent>(GCPResult<TContent> result, Func<GCPResult<TContent>, ActionResult<TContent>> successHandler)
+	{
+		if (result.Failed)
+		{
+			return HandleErrorResult(result);
+		}
+
+		return successHandler(result);
 	}
 
 	protected virtual ActionResult HandleErrorResult(GCPResult result)
