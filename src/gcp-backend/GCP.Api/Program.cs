@@ -142,6 +142,7 @@ builder.Services.AddScoped<ISteamSerivce, SteamSerivce>(sp =>
 	return ss;
 });
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IGameListSerivce, GameListSerivce>();
 
 var app = builder.Build();
 
