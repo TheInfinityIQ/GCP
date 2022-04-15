@@ -12,8 +12,9 @@ const onClick = (path: string) => {
 <template>
   <nav>
     <ul class="mobile-nav">
-      <li><button class="circle" @click="onClick('')">L</button></li>
-      <li><button class="circle" @click="onClick('')">A</button></li>
+      <li><router-link to="/search-games" class="circle">SG</router-link></li>
+      <li><router-link to="/user-games" class="circle">UG</router-link></li>
+      <li><router-link to="/user-account" class="circle">A</router-link></li>
     </ul>
   </nav>
 </template>
@@ -35,35 +36,22 @@ nav>ul {
   color: white;
 }
 
-button {
-  border-radius: 25px;
-  border: 1px solid white;
+.circle {
+  display: flex;
 
+  border: 2px solid white;
   width: 3rem;
   height: 3rem;
+  border-radius: 25px;
+
+  align-items: center;
+  justify-content: center;
+
+  user-select: none;
+
+  &:hover {
+    cursor: pointer;
+    color: #42b983;
+  }
 }
-
-button:hover {
-  cursor: pointer;
-  background-color: green;
-}
-
-// .circle {
-//   display: flex;
-
-//   border: 2px solid white;
-//   width: 3rem;
-//   height: 3rem;
-//   border-radius: 25px;
-
-//   align-items: center;
-//   justify-content: center;
-
-//   user-select: none;
-
-//   &:hover {
-//     cursor: pointer;
-//     color: #42b983;
-//   }
-// }
 </style>

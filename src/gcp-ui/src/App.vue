@@ -22,21 +22,17 @@ const changeBg = (type?: BgType): void => {
   blurBackClasses.value["no-blur-bg"] = containsBg(BgType.NoBackgroundPicture);
 }
 
+onMounted(async () => {
+  console.log(await (await fetch("https://localhost:5001/api/Secret/public")).json());
+})
 </script>
 
 <template>
   <div :class="{ 'wrapper': true, ...wrapperClasses }">
     <logo />
-    <!-- 
-      <router-link to="/searchGames">Go to Searched</router-link>
-      <router-link to="/userGames">Go to UserGameList</router-link>
-      <router-link to="/userAccount">Go to userAccount</router-link> 
-    -->
-
     <div :class="{ 'container-main': true, ...blurBackClasses }">
       <router-view @bg-change="changeBg"></router-view>
     </div>
-
     <footer-nav />
   </div>
 </template>
