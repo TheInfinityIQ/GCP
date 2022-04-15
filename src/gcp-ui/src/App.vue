@@ -7,9 +7,8 @@ import UserGameList from './components/UserGameList.vue';
 // import searchGameList from './components/SearchGameList.vue';
 import FooterNav from './components/Footer.vue';
 import SearchGameList from './components/SearchGameList.vue';
-import { BgType, Enum } from "./enums";
+import { BgType } from "./enums"; // Removed , Enum -> Causing errors
 // import helloWorld from './components/HelloWorld.vue'
-
 
 const blurBackClasses = ref<{ [field: string]: boolean }>({});
 const wrapperClasses = ref<{ [field: string]: boolean }>({});
@@ -70,7 +69,7 @@ const changeBg = (type?: BgType): void => {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #a9b5c1;
+  // color: #a9b5c1; White is more readable
 }
 
 .wrapper {
@@ -144,6 +143,28 @@ const changeBg = (type?: BgType): void => {
   }
 }
 
+input {
+    width: 95%;
+    height: 5vh;
+
+    margin-bottom: 0.5em;
+
+    border: 0;
+    border-radius: 5px;
+    background-color: #437096;
+}
+
+label {
+  color: white;
+}
+
+[type='submit'] {
+  background-color: #0E3D63;
+  color: #a9b5c1;
+
+  margin-bottom: 1em;
+}
+
 html,
 body {
   margin: 0px;
@@ -164,25 +185,6 @@ h5,
 p {
   font-family: "Inter", sans-serif;
   color: white;
-}
-
-.circle {
-  display: flex;
-
-  border: 2px solid white;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 25px;
-
-  align-items: center;
-  justify-content: center;
-
-  user-select: none;
-
-  &:hover {
-    cursor: pointer;
-    color: #42b983;
-  }
 }
 
 .inline {

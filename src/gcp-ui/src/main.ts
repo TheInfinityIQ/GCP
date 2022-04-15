@@ -9,15 +9,17 @@ import createGameList from './components/CreateGameList.vue';
 import searchGameList from './components/SearchGameList.vue';
 import helloWorld from './components/HelloWorld.vue'
 import userAccount from './components/UserAccount.vue'
-import auth from './components/Auth.vue';
+import SignIn from './components/SignIn.vue';
+import SignUp from './components/SignUp.vue';
 
 const routes = [
-  { path: '/searchGames', component: searchGameList },
-  { path: '/userGames', component: userGameList },
-  { path: '/userGames/create', component: createGameList },
-  { path: '/hellowWorld', component: helloWorld },
-  { path: '/userAccount', component: userAccount },
-  { path: '/auth', component: auth },
+  { path: '/search-games', component: searchGameList },
+  { path: '/user-games', component: userGameList },
+  { path: '/user-games/create', component: createGameList },
+  { path: '/hello-world', component: helloWorld },
+  { path: '/user-account', component: userAccount },
+  { path: '/sign-in', component: SignIn },
+  { path: '/sign-up', component: SignUp },
   { path: '/', component: searchGameList }
 ]
 

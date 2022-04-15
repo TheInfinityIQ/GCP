@@ -1,6 +1,18 @@
 <script  setup lang="ts">
 import logo from './Logo.vue'
 import footerNav from './footer.vue'
+import { BgType } from '../enums';
+import { onMounted } from 'vue';
+
+const emit = defineEmits<{
+    (e: "bg-change", type?: BgType): void
+}>()
+
+onMounted(() => {
+    emit("bg-change", BgType.NoBackgrounds);
+    // emit("bg-change", BgType.NoBlurBackground);
+    // emit("bg-change", BgType.NoBackgroundPicture);
+})
 
 </script>
 
@@ -9,18 +21,28 @@ import footerNav from './footer.vue'
         <!-- UpdateAPI and return to home -->
         <section class="user-information big-input">
             <h1>User Information</h1>
-            <label for="username">UserName:</label>
-            <input type="text" id="username">
-            <label for="email">Email:</label>
-            <input type="email" id="email">
-            <label for="languages">Languages:</label>
-            <input type="text" id="languages">
+            <div class="big-input">
+                <label for="username">UserName:</label>
+                <input type="text" id="username">
+            </div>
+            <div class="big-input">
+                <label for="email">Email:</label>
+                <input type="email" id="email">
+            </div>
+            <div class="big-input">
+                <label for="languages">Languages:</label>
+                <input type="text" id="languages">
+            </div>
         </section>
         <!-- Inline -->
         <section class="inline">
             <div class="small-input">
                 <label for="pronouns">Pronouns</label>
                 <input type="text" id="pronouns">
+            </div>
+            <div class="small-input">
+                <label for="gender">Gender</label>
+                <input type="text" id="gender">
             </div>
             <div class="small-input">
                 <label for="age">Age</label>
@@ -36,6 +58,7 @@ import footerNav from './footer.vue'
             <input type="text" id="discord">
         </section>
         <input type="submit" value="Apply" class="apply-button">
+        <input type="submit" value="Upload Steam Games" class="apply-button">
     </form>
 </template>
 
@@ -43,17 +66,15 @@ import footerNav from './footer.vue'
 </style> -->
 
 <style scoped>
-input,
-label {
-    margin: 0;
+
+.big-input, .small-input {
+    /* border: 1px solid white; */
+    
+    margin: 0.5em 0;
 }
 
-input {
-    width: 95%;
-}
-
-.small-input > input {
-    width: 45%;
+.small-input>input {
+    width: 90%;
 }
 
 .small-input {
@@ -69,22 +90,12 @@ form {
     flex-direction: column;
     align-items: center;
 
-    padding: 0;
+    overflow: scroll;
+
+    max-height: 95%;
 }
 
-.inline {
-    display: inline-flex;
-}
-
-form > section {
+form>section {
     width: 100%;
 }
-
-.apply-button {
-    width: 30%;
-    
-    min-width: 60px;
-}
-
-
 </style>

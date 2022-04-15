@@ -6,7 +6,7 @@
     <form action="">
         <!-- UpdateAPI and return to home -->
         <div class="block">
-            <label for="email">Username or Email Address:</label>
+            <label for="email">Email Address:</label>
             <input type="text" id="email">
         </div>
         <div class="block">
@@ -23,7 +23,7 @@
 
 <style scoped>
 form {
-    margin-top: 5em;
+    margin-top: 1em;
 
     width: 100%;
 
