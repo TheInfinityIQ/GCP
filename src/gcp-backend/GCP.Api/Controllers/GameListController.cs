@@ -27,9 +27,9 @@ public class GameListController : ApiController<GameListController>
 
 	[HttpGet]
 	[AllowAnonymous]
-	public async Task<ActionResult<GameListsResponseDTO>> Get(CancellationToken cancellationToken = default)
+	public async Task<ActionResult<GameListsResponseDTO>> Get(bool? hasDiscord = null, DateTimeOffset? activeFrom = null, CancellationToken cancellationToken = default)
 	{
-		var result = await _gameListSerivce.SearchAsync(new(), cancellationToken);
+		var result = await _gameListSerivce.SearchAsync(new GameListSearchRequestDTO(UserId, hasDiscord, activeFrom), cancellationToken);
 		return HandleResult(result);
 	}
 

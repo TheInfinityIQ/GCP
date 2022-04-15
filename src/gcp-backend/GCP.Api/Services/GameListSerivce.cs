@@ -30,9 +30,35 @@ public class GameListSerivce : IGameListSerivce
 
 	public async Task<GCPResult<GameListsResponseDTO>> SearchAsync(GameListSearchRequestDTO requestDTO, CancellationToken cancellationToken = default)
 	{
-		_ = requestDTO; //TODO: search logic
-		var gameLists = await _context.GameList
-			.AsNoTracking()
+		var searchQuery = _context.GameList.AsNoTracking();
+
+		var user = requestDTO.UserId is not null
+			? await _context.Users.SingleOrDefaultAsync(u => u.Id == requestDTO.UserId, cancellationToken)
+			: null;
+
+		if (user is not null)
+		{
+			searchQuery = searchQuery = searchQuery.Where(gl => gl.IsPublic || (gl.OwnerId == user.Id) || gl.Users.Any(u => u.Id == user.Id));
+		}
+		else
+		{
+			searchQuery = searchQuery.Where(gl => gl.IsPublic);
+		}
+
+		if (requestDTO.HasDiscord is not null)
+		{
+			//searchQuery = searchQuery.Where(gl => gl.) //TODO
+		}
+
+		if (requestDTO.ActiveFrom is not null)
+		{
+			requestDTO = requestDTO with { ActiveFrom = requestDTO.ActiveFrom.Value.ToOffset(TimeSpan.Zero) };
+			searchQuery = searchQuery.Where(gl => gl.LastUpdatedOnUtc >= requestDTO.ActiveFrom);
+		}
+
+		var gameLists = await searchQuery
+			.OrderByDescending(gl => gl.CreatedOnUtc)
+			.ThenByDescending(gl => gl.LastUpdatedOnUtc)
 			.Select(gl => new GameListDTO(
 				gl.Id,
 				new(gl.OwnerId, gl.Owner.DisplayName),
