@@ -1,4 +1,4 @@
-import { TokenResponse } from "./models";
+import { TokenResponse, SecretResponse } from "./models";
 
 const enum HttpMethods {
     GET = "GET",
@@ -51,6 +51,22 @@ class BaseApi {
             throw error;
         }
     }
+
+    public IsAuthenticated(): Boolean {
+        return !!localStorage.getItem("login");
+    }
+
+    public GetCachedAccessToken(): TokenResponse | undefined {
+        if (this.IsAuthenticated()) {
+            return JSON.parse(localStorage.getItem("login") ?? "{}");
+        } else {
+            return undefined;
+        }
+    }
+
+    public SetCachedAccessToken(token: TokenResponse) {
+        localStorage.setItem("login", JSON.stringify(token));
+    }
 }
 
 export class Api extends BaseApi {
@@ -69,8 +85,22 @@ export class Api extends BaseApi {
         const tokenJsonResponse: TokenResponse = await tokenResponse.json();
 
         //put at call site SoC
-        // localStorage.setItem("login", JSON.stringify(tokenJsonResponse));
+        this.SetCachedAccessToken(tokenJsonResponse);
 
         return tokenJsonResponse;
+    }
+
+    public async GetSecretAsync(): Promise<SecretResponse> {
+        const uri: string = "api/Secret";
+
+        const token: TokenResponse | undefined = this.GetCachedAccessToken();
+        if (!token) throw new Error("API: Not authenticated");
+
+        const headers: HeadersInit = { Authorization: `Bearer ${token.accessToken}` };
+
+        const secretResponse: Response = await this.SendGETRequestAsync(uri, headers);
+        const secretJsonResponse: SecretResponse = await secretResponse.json();
+
+        return secretJsonResponse;
     }
 }
