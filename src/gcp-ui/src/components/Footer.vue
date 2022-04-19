@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routerKey, RouterLink, useRouter} from 'vue-router';
+import { routerKey, RouterLink, useRouter } from 'vue-router';
 
 const router = useRouter();
 

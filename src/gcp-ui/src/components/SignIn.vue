@@ -1,4 +1,17 @@
-<script  setup lang="ts">
+<script setup lang="ts">
+import { onMounted } from "vue";
+import { BgType } from "../enums.ts";
+
+const emit = defineEmits<{
+    (e: "bg-change", type?: BgType): void
+}>();
+
+onMounted(() => {
+    // emit("bg-change", BgType.NoBackgrounds);
+    // emit("bg-change", BgType.NoBlurBackground);
+    // emit("bg-change", BgType.NoBackgroundPicture);
+    emit("bg-change", BgType.Default);
+})
 
 </script>
 
@@ -44,7 +57,7 @@ form {
     align-items: center;
 }
 
-.block > input {
+.block>input {
     width: 95%;
     max-width: 250px;
 }

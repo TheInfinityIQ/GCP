@@ -1,4 +1,5 @@
-<script  setup lang="ts">import { onMounted } from 'vue';
+<script  setup lang="ts">
+import { onMounted } from 'vue';
 import { BgType } from '../enums';
 
 
@@ -17,7 +18,3 @@ onMounted(() => {
 <template>
     
 </template>
-
-<style scoped>
-
-</style>

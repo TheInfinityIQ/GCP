@@ -1,6 +1,6 @@
-<script  setup lang="ts">import { onMounted } from 'vue';
+<script  setup lang="ts">
+import { onMounted } from 'vue';
 import { BgType } from '../enums';
-
 
 const emit = defineEmits<{
     (e: "bg-change", type?: BgType): void
@@ -17,7 +17,3 @@ onMounted(() => {
 <template>
     
 </template>
-
-<style scoped>
-
-</style>
