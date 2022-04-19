@@ -28,13 +28,18 @@ class BaseApi {
 
     public async SendRequestAsync(uri: string, body?: object, method?: HttpMethods, headers?: HeadersInit): Promise<Response> {
         try {
+            const isBodyHere: Boolean = !!body;
+            const myMethod: HttpMethods = method ?? HttpMethods.POST;
+            const myHeaders: HeadersInit = isBodyHere ? { "Content-Type": "application/json", ...headers } : { ...headers };
+            const myBody: BodyInit | undefined = isBodyHere ? JSON.stringify(body) : undefined;
+
             const response = await fetch(`${this._path}/${uri}`, {
-                method: method ?? HttpMethods.POST,
-                headers: headers,
-                body: body ? JSON.stringify(body) : undefined,
+                method: myMethod,
+                headers: myHeaders,
+                body: myBody,
             });
 
-            // TODO: Update to use a callback to handle "non-2.." status codes 
+            // TODO: Update to use a callback to handle "non-2.." status codes
             // or use a custom error class that stores the resposne and have the caller read response for errors...
             if (!response?.ok) {
                 throw new Error(`[${response.status}] response not ok`);
@@ -59,14 +64,12 @@ export class Api extends BaseApi {
             email: email,
             password: password,
         };
-        const headers: HeadersInit = {
-            "Content-Type": "application/json",
-        };
 
-        const tokenResponse: Response = await this.SendPOSTRequestAsync(uri, body, headers);
+        const tokenResponse: Response = await this.SendPOSTRequestAsync(uri, body);
         const tokenJsonResponse: TokenResponse = await tokenResponse.json();
 
-        localStorage.setItem("login", JSON.stringify(tokenJsonResponse));
+        //put at call site SoC
+        // localStorage.setItem("login", JSON.stringify(tokenJsonResponse));
 
         return tokenJsonResponse;
     }
