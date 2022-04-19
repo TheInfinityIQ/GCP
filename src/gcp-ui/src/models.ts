@@ -6,8 +6,3 @@ export type TokenResponse = {
 export type SecretResponse = {
     value: string;
 };
-
-
-const a: SecretResponse = {
-    value : "string"
-} 
