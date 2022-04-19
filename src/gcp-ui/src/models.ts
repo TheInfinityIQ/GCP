@@ -4,5 +4,10 @@ export type TokenResponse = {
 };
 
 export type SecretResponse = {
-    value: "string";
+    value: string;
 };
+
+
+const a: SecretResponse = {
+    value : "string"
+} 
