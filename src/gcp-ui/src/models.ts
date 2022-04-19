@@ -1,3 +1,4 @@
-export type test = {
-    test: string
+export type TokenResponse = {
+    accessToken: string,
+    expiriesOn: Date,
 }

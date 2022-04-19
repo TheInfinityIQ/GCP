@@ -1,3 +1,5 @@
+import { TokenResponse } from "./models";
+
 const enum HttpMethods {
     GET = "GET",
     POST = "POST",
@@ -20,18 +22,29 @@ class BaseApi {
         return this.SendRequestAsync(uri, body, HttpMethods.PUT, headers);
     }
 
-    public async SendDELETRequestAsync(uri: string, headers?: HeadersInit): Promise<Response> {
+    public async SendDELETERequestAsync(uri: string, headers?: HeadersInit): Promise<Response> {
         return this.SendRequestAsync(uri, undefined, HttpMethods.DELETE, headers);
     }
 
     public async SendRequestAsync(uri: string, body?: object, method?: HttpMethods, headers?: HeadersInit): Promise<Response> {
-        const response = await fetch(`${this._path}/${uri}`, {
-            method: method ?? HttpMethods.POST,
-            headers: headers,
-            body: body ? JSON.stringify(body) : undefined,
-        });
+        try {
+            const response = await fetch(`${this._path}/${uri}`, {
+                method: method ?? HttpMethods.POST,
+                headers: headers,
+                body: body ? JSON.stringify(body) : undefined,
+            });
 
-        return response;
+            // TODO: Update to use a callback to handle "non-2.." status codes 
+            // or use a custom error class that stores the resposne and have the caller read response for errors...
+            if (!response?.ok) {
+                throw new Error(`[${response.status}] response not ok`);
+            }
+
+            return response;
+        } catch (error) {
+            console.log("API EXCEPTION:", error);
+            throw error;
+        }
     }
 }
 
@@ -40,19 +53,21 @@ export class Api extends BaseApi {
         super();
     }
 
-    async GetLoginAsync(email: string, password: string) {
-        const uri = "token";
-        const body = {
+    public async GetLoginAsync(email: string, password: string): Promise<TokenResponse> {
+        const uri: string = "token";
+        const body: object = {
             email: email,
             password: password,
         };
-        const headers = {
+        const headers: HeadersInit = {
             "Content-Type": "application/json",
         };
 
-        const tokenResponse = await this.SendPOSTRequestAsync(uri, body, headers);
+        const tokenResponse: Response = await this.SendPOSTRequestAsync(uri, body, headers);
+        const tokenJsonResponse: TokenResponse = await tokenResponse.json();
 
-        const tokenJsonResponse = await tokenResponse.json();
-        localStorage.setItem("login", tokenJsonResponse);
+        localStorage.setItem("login", JSON.stringify(tokenJsonResponse));
+
+        return tokenJsonResponse;
     }
 }
