@@ -1,19 +1,58 @@
-import { test } from "./models";
+const enum HttpMethods {
+    GET = "GET",
+    POST = "POST",
+    PUT = "PUT",
+    DELETE = "DELETE",
+}
 
-const path: string = "https://localhost:5001";
+class BaseApi {
+    private _path: string = "https://localhost:5001";
 
-// Log in
-const GetLogin = await fetch(path + "/token", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-        email: "mod@gcp.com",
-        password: "Password-1",
-    }),
-}).then((response: Response) => {
-    return response.json();
-});
+    public async SendGETRequestAsync(uri: string, headers?: HeadersInit): Promise<Response> {
+        return this.SendRequestAsync(uri, undefined, HttpMethods.GET, headers);
+    }
 
-export { GetLogin };
+    public async SendPOSTRequestAsync(uri: string, body: object, headers?: HeadersInit): Promise<Response> {
+        return this.SendRequestAsync(uri, body, HttpMethods.POST, headers);
+    }
+
+    public async SendPUTRequestAsync(uri: string, body: object, headers?: HeadersInit): Promise<Response> {
+        return this.SendRequestAsync(uri, body, HttpMethods.PUT, headers);
+    }
+
+    public async SendDELETRequestAsync(uri: string, headers?: HeadersInit): Promise<Response> {
+        return this.SendRequestAsync(uri, undefined, HttpMethods.DELETE, headers);
+    }
+
+    public async SendRequestAsync(uri: string, body?: object, method?: HttpMethods, headers?: HeadersInit): Promise<Response> {
+        const response = await fetch(`${this._path}/${uri}`, {
+            method: method ?? HttpMethods.POST,
+            headers: headers,
+            body: body ? JSON.stringify(body) : undefined,
+        });
+
+        return response;
+    }
+}
+
+export class Api extends BaseApi {
+    constructor() {
+        super();
+    }
+
+    async GetLoginAsync(email: string, password: string) {
+        const uri = "token";
+        const body = {
+            email: email,
+            password: password,
+        };
+        const headers = {
+            "Content-Type": "application/json",
+        };
+
+        const tokenResponse = await this.SendPOSTRequestAsync(uri, body, headers);
+
+        const tokenJsonResponse = await tokenResponse.json();
+        localStorage.setItem("login", tokenJsonResponse);
+    }
+}

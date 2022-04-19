@@ -8,7 +8,7 @@ import UserGameList from './components/UserGameList.vue';
 import FooterNav from './components/Footer.vue';
 import SearchGameList from './components/SearchGameList.vue';
 import { BgType } from "./enums"; // Removed , Enum -> Causing errors
-import { GetLogin} from "./api";
+// import { GetLogin} from "./api";
 // import helloWorld from './components/HelloWorld.vue'
 
 const blurBackClasses = ref<{ [field: string]: boolean }>({});
@@ -25,7 +25,6 @@ const changeBg = (type?: BgType): void => {
 
 onMounted(async () => {
   console.log(await (await fetch("https://localhost:5001/api/Secret/public")).json());
-  console.log(await GetLogin)
 })
 </script>
 
