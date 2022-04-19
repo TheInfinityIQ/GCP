@@ -4,7 +4,7 @@ import { RouterView } from 'vue-router'
 
 import Logo from './components/Logo.vue';
 import FooterNav from './components/Footer.vue';
-import { BgType } from "./enums"; // Removed , Enum -> Causing errors
+import { BgType } from "./enums";
 
 const blurBackClasses = ref<{ [field: string]: boolean }>({});
 const wrapperClasses = ref<{ [field: string]: boolean }>({});
