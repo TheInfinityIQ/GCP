@@ -1,4 +1,4 @@
-import { TokenResponse, SecretResponse } from "./models";
+import { TokenResponse, SecretResponse, GameListResponse, GameListsResponse } from "./models";
 
 const enum HttpMethods {
     GET = "GET",
@@ -74,6 +74,22 @@ export class Api extends BaseApi {
         super();
     }
 
+    //Testing the API. Not useful
+    public async GetSecretAsync(): Promise<SecretResponse> {
+        const uri: string = "api/Secret";
+
+        const token: TokenResponse | undefined = this.GetCachedAccessToken();
+        if (!token) throw new Error("API: Not authenticated");
+
+        const headers: HeadersInit = { Authorization: `Bearer ${token.accessToken}` };
+
+        const secretResponse: Response = await this.SendGETRequestAsync(uri, headers);
+        const secretJsonResponse: SecretResponse = await secretResponse.json();
+
+        return secretJsonResponse;
+    }
+
+    //Auth
     public async GetLoginAsync(email: string, password: string): Promise<TokenResponse> {
         const uri: string = "token";
         const body: object = {
@@ -90,17 +106,78 @@ export class Api extends BaseApi {
         return tokenJsonResponse;
     }
 
-    public async GetSecretAsync(): Promise<SecretResponse> {
-        const uri: string = "api/Secret";
+    //UNTESTED BELOW THIS COMMENT
+    public async RegisterAccount(email: string, displayName: string, password: string) {
+        const uri = "account/register";
+        const body: object = {
+            email: email,
+            displayName: displayName,
+            password: password,
+        };
 
-        const token: TokenResponse | undefined = this.GetCachedAccessToken();
-        if (!token) throw new Error("API: Not authenticated");
+        //TODO: think about how to handle unsuccessful registration attempt
+        const registerResponse: Response = await this.SendPOSTRequestAsync(uri, body);
+        if (!registerResponse.ok) {
+            return;
+        }
 
-        const headers: HeadersInit = { Authorization: `Bearer ${token.accessToken}` };
-
-        const secretResponse: Response = await this.SendGETRequestAsync(uri, headers);
-        const secretJsonResponse: SecretResponse = await secretResponse.json();
-
-        return secretJsonResponse;
+        return new Error("API: Registration failure");
     }
+
+    public async GetUsersGameLists() {
+        const uri = "api/gamelist";
+
+
+    };
+    
+    public async CreateGameList(title: string, description: string, voteOncePerGame: boolean, isPublic: boolean = false, userLimit: number = 9999) {
+        const uri = "api/gamelist";
+        const body = {
+            title: title,
+            description: description,
+            voteOncePerGame: voteOncePerGame,
+            isPublic: isPublic,
+            userLimit: userLimit
+        }
+
+        const gameListResponse: Response = await this.SendPOSTRequestAsync(uri, body);
+        const gameListJsonResponse: GameListResponse = await gameListResponse.json();
+
+        return gameListJsonResponse;
+    };
+
+    public async GetGameList(id: number) {
+        const uri = `api/gamelist/${id}`;
+
+        const gameListResponse: Response = await this.SendGETRequestAsync(uri);
+        const gameListJsonResponse: GameListResponse = await gameListResponse.json();
+
+        return gameListJsonResponse;
+    };
+
+
+    public async UpdateGameList(id: number, title: string, description: string, voteOncePerGame: boolean, isPublic: boolean, userLimit: number) {
+        const uri = `api/gamelist/${id}`;
+        const body = {
+            title: title,
+            description: description,
+            voteOncePerGame: voteOncePerGame,
+            isPublic: isPublic,
+            userLimit: userLimit
+        }
+
+        const gameListResponse: Response = await this.SendPUTRequestAsync(uri, body);
+        const gameListJsonResponse: GameListsResponse = await gameListResponse.json();
+
+        return gameListJsonResponse;
+    };
+
+    public async DeleteGameList(id: number) {
+        const uri = `api/gamelist/${id}`;
+
+        const gameListResponse: Response = await this.SendGETRequestAsync(uri);
+        const gameListJsonResponse: GameListResponse = await gameListResponse.json();
+
+        return gameListJsonResponse;
+    };
 }
