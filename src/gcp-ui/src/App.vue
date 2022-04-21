@@ -6,6 +6,8 @@ import Logo from './components/Logo.vue';
 import FooterNav from './components/Footer.vue';
 import { BgType } from "./enums";
 
+import { Api } from "./api";
+
 const blurBackClasses = ref<{ [field: string]: boolean }>({});
 const wrapperClasses = ref<{ [field: string]: boolean }>({});
 const changeBg = (type?: BgType): void => {
@@ -21,7 +23,7 @@ const changeBg = (type?: BgType): void => {
 }
 
 onMounted(async () => {
-  console.log(await (await fetch("https://localhost:5001/api/Secret/public")).json());
+  console.log(RegisterAccount("test@test.com", "haxor11", "123"));
 })
 </script>
 

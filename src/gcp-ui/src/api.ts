@@ -1,4 +1,4 @@
-import { TokenResponse, SecretResponse, GameListResponse, GameListsResponse, SteamAppsResponse, SteamAppResponse, SteamAddAppsResponse } from "./models";
+import { TokenResponse, SecretResponse, GameListResponse, GameListsResponse, SteamAppsResponse, SteamAppResponse, ParseVDFResponse } from "./models";
 
 const enum HttpMethods {
     GET = "GET",
@@ -212,18 +212,16 @@ export class Api extends BaseApi {
         return steamAppJsonResponse;
     }
 
-    //TODO: Adjust any type in promise once model is created
-    public async AddSteamApps(): Promise<SteamAddAppsResponse> {
+    public async ParseVDF(file: File): Promise<ParseVDFResponse> {
         const uri = "api/steam/parse-vdf";
         
-        //DO file parsing stuff
-        const body = {
-
-        }
+        let formData: FormData = new FormData();
+        formData.append("vdf", file);
+        const body = formData;
         
-        const addSteamAppsResponse: Response = await this.SendPOSTRequestAsync(uri, body);
-        const addSteamAppsJsonResponse: SteamAddAppsResponse = await addSteamAppsResponse.json();
+        const ParseVDFResponse: Response = await this.SendPOSTRequestAsync(uri, body);
+        const ParseVDFJsonResponse: ParseVDFResponse = await ParseVDFResponse.json();
 
-        return addSteamAppsJsonResponse;
+        return ParseVDFJsonResponse;
     }
 }
