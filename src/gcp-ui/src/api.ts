@@ -1,4 +1,4 @@
-import { TokenResponse, SecretResponse, GameListResponse, GameListsResponse } from "./models";
+import { TokenResponse, SecretResponse, GameListResponse, GameListsResponse, SteamAppsResponse, SteamAppResponse, SteamAddAppsResponse } from "./models";
 
 const enum HttpMethods {
     GET = "GET",
@@ -89,6 +89,16 @@ export class Api extends BaseApi {
         return secretJsonResponse;
     }
 
+    //Untested
+    public async GetPublicSecretAsync(): Promise<SecretResponse> {
+        const uri = "api/secret/public";
+
+        const secretResponse = await this.SendGETRequestAsync(uri);
+        const secretJsonResponse: SecretResponse = await secretResponse.json();
+
+        return secretJsonResponse;
+    }
+
     //Auth
     public async GetLoginAsync(email: string, password: string): Promise<TokenResponse> {
         const uri: string = "token";
@@ -107,7 +117,7 @@ export class Api extends BaseApi {
     }
 
     //UNTESTED BELOW THIS COMMENT
-    public async RegisterAccount(email: string, displayName: string, password: string) {
+    public async RegisterAccount(email: string, displayName: string, password: string): Promise<undefined | Error> {
         const uri = "account/register";
         const body: object = {
             email: email,
@@ -124,60 +134,96 @@ export class Api extends BaseApi {
         return new Error("API: Registration failure");
     }
 
-    public async GetUsersGameLists() {
-        const uri = "api/gamelist";
+    public async GetUsersGameLists(hasDiscord: boolean, activeFrom: Date): Promise<GameListsResponse> {
+        const queryParams = `?hasDiscord=${hasDiscord}&activeFrom=${activeFrom}`;
+        const uri = "api/gamelist" + queryParams;
 
+        const gameListResponse: Response = await this.SendGETRequestAsync(uri);
+        const gameListJsonResponse: GameListsResponse = await gameListResponse.json();
 
-    };
-    
-    public async CreateGameList(title: string, description: string, voteOncePerGame: boolean, isPublic: boolean = false, userLimit: number = 9999) {
+        return gameListJsonResponse;
+    }
+
+    public async CreateGameList(title: string, description: string, voteOncePerGame: boolean, isPublic: boolean = false, userLimit: number = 9999): Promise<GameListResponse> {
         const uri = "api/gamelist";
         const body = {
             title: title,
             description: description,
             voteOncePerGame: voteOncePerGame,
             isPublic: isPublic,
-            userLimit: userLimit
-        }
+            userLimit: userLimit,
+        };
 
         const gameListResponse: Response = await this.SendPOSTRequestAsync(uri, body);
         const gameListJsonResponse: GameListResponse = await gameListResponse.json();
 
         return gameListJsonResponse;
-    };
+    }
 
-    public async GetGameList(id: number) {
+    public async GetGameList(id: number): Promise<GameListResponse> {
         const uri = `api/gamelist/${id}`;
 
         const gameListResponse: Response = await this.SendGETRequestAsync(uri);
         const gameListJsonResponse: GameListResponse = await gameListResponse.json();
 
         return gameListJsonResponse;
-    };
+    }
 
-
-    public async UpdateGameList(id: number, title: string, description: string, voteOncePerGame: boolean, isPublic: boolean, userLimit: number) {
+    public async UpdateGameList(id: number, title: string, description: string, voteOncePerGame: boolean, isPublic: boolean, userLimit: number): Promise<GameListsResponse> {
         const uri = `api/gamelist/${id}`;
         const body = {
             title: title,
             description: description,
             voteOncePerGame: voteOncePerGame,
             isPublic: isPublic,
-            userLimit: userLimit
-        }
+            userLimit: userLimit,
+        };
 
         const gameListResponse: Response = await this.SendPUTRequestAsync(uri, body);
         const gameListJsonResponse: GameListsResponse = await gameListResponse.json();
 
         return gameListJsonResponse;
-    };
+    }
 
-    public async DeleteGameList(id: number) {
+    public async DeleteGameList(id: number): Promise<GameListResponse> {
         const uri = `api/gamelist/${id}`;
 
         const gameListResponse: Response = await this.SendGETRequestAsync(uri);
         const gameListJsonResponse: GameListResponse = await gameListResponse.json();
 
         return gameListJsonResponse;
-    };
+    }
+
+    public async GetSteamApps(): Promise<SteamAppsResponse> {
+        const uri = "api/steam/app";
+
+        const steamAppResponse = await this.SendGETRequestAsync(uri);
+        const steamAppJsonResponse: SteamAppsResponse = await steamAppResponse.json();
+
+        return steamAppJsonResponse;
+    }
+
+    public async GetSteamApp(id: number): Promise<SteamAppResponse> {
+        const uri = `api/steam/app/${id}`;
+
+        const steamAppResponse = await this.SendGETRequestAsync(uri);
+        const steamAppJsonResponse: SteamAppResponse = await steamAppResponse.json();
+
+        return steamAppJsonResponse;
+    }
+
+    //TODO: Adjust any type in promise once model is created
+    public async AddSteamApps(): Promise<SteamAddAppsResponse> {
+        const uri = "api/steam/parse-vdf";
+        
+        //DO file parsing stuff
+        const body = {
+
+        }
+        
+        const addSteamAppsResponse: Response = await this.SendPOSTRequestAsync(uri, body);
+        const addSteamAppsJsonResponse: SteamAddAppsResponse = await addSteamAppsResponse.json();
+
+        return addSteamAppsJsonResponse;
+    }
 }
