@@ -6,7 +6,7 @@ import Logo from './components/Logo.vue';
 import FooterNav from './components/Footer.vue';
 import { BgType } from "./enums";
 
-import { Api } from "./api";
+import client from "./api";
 
 const blurBackClasses = ref<{ [field: string]: boolean }>({});
 const wrapperClasses = ref<{ [field: string]: boolean }>({});
@@ -21,10 +21,6 @@ const changeBg = (type?: BgType): void => {
   wrapperClasses.value["no-bg"] = containsBg(BgType.NoBackgroundPicture);
   blurBackClasses.value["no-blur-bg"] = containsBg(BgType.NoBackgroundPicture);
 }
-
-onMounted(async () => {
-  console.log(RegisterAccount("test@test.com", "haxor11", "123"));
-})
 </script>
 
 <template>

@@ -74,7 +74,6 @@ export class Api extends BaseApi {
         super();
     }
 
-    //Testing the API. Not useful
     public async GetSecretAsync(): Promise<SecretResponse> {
         const uri: string = "api/Secret";
 
@@ -89,7 +88,6 @@ export class Api extends BaseApi {
         return secretJsonResponse;
     }
 
-    //Untested
     public async GetPublicSecretAsync(): Promise<SecretResponse> {
         const uri = "api/secret/public";
 
@@ -99,7 +97,6 @@ export class Api extends BaseApi {
         return secretJsonResponse;
     }
 
-    //Auth
     public async GetLoginAsync(email: string, password: string): Promise<TokenResponse> {
         const uri: string = "token";
         const body: object = {
@@ -110,15 +107,13 @@ export class Api extends BaseApi {
         const tokenResponse: Response = await this.SendPOSTRequestAsync(uri, body);
         const tokenJsonResponse: TokenResponse = await tokenResponse.json();
 
-        //put at call site SoC
         this.SetCachedAccessToken(tokenJsonResponse);
 
         return tokenJsonResponse;
     }
 
-    //UNTESTED BELOW THIS COMMENT
     public async RegisterAccount(email: string, displayName: string, password: string): Promise<undefined | Error> {
-        const uri = "account/register";
+        const uri = "api/account/register";
         const body: object = {
             email: email,
             displayName: displayName,
@@ -135,7 +130,10 @@ export class Api extends BaseApi {
     }
 
     public async GetUsersGameLists(hasDiscord: boolean, activeFrom: Date): Promise<GameListsResponse> {
-        const queryParams = `?hasDiscord=${hasDiscord}&activeFrom=${activeFrom}`;
+        let dateFrom: string = activeFrom.toUTCString();
+        console.log(dateFrom);
+
+        const queryParams = `?hasDiscord=${hasDiscord}&activeFrom=${dateFrom}`;
         const uri = "api/gamelist" + queryParams;
 
         const gameListResponse: Response = await this.SendGETRequestAsync(uri);
@@ -154,7 +152,12 @@ export class Api extends BaseApi {
             userLimit: userLimit,
         };
 
-        const gameListResponse: Response = await this.SendPOSTRequestAsync(uri, body);
+        const token: TokenResponse | undefined = this.GetCachedAccessToken();
+        if (!token) throw new Error("API: Not authenticated");
+
+        const headers: HeadersInit = { Authorization: `Bearer ${token.accessToken}` };
+
+        const gameListResponse: Response = await this.SendPOSTRequestAsync(uri, body, headers);
         const gameListJsonResponse: GameListResponse = await gameListResponse.json();
 
         return gameListJsonResponse;
@@ -169,7 +172,7 @@ export class Api extends BaseApi {
         return gameListJsonResponse;
     }
 
-    public async UpdateGameList(id: number, title: string, description: string, voteOncePerGame: boolean, isPublic: boolean, userLimit: number): Promise<GameListsResponse> {
+    public async UpdateGameList(id: number, title: string, description: string, voteOncePerGame: boolean, isPublic: boolean, userLimit: number, users: [number]): Promise<GameListsResponse> {
         const uri = `api/gamelist/${id}`;
         const body = {
             title: title,
@@ -177,51 +180,71 @@ export class Api extends BaseApi {
             voteOncePerGame: voteOncePerGame,
             isPublic: isPublic,
             userLimit: userLimit,
+            users: users,
         };
 
-        const gameListResponse: Response = await this.SendPUTRequestAsync(uri, body);
+        const token: TokenResponse | undefined = this.GetCachedAccessToken();
+        if (!token) throw new Error("API: Not authenticated");
+
+        const headers: HeadersInit = { Authorization: `Bearer ${token.accessToken}` };
+
+        const gameListResponse: Response = await this.SendPUTRequestAsync(uri, body, headers);
         const gameListJsonResponse: GameListsResponse = await gameListResponse.json();
 
         return gameListJsonResponse;
     }
 
-    public async DeleteGameList(id: number): Promise<GameListResponse> {
+    // TODO: Json parsing not working as intended. Delete functionality is working
+    public async DeleteGameList(id: number): Promise<GameListsResponse> {
         const uri = `api/gamelist/${id}`;
 
-        const gameListResponse: Response = await this.SendGETRequestAsync(uri);
-        const gameListJsonResponse: GameListResponse = await gameListResponse.json();
+        const token: TokenResponse | undefined = this.GetCachedAccessToken();
+        if (!token) throw new Error("API: Not authenticated");
 
-        return gameListJsonResponse;
+        const headers: HeadersInit = { Authorization: `Bearer ${token.accessToken}` };
+
+        const gameListsResponse: Response = await this.SendDELETERequestAsync(uri, headers);
+        const gameListsJsonResponse: GameListsResponse = await gameListsResponse.json();
+
+        return gameListsJsonResponse;
     }
 
-    public async GetSteamApps(): Promise<SteamAppsResponse> {
-        const uri = "api/steam/app";
+    //METHODS BELOW UNTESTED AND NOT NEEDED. BACKEND USES THEM TO CALL STEAM API
+    // public async GetSteamApps(): Promise<SteamAppsResponse> {
+    //     const uri = "api/steam/app";
 
-        const steamAppResponse = await this.SendGETRequestAsync(uri);
-        const steamAppJsonResponse: SteamAppsResponse = await steamAppResponse.json();
+    //     const steamAppResponse = await this.SendGETRequestAsync(uri);
+    //     const steamAppJsonResponse: SteamAppsResponse = await steamAppResponse.json();
 
-        return steamAppJsonResponse;
-    }
+    //     return steamAppJsonResponse;
+    // }
 
-    public async GetSteamApp(id: number): Promise<SteamAppResponse> {
-        const uri = `api/steam/app/${id}`;
+    // public async GetSteamApp(id: number): Promise<SteamAppResponse> {
+    //     const uri = `api/steam/app/${id}`;
 
-        const steamAppResponse = await this.SendGETRequestAsync(uri);
-        const steamAppJsonResponse: SteamAppResponse = await steamAppResponse.json();
+    //     const steamAppResponse = await this.SendGETRequestAsync(uri);
+    //     const steamAppJsonResponse: SteamAppResponse = await steamAppResponse.json();
 
-        return steamAppJsonResponse;
-    }
+    //     return steamAppJsonResponse;
+    // }
 
     public async ParseVDF(file: File): Promise<ParseVDFResponse> {
         const uri = "api/steam/parse-vdf";
-        
+
         let formData: FormData = new FormData();
         formData.append("vdf", file);
         const body = formData;
-        
-        const ParseVDFResponse: Response = await this.SendPOSTRequestAsync(uri, body);
+
+        // Original Post defaults to content type that will not allow vdf to be posted to api. 
+        const ParseVDFResponse: Response = await fetch("https://localhost:5001/" + uri, {
+            method: "POST",
+            body: body,
+        });
         const ParseVDFJsonResponse: ParseVDFResponse = await ParseVDFResponse.json();
 
         return ParseVDFJsonResponse;
     }
 }
+
+let client = new Api();
+export default client;

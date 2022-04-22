@@ -63,7 +63,7 @@ export type SteamAppsResponse = {
     ];
 };
 
-export type SteamAddAppsResponse = {
+export type ParseVDFResponse = {
     steamAppNames: [
         {
           appId: number,
