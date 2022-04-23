@@ -141,6 +141,11 @@ input {
   background-color: #437096;
 }
 
+input[type="checkbox"] {
+  // color: #437096;
+  accent-color: #437096;
+}
+
 label {
   color: white;
 }

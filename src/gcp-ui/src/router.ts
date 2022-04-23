@@ -16,6 +16,7 @@ const routes = [
     { path: "/user-account", component: UserAccount },
     { path: "/sign-in", component: SignIn },
     { path: "/sign-up", component: SignUp },
+    { path: "/create-gamelist", component: CreateGameList },
     { path: "/", component: SearchGameList }
 ];
 

@@ -66,10 +66,10 @@ onMounted(() => {
 </style> -->
 
 <style scoped>
-
-.big-input, .small-input {
+.big-input,
+.small-input {
     /* border: 1px solid white; */
-    
+
     margin: 0.5em 0;
 }
 
