@@ -24,7 +24,7 @@ onMounted(() => {
             <label for="description">Description (100 Character Max)</label>
             <input type="text" id="description">
         </div>
-        <div class="inline">
+        <section class="inline">
             <div class="column small-input">
                 <label for="vote">Vote Once Per Game</label>
                 <input type="checkbox" id="vote">
@@ -33,7 +33,7 @@ onMounted(() => {
                 <label for="public">Public to all Players</label>
                 <input type="checkbox" id="public">
             </div>
-        </div>
+        </section>
         <div class="big-input">
             <label for="user-limit">User Limit (Max 9999)</label>
             <input type="number" id="user-limit">

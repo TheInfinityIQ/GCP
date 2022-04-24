@@ -89,7 +89,7 @@ const changeBg = (type?: BgType): void => {
 
   padding: 0 1em;
 
-  overflow: hidden;
+  overflow: scroll;
 
 
   position: relative;
