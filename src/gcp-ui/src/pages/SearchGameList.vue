@@ -2,7 +2,7 @@
 import gameList from './GameList.vue';
 
 import { onMounted } from "vue";
-import { BgType } from "../../enums";
+import { BgType } from "../enums";
 
 let searchedGames: { title: string, desc: string }[] = [];
 

@@ -1,7 +1,7 @@
 <script  setup lang="ts">
 import logo from '../Logo.vue'
 import footerNav from '../Footer.vue'
-import { BgType } from '../../enums';
+import { BgType } from '../enums';
 import { onMounted } from 'vue';
 
 const emit = defineEmits<{
