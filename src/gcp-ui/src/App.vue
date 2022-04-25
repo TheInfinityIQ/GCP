@@ -8,6 +8,10 @@ import { BgType } from "./enums";
 
 import client from "./api";
 
+//Modals
+import AddGameModal from "./modal/AddGameModal.vue"
+import AuthModal from "./modal/AuthModal.vue"
+
 const blurBackClasses = ref<{ [field: string]: boolean }>({});
 const wrapperClasses = ref<{ [field: string]: boolean }>({});
 const changeBg = (type?: BgType): void => {
@@ -36,6 +40,17 @@ const changeBg = (type?: BgType): void => {
 <style lang="scss">
 //Defaults
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap");
+
+//Modal
+.modal-container {
+    border: 1px solid white;
+    border-radius: 15px;
+    width: 80%;
+    height: 60%;
+
+    max-width: 30em;
+    max-height: 24em;
+}
 
 // Search menu - Won't work if put into styles tag of Search-menu.vue
 .vs__clear,
