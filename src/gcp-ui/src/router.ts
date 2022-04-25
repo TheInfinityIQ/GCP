@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router"
 
-import UserGameList from "./components/UserGameList.vue";
-import CreateGameList from "./components/CreateGameList.vue";
-import SearchGameList from "./components/SearchGameList.vue";
+import UserGameList from "./components/Pages/UserGameList.vue";
+import CreateGameList from "./components/Pages/CreateGameList.vue";
+import SearchGameList from "./components/Pages/SearchGameList.vue";
 import HelloWorld from "./components/HelloWorld.vue"
-import UserAccount from "./components/UserAccount.vue"
-import SignIn from "./components/SignIn.vue";
-import SignUp from "./components/SignUp.vue";
-import GameListDetails from "./components/GameListDetails.vue";
+import UserAccount from "./components/Pages/UserAccount.vue"
+import SignIn from "./components/Pages/SignIn.vue";
+import SignUp from "./components/Pages/SignUp.vue";
+import GameListDetails from "./components/Pages/GameListDetails.vue";
 
 const routes = [
     { path: "/search-games", component: SearchGameList },

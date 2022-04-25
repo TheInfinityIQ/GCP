@@ -16,7 +16,7 @@ onMounted(() => {
 let user: string = "testUser";
 let users: [string] = [user];
 
-for (let index = 0; index < 15; index++) {
+for (let index = 0; index < 5; index++) {
     users.push(user);
 }
 </script>
@@ -79,4 +79,34 @@ for (let index = 0; index < 15; index++) {
 </template>
 
 <style>
+
+.user-table-content > ul {
+    max-height: 15em;
+    min-height: 5em;
+    overflow: scroll;
+    list-style: none;
+    padding: 0;
+}
+
+.user-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-table-header > h2 {
+    font-size: 1em;
+}
+
+.user-table-header {
+    display: flex;
+    justify-content: space-between;
+}
 </style>

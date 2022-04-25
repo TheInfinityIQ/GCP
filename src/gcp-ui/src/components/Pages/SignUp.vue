@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { BgType } from "../enums.ts";
+import { BgType } from "../../enums";
 
 const emit = defineEmits<{
     (e: "bg-change", type?: BgType): void

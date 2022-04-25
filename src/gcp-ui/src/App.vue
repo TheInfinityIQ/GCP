@@ -144,6 +144,7 @@ input {
 input[type="checkbox"] {
   // color: #437096;
   accent-color: #437096;
+  max-width: 3em;
 }
 
 label {
