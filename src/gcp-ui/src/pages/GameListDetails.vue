@@ -23,8 +23,8 @@ for (let index = 0; index < 5; index++) {
 </script>
 
 <template>
-    <auth-modal />
-    <add-game-modal />
+    <!-- <auth-modal /> -->
+    <!-- <add-game-modal /> -->
     <div class="big-input">
         <label for="title">Title</label>
         <input type="text" id="title">
@@ -52,14 +52,14 @@ for (let index = 0; index < 5; index++) {
         <input type="text" id="add-user">
     </div>
     <article class="user-table">
-        <section class="user-table-header">
+        <section class="table-header">
             <h2>Username</h2>
             <h2>Selected</h2>
         </section>
-        <section class="user-table-content">
+        <section class="table-content">
             <ul>
-                <li v-for="user in users" class="user-list">
-                    <div class="inline user-row">
+                <li v-for="user in users" class="content-list">
+                    <div class="inline content-row">
                         <p>{{ user }}</p>
                         <input type="checkbox">
                     </div>
@@ -82,8 +82,7 @@ for (let index = 0; index < 5; index++) {
 </template>
 
 <style>
-
-.user-table-content > ul {
+.user-table-content>ul {
     max-height: 15em;
     min-height: 5em;
     overflow: scroll;
@@ -104,12 +103,7 @@ for (let index = 0; index < 5; index++) {
     align-items: center;
 }
 
-.user-table-header > h2 {
+.user-table-header>h2 {
     font-size: 1em;
-}
-
-.user-table-header {
-    display: flex;
-    justify-content: space-between;
 }
 </style>

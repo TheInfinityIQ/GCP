@@ -6,11 +6,7 @@ import Logo from './components/Logo.vue';
 import FooterNav from './components/Footer.vue';
 import { BgType } from "./enums";
 
-import client from "./api";
-
-//Modals
-import AddGameModal from "./modal/AddGameModal.vue"
-import AuthModal from "./modal/AuthModal.vue"
+// import client from "./api";
 
 const blurBackClasses = ref<{ [field: string]: boolean }>({});
 const wrapperClasses = ref<{ [field: string]: boolean }>({});
@@ -41,13 +37,44 @@ const changeBg = (type?: BgType): void => {
 //Defaults
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap");
 
+// Interpage content
+.table-content>ul {
+  max-height: 15em;
+  min-height: 5em;
+  overflow: scroll;
+  list-style: none;
+  padding: 0;
+}
+
+.content-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+}
+
+.content-table-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.content-list {
+    max-height: 40vh;
+    overflow: scroll;
+}
+
 //Modal
 .modal-container {
   border-radius: 15px;
   height: 60%;
 
-  // max-width: 30em;
-  // max-height: 24em;
+  max-width: 80%;
 
   position: absolute;
   z-index: 999;
@@ -59,6 +86,8 @@ const changeBg = (type?: BgType): void => {
   background-color: #051522;
 
   border: 1px solid white;
+
+  padding: 0;
 }
 
 // Search menu - Won't work if put into styles tag of Search-menu.vue
@@ -154,7 +183,8 @@ const changeBg = (type?: BgType): void => {
   }
 }
 
-input, button {
+input,
+button {
   width: 95%;
   height: 5vh;
 
@@ -202,6 +232,10 @@ h5,
 p {
   font-family: "Inter", sans-serif;
   color: white;
+}
+
+h2 {
+  font-size: 1em;
 }
 
 .inline {

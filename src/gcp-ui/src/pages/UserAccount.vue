@@ -19,7 +19,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <auth-modal />
+    <!-- <auth-modal /> -->
     <form action="">
         <!-- UpdateAPI and return to home -->
         <section class="user-information big-input">

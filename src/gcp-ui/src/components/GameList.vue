@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import vSelect from "vue-select";
 import { PropType, ref } from 'vue'
-import AuthModal from "../modal/AuthModal.vue";
-
-// const searchGames = ref(true);
 
 let sort: string[] = ["New", "Hot", "Users"];
 let platform: string[] = ["Windows", "Linux", "Mac"];
@@ -23,7 +20,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <auth-modal />
+    <!-- <auth-modal /> -->
     <section class="search-menu">
         <section class="search-field">
             <p class="search-games-text">Search for games</p>
@@ -40,7 +37,7 @@ const props = defineProps({
                         </h3>
                         <button>Create</button>
                     </li>
-                    <li v-for="list in items" class="game-list">
+                    <li v-for="list in items" class="content-list">
                         <h3>{{ list.title }}</h3>
                         <p>{{ list.desc }}</p>
                     </li>
@@ -109,7 +106,7 @@ button {
     overflow: scroll;
 }
 
-.search-results .game-list {
+.search-results .content-list {
     text-align: start;
 }
 
@@ -120,11 +117,11 @@ button {
     padding: 0;
 }
 
-.search-results .game-list>p {
+.search-results .content-list>p {
     font-size: 0.75em;
 }
 
-.search-results .game-list h3 {
+.search-results .content-list h3 {
     font-weight: 900;
 }
 </style>

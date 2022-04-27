@@ -1,10 +1,8 @@
 <script  setup lang="ts">
-import gameList from './GameList.vue';
+import gameList from '../components/GameList.vue';
 
 import { onMounted } from "vue";
 import { BgType } from "../enums";
-
-import AuthModal from "../modal/AuthModal.vue";
 
 let userGames: { title: string, desc: string }[] = [];
 
@@ -29,6 +27,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <auth-modal />
+    <!-- <auth-modal /> -->
     <game-list :items="userGames" :create="true" />
 </template>
