@@ -24,7 +24,7 @@ for (let index = 0; index < 5; index++) {
 
 <template>
     <!-- <auth-modal /> -->
-    <add-game-modal />
+    <!-- <add-game-modal /> -->
     <div class="big-input">
         <label for="title">Title</label>
         <input type="text" id="title">
@@ -76,9 +76,7 @@ for (let index = 0; index < 5; index++) {
         </div>
         <input type="submit" value="Remove Selected">
     </article>
-    <section>
-    </section>
-    <input type="submit" value="Apply Changes">
+    <input type="submit" value="Apply Changes" class="grid-self-center">
 </template>
 
 <style>

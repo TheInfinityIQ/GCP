@@ -10,14 +10,14 @@ import SignUp from "./pages/SignUp.vue";
 import GameListDetails from "./pages/GameListDetails.vue";
 
 const routes = [
-    { path: "/search-games", component: SearchGameList },
-    { path: "/user-games", component: UserGameList },
     { path: "/user-games/create", component: CreateGameList },
     { path: "/hello-world", component: HelloWorld },
+    { path: "/search-games", component: SearchGameList },
+    { path: "/user-games", component: UserGameList },
     { path: "/user-account", component: UserAccount },
+    { path: "/game-details", component: GameListDetails },
     { path: "/sign-in", component: SignIn },
     { path: "/sign-up", component: SignUp },
-    { path: "/game-details", component: GameListDetails },
     { path: "/", component: SearchGameList },
 ];
 

@@ -91,6 +91,11 @@ const changeBg = (type?: BgType): void => {
   padding: 0;
 }
 
+//Center
+.grid-self-center {
+  justify-self: center;
+}
+
 // Search menu - Won't work if put into styles tag of Search-menu.vue
 .vs__clear,
 .vs__open-indicator {
