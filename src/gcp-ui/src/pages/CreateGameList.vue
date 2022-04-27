@@ -1,6 +1,10 @@
-<script  setup lang="ts">
-import { onMounted } from 'vue';
-import { BgType } from '../enums';
+<script setup lang="ts">
+import { booleanLiteral } from "@babel/types";
+import { onMounted } from "vue";
+import { BgType } from "../enums";
+import AddGameModal from "../modal/AddGameModal.vue";
+import AuthModal from "../modal/AuthModal.vue";
+import client from "../api";
 
 const emit = defineEmits<{
     (e: "bg-change", type?: BgType): void
@@ -12,13 +16,11 @@ onMounted(() => {
     // emit("bg-change", BgType.NoBackgroundPicture);
 })
 
-
-
-
-
+let isAuthenticated = client.IsAuthenticated();
 </script>
 
 <template>
+    <add-game-modal />
     <form action="">
         <div class="big-input">
             <label for="title">Title</label>

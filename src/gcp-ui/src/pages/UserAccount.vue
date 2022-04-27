@@ -4,6 +4,8 @@ import footerNav from '../Footer.vue'
 import { BgType } from '../enums';
 import { onMounted } from 'vue';
 
+import AuthModal from "../modal/AuthModal.vue";
+
 const emit = defineEmits<{
     (e: "bg-change", type?: BgType): void
 }>()
@@ -17,6 +19,7 @@ onMounted(() => {
 </script>
 
 <template>
+    <auth-modal />
     <form action="">
         <!-- UpdateAPI and return to home -->
         <section class="user-information big-input">

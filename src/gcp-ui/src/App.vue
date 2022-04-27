@@ -43,13 +43,22 @@ const changeBg = (type?: BgType): void => {
 
 //Modal
 .modal-container {
-    border: 1px solid white;
-    border-radius: 15px;
-    width: 80%;
-    height: 60%;
+  border-radius: 15px;
+  height: 60%;
 
-    max-width: 30em;
-    max-height: 24em;
+  // max-width: 30em;
+  // max-height: 24em;
+
+  position: absolute;
+  z-index: 999;
+  top: 15vh;
+  left: 0;
+
+  height: fit-content;
+
+  background-color: #051522;
+
+  border: 1px solid white;
 }
 
 // Search menu - Won't work if put into styles tag of Search-menu.vue
@@ -145,7 +154,7 @@ const changeBg = (type?: BgType): void => {
   }
 }
 
-input {
+input, button {
   width: 95%;
   height: 5vh;
 

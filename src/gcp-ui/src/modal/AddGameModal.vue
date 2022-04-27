@@ -19,10 +19,15 @@
                 </li>
             </ul>
         </section>
-        <button>Add Selected to Game List</button>
-        <button>Create Game Manually</button>
+        <div class="column add-game-nav">
+            <button>Add Selected to Game List</button>
+            <button>Create Game Manually</button>
+        </div>
     </div>
 </template>
 
-<style>
+<style scoped>
+button {
+    margin: 2em 0;
+}
 </style>

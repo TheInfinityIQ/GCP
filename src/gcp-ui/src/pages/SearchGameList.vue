@@ -4,6 +4,8 @@ import gameList from './GameList.vue';
 import { onMounted } from "vue";
 import { BgType } from "../enums";
 
+import AuthModal from "../modal/AuthModal.vue";
+
 let searchedGames: { title: string, desc: string }[] = [];
 
 //To be got from API
@@ -28,5 +30,6 @@ onMounted(() => {
 </script>
 
 <template>
+    <auth-modal />
     <game-list :items="searchedGames" />
 </template>

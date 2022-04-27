@@ -1,7 +1,8 @@
 <script  setup lang="ts">
 import { onMounted } from 'vue';
 import { BgType } from '../enums';
-
+import AddGameModal from "../modal/AddGameModal.vue";
+import AuthModal from "../modal/AuthModal.vue";
 
 const emit = defineEmits<{
     (e: "bg-change", type?: BgType): void
@@ -22,6 +23,8 @@ for (let index = 0; index < 5; index++) {
 </script>
 
 <template>
+    <auth-modal />
+    <add-game-modal />
     <div class="big-input">
         <label for="title">Title</label>
         <input type="text" id="title">

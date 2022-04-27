@@ -1,10 +1,10 @@
-import { createRouter, createWebHistory } from "vue-router"
+import { createRouter, createWebHistory } from "vue-router";
 
 import UserGameList from "./pages/UserGameList.vue";
 import CreateGameList from "./pages/CreateGameList.vue";
 import SearchGameList from "./pages/SearchGameList.vue";
-import HelloWorld from "./components/HelloWorld.vue"
-import UserAccount from "./pages/UserAccount.vue"
+import HelloWorld from "./components/HelloWorld.vue";
+import UserAccount from "./pages/UserAccount.vue";
 import SignIn from "./pages/SignIn.vue";
 import SignUp from "./pages/SignUp.vue";
 import GameListDetails from "./pages/GameListDetails.vue";
@@ -18,7 +18,7 @@ const routes = [
     { path: "/sign-in", component: SignIn },
     { path: "/sign-up", component: SignUp },
     { path: "/game-details", component: GameListDetails },
-    { path: "/", component: SearchGameList }
+    { path: "/", component: SearchGameList },
 ];
 
 const router = createRouter({

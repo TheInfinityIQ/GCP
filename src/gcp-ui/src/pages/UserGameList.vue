@@ -4,6 +4,8 @@ import gameList from './GameList.vue';
 import { onMounted } from "vue";
 import { BgType } from "../enums";
 
+import AuthModal from "../modal/AuthModal.vue";
+
 let userGames: { title: string, desc: string }[] = [];
 
 //To be got from API
@@ -27,5 +29,6 @@ onMounted(() => {
 </script>
 
 <template>
+    <auth-modal />
     <game-list :items="userGames" :create="true" />
 </template>

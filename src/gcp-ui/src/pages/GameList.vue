@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import vSelect from "vue-select";
 import { PropType, ref } from 'vue'
-
+import AuthModal from "../modal/AuthModal.vue";
 
 // const searchGames = ref(true);
 
@@ -23,6 +23,7 @@ const props = defineProps({
 </script>
 
 <template>
+    <auth-modal />
     <section class="search-menu">
         <section class="search-field">
             <p class="search-games-text">Search for games</p>

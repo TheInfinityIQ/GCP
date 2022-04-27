@@ -5,7 +5,4 @@ enum BgType {
     NoBackgrounds = NoBackgroundPicture | NoBlurBackground,
 }
 
-
-
-
 export { BgType };
