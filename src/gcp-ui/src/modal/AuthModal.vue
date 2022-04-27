@@ -13,16 +13,13 @@
 </template> 
 
 <style>
-figure {
-}
+figure {}
 
 figure>img {
     max-width: 100%;
 }
 
-figure>figcaption{
+figure>figcaption {
     color: white;
 }
-
-
 </style>

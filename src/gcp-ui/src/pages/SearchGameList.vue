@@ -30,6 +30,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <!-- <auth-modal /> -->
+    <auth-modal />
     <game-list :items="searchedGames" />
 </template>

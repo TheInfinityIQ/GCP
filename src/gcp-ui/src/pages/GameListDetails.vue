@@ -24,7 +24,7 @@ for (let index = 0; index < 5; index++) {
 
 <template>
     <!-- <auth-modal /> -->
-    <!-- <add-game-modal /> -->
+    <add-game-modal />
     <div class="big-input">
         <label for="title">Title</label>
         <input type="text" id="title">

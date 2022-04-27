@@ -12,9 +12,15 @@ const onClick = (path: string) => {
 <template>
   <nav>
     <ul class="mobile-nav">
-      <li><router-link to="/search-games" class="circle">SG</router-link></li>
-      <li><router-link to="/user-games" class="circle">UG</router-link></li>
-      <li><router-link to="/user-account" class="circle">A</router-link></li>
+      <li>
+        <router-link to="/search-games" class="circle">SG</router-link>
+      </li>
+      <li>
+        <router-link to="/user-games" class="circle">UG</router-link>
+      </li>
+      <li>
+        <router-link to="/user-account" class="circle">A</router-link>
+      </li>
     </ul>
   </nav>
 </template>

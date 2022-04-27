@@ -79,7 +79,8 @@ const changeBg = (type?: BgType): void => {
   position: absolute;
   z-index: 999;
   top: 15vh;
-  left: 0;
+
+  justify-self: center;
 
   height: fit-content;
 
@@ -136,6 +137,8 @@ const changeBg = (type?: BgType): void => {
 
 
 .container-main {
+  display: grid;
+  
   border-radius: 15px;
 
   margin: 2vh 5vw;

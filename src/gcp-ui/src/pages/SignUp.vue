@@ -60,7 +60,7 @@ form {
     align-items: center;
 }
 
-.block > input {
+.block>input {
     width: 95%;
     max-width: 250px;
 }
