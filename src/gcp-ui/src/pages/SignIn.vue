@@ -12,12 +12,10 @@ onMounted(() => {
     // emit("bg-change", BgType.NoBackgroundPicture);
     emit("bg-change", BgType.Default);
 })
-
 </script>
 
 <template>
     <form action="">
-        <!-- UpdateAPI and return to home -->
         <div class="block">
             <label for="email">Email Address:</label>
             <input type="text" id="email">
@@ -31,6 +29,7 @@ onMounted(() => {
             <input type="text" id="cPassword">
         </div>
         <input type="submit" value="submit">
+        <router-link to="/sign-up" class="">Create a new Account</router-link>
     </form>
 </template>
 

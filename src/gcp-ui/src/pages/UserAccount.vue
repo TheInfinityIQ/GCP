@@ -18,6 +18,7 @@ onMounted(() => {
 })
 
 let isAuthenticated = client.IsAuthenticated();
+console.log("UserAccount: " + isAuthenticated);
 </script>
 
 <template>

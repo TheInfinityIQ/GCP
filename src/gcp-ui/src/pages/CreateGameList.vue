@@ -4,7 +4,6 @@ import { onMounted } from "vue";
 import { BgType } from "../enums";
 import AddGameModal from "../modal/AddGameModal.vue";
 import AuthModal from "../modal/AuthModal.vue";
-
 import client from "../api";
 
 const emit = defineEmits<{
@@ -16,8 +15,6 @@ onMounted(() => {
     // emit("bg-change", BgType.NoBlurBackground);
     // emit("bg-change", BgType.NoBackgroundPicture);
 })
-
-let isAuthenticated = client.IsAuthenticated();
 </script>
 
 <template>

@@ -16,7 +16,6 @@ onMounted(() => {
 
 <template>
     <form action="">
-        <!-- UpdateAPI and return to home -->
         <div class="block">
             <label for="email">Email Address:</label>
             <input type="text" id="email">
@@ -34,6 +33,7 @@ onMounted(() => {
             <input type="text" id="cPassword">
         </div>
         <input type="submit" value="submit">
+        <router-link to="/sign-in" class="">Log in</router-link>
     </form>
 </template>
 

@@ -2,21 +2,6 @@
 import client from "../api"
 import { RouterLink } from "vue-router";
 import { ref } from "vue";
-
-let authPath = ref("/sign-up");
-let authPathText = ref("Sign Up");
-
-//---Testing
-// localStorage.clear();
-// console.log(client.IsAuthenticated());
-client.GetLoginAsync("mod@gcp.com", "Password-1");
-//---Testing end
-
-if (client.IsAuthenticated()) {
-    // console.log("Is authed");
-    authPath = ref("/sign-in");
-    authPathText = ref("Sign In");
-}
 </script>
 
 <template>
@@ -25,13 +10,11 @@ if (client.IsAuthenticated()) {
             <img src="src/assets/TempOops.png" alt="">
             <figcaption>Oops! You need to be logged in to use this feature.</figcaption>
         </figure>
-        <router-link :to="authPath" class="">{{authPathText}}</router-link>
+        <router-link to="/sign-up" class="">Log In or Sign up</router-link>
     </div>
-</template> 
+</template>
 
 <style>
-figure {}
-
 figure>img {
     max-width: 100%;
 }

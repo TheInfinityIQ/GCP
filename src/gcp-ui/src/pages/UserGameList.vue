@@ -1,5 +1,6 @@
 <script  setup lang="ts">
 import gameList from '../components/GameList.vue';
+import AuthModal from "../modal/AuthModal.vue";
 
 import { onMounted } from "vue";
 import { BgType } from "../enums";
@@ -27,6 +28,7 @@ onMounted(() => {
 })
 
 let isAuthenticated = client.IsAuthenticated();
+console.log("UserGameList: " + isAuthenticated);
 </script>
 
 <template>
