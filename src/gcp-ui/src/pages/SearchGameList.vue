@@ -4,6 +4,7 @@ import gameList from '../components/GameList.vue';
 import { onMounted } from "vue";
 import { BgType } from "../enums";
 import AuthModal from "../modal/AuthModal.vue";
+import client from '../api';
 
 let searchedGames: { title: string, desc: string }[] = [];
 
@@ -26,9 +27,11 @@ onMounted(() => {
     emit("bg-change", BgType.Default);
 })
 
+let isAuthenticated = client.IsAuthenticated();
+console.log("SearchGameList: " + isAuthenticated);
 </script>
 
 <template>
-    <auth-modal/>
+    <auth-modal v-show="!isAuthenticated"/>
     <game-list :items="searchedGames" />
 </template>

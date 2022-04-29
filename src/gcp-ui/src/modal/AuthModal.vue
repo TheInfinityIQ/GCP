@@ -7,13 +7,13 @@ let authPath = ref("/sign-up");
 let authPathText = ref("Sign Up");
 
 //---Testing
-localStorage.clear();
-console.log(client.IsAuthenticated());
+// localStorage.clear();
+// console.log(client.IsAuthenticated());
 client.GetLoginAsync("mod@gcp.com", "Password-1");
 //---Testing end
 
 if (client.IsAuthenticated()) {
-    console.log("Is authed");
+    // console.log("Is authed");
     authPath = ref("/sign-in");
     authPathText = ref("Sign In");
 }

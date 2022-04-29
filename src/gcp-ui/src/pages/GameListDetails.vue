@@ -22,11 +22,12 @@ let users: [string] = [user];
 for (let index = 0; index < 5; index++) {
     users.push(user);
 }
+
+let isAuthenticated = client.IsAuthenticated();
 </script>
 
 <template>
-    <!-- <auth-modal /> -->
-    <!-- <add-game-modal /> -->
+    <auth-modal v-show="!isAuthenticated"/>
     <div class="big-input">
         <label for="title">Title</label>
         <input type="text" id="title">

@@ -5,6 +5,7 @@ import { BgType } from '../enums';
 import { onMounted } from 'vue';
 
 import AuthModal from "../modal/AuthModal.vue";
+import client from '../api';
 
 const emit = defineEmits<{
     (e: "bg-change", type?: BgType): void
@@ -16,10 +17,11 @@ onMounted(() => {
     // emit("bg-change", BgType.NoBackgroundPicture);
 })
 
+let isAuthenticated = client.IsAuthenticated();
 </script>
 
 <template>
-    <!-- <auth-modal /> -->
+    <auth-modal v-show="!isAuthenticated"/>
     <form action="">
         <!-- UpdateAPI and return to home -->
         <section class="user-information big-input">
