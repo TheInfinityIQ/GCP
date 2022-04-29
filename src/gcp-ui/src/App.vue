@@ -6,8 +6,6 @@ import Logo from './components/Logo.vue';
 import FooterNav from './components/Footer.vue';
 import { BgType } from "./enums";
 
-// import client from "./api";
-
 const blurBackClasses = ref<{ [field: string]: boolean }>({});
 const wrapperClasses = ref<{ [field: string]: boolean }>({});
 const changeBg = (type?: BgType): void => {

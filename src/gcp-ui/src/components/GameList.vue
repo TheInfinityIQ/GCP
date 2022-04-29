@@ -2,6 +2,8 @@
 import vSelect from "vue-select";
 import { PropType, ref } from 'vue'
 
+import client from "../api"
+
 let sort: string[] = ["New", "Hot", "Users"];
 let platform: string[] = ["Windows", "Linux", "Mac"];
 
@@ -31,7 +33,7 @@ const props = defineProps({
             </section>
             <section class="search-results">
                 <ul>
-                    <li v-if="create" class="inline">
+                    <li v-if="create&&client.IsAuthenticated()" class="inline">
                         <h3>
                             Create New List
                         </h3>
