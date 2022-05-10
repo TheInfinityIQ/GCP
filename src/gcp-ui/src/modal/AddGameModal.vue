@@ -25,7 +25,7 @@ for (let index = 0; index < 15; index++) {
         </section>
         <div class="column add-game-nav">
             <button>Add Selected to Game List</button>
-            <router-link to="/user-games/create" class="">Create Game Manually</router-link>
+            <router-link to="/create-game" class="">Create Game Manually</router-link>
         </div>
     </div>
 </template>
