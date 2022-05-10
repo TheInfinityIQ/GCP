@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <!-- <add-game-modal /> -->
+    <add-game-modal />
     <form action="">
         <div class="big-input">
             <label for="title">Title</label>

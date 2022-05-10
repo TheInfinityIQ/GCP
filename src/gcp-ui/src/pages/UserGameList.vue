@@ -33,5 +33,5 @@ console.log("UserGameList: " + isAuthenticated);
 
 <template>
     <auth-modal v-show="!isAuthenticated"/>
-    <game-list :items="userGames" :create="true" />
+    <game-list :items="userGames" :create="true"/>
 </template>
