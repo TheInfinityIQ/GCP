@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { routerKey, RouterLink, useRouter } from 'vue-router';
+import client from '../api';
 
 const router = useRouter();
 
@@ -7,25 +8,39 @@ const onClick = (path: string) => {
   router.push(path);
 }
 
+let isAuthenticated = client.IsAuthenticated();
 </script>
 
 <template>
   <nav>
     <ul class="mobile-nav">
       <li>
-        <router-link to="/search-games" class="circle">SG</router-link>
+        <router-link to="/search-games" class="circle default-border">SG</router-link>
       </li>
       <li>
-        <router-link to="/user-games" class="circle">UG</router-link>
+        <router-link to="/user-games" class="circle default-border">UG</router-link>
       </li>
       <li>
-        <router-link to="/user-account" class="circle">A</router-link>
+        <router-link to="/user-account" class="circle logged-in" v-if="isAuthenticated">A</router-link>
+        <router-link to="/user-account" class="circle logged-out" v-else>A</router-link>
       </li>
     </ul>
   </nav>
 </template>
 
 <style  lang="scss" scoped>
+.logged-in {
+  border: 2px solid green;
+}
+
+.logged-out {
+  border: 2px solid red;
+}
+
+.default-border {
+  border: 2px solid white;
+}
+
 nav>ul {
   display: flex;
   justify-content: space-evenly;
@@ -44,8 +59,7 @@ nav>ul {
 
 .circle {
   display: flex;
-
-  border: 2px solid white;
+  
   width: 3rem;
   height: 3rem;
   border-radius: 25px;
