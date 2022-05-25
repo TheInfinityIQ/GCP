@@ -38,6 +38,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
 form {
     margin-top: 1em;
 
@@ -48,7 +49,7 @@ form {
     align-items: center;
 
     padding: 0;
-    padding-bottom: 100%;
+    padding-bottom: 1em;
 }
 
 .block {

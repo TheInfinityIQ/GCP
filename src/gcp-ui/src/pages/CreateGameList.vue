@@ -15,10 +15,11 @@ onMounted(() => {
     // emit("bg-change", BgType.NoBlurBackground);
     // emit("bg-change", BgType.NoBackgroundPicture);
 })
+
+
 </script>
 
 <template>
-    <add-game-modal />
     <form action="">
         <div class="big-input">
             <label for="title">Title</label>

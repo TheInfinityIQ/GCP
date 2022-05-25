@@ -35,6 +35,50 @@ const changeBg = (type?: BgType): void => {
 //Defaults
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap");
 
+.container-main {
+  display: grid;
+  
+  border-radius: 15px;
+
+  margin: 2vh 5vw;
+
+  padding: 0 1em;
+
+  overflow: scroll;
+
+
+  position: relative;
+  top: 0;
+
+  z-index: 1;
+
+  &::before {
+    content: '';
+    border-radius: 15px;
+    background-image: url("./assets/backsplash.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    background-origin: border-box;
+    background-position-x: center;
+    background-position-y: center;
+  
+    filter: blur(2px);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: -1;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+}
+
 // Interpage content
 .table-content>ul {
   max-height: 15em;
@@ -136,51 +180,6 @@ const changeBg = (type?: BgType): void => {
 .wrapper.no-bg {
   background-image: none;
   background-color: #051522;
-}
-
-
-.container-main {
-  display: grid;
-  
-  border-radius: 15px;
-
-  margin: 2vh 5vw;
-
-  padding: 0 1em;
-
-  overflow: scroll;
-
-
-  position: relative;
-  top: 0;
-
-  z-index: 1;
-
-  &::before {
-    content: '';
-    border-radius: 15px;
-    background-image: url("./assets/backsplash.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    background-origin: border-box;
-    background-position-x: center;
-    background-position-y: center;
-
-    filter: blur(2px);
-
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    z-index: -1;
-
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-  }
 }
 
 .container-main.no-blur-bg {
