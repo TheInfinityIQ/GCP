@@ -4,8 +4,8 @@ import { RouterLink } from "vue-router";
 import { ref } from "vue";
 
 //TODO: Remove when auth fully implemented.
-localStorage.clear();
-console.log("AUTH MODAL: REMOVE LOCALSTORAGE.CLEAR WHEN AUTH FULLY IMPLEMENTED");
+// localStorage.clear();
+// console.log("AUTH MODAL: REMOVE LOCALSTORAGE.CLEAR WHEN AUTH FULLY IMPLEMENTED");
 </script>
 
 <template>

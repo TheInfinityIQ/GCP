@@ -9,7 +9,7 @@ const onClick = (path: string) => {
 }
 
 let isAuthenticated = client.IsAuthenticated();
-// client.GetLoginAsync("mod@gcp.com", "Password-1");
+client.GetLoginAsync("mod@gcp.com", "Password-1");
 // console.log(`FOOTER - Authenticated: ${isAuthenticated}`);
 </script>
 

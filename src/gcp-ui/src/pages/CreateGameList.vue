@@ -15,8 +15,6 @@ onMounted(() => {
     // emit("bg-change", BgType.NoBlurBackground);
     // emit("bg-change", BgType.NoBackgroundPicture);
 })
-
-
 </script>
 
 <template>
@@ -43,7 +41,7 @@ onMounted(() => {
             <label for="user-limit">User Limit (Max 9999)</label>
             <input type="number" id="user-limit">
         </div>
-        <input type="submit" value="Apply Changes">
+        <input type="submit" value="Create">
     </form>
 </template>
 

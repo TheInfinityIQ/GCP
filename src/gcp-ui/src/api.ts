@@ -209,24 +209,14 @@ export class Api extends BaseApi {
         return gameListsJsonResponse;
     }
 
-    //METHODS BELOW UNTESTED AND NOT NEEDED. BACKEND USES THEM TO CALL STEAM API
-    // public async GetSteamApps(): Promise<SteamAppsResponse> {
-    //     const uri = "api/steam/app";
+    public async GetGames(): Promise<SteamAppsResponse> {
+        const uri = "api/steam/app";
 
-    //     const steamAppResponse = await this.SendGETRequestAsync(uri);
-    //     const steamAppJsonResponse: SteamAppsResponse = await steamAppResponse.json();
+        const steamAppResponse: Response = await this.SendGETRequestAsync(uri);
+        const steamAppJsonResponse: SteamAppsResponse = await steamAppResponse.json();
 
-    //     return steamAppJsonResponse;
-    // }
-
-    // public async GetSteamApp(id: number): Promise<SteamAppResponse> {
-    //     const uri = `api/steam/app/${id}`;
-
-    //     const steamAppResponse = await this.SendGETRequestAsync(uri);
-    //     const steamAppJsonResponse: SteamAppResponse = await steamAppResponse.json();
-
-    //     return steamAppJsonResponse;
-    // }
+        return steamAppJsonResponse;
+    }
 
     public async ParseVDF(file: File): Promise<ParseVDFResponse> {
         const uri = "api/steam/parse-vdf";

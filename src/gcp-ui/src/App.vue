@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { RouterView } from 'vue-router'
-
 import Logo from './components/Logo.vue';
 import FooterNav from './components/Footer.vue';
 import { BgType } from "./enums";
@@ -35,6 +34,19 @@ const changeBg = (type?: BgType): void => {
 //Defaults
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap");
 
+.route-button {
+  border: 1px solid white;
+  border-radius: 15px;
+
+  width: 25%;
+  padding: 0.65em;
+
+  background-color: #051522;
+
+  text-align: center;
+  text-decoration: none;
+}
+
 .container-main {
   display: grid;
   
@@ -62,7 +74,7 @@ const changeBg = (type?: BgType): void => {
     background-origin: border-box;
     background-position-x: center;
     background-position-y: center;
-  
+
     filter: blur(2px);
 
     position: absolute;

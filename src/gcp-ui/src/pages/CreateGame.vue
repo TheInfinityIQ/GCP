@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { BgType } from "../enums";
+import client from "../api"
 
 const emit = defineEmits<{
     (e: "bg-change", type?: BgType): void;
@@ -11,6 +12,8 @@ onMounted(() => {
     // emit("bg-change", BgType.NoBlurBackground);
     // emit("bg-change", BgType.NoBackgroundPicture);
 });
+
+client.
 </script>
 
 <template>

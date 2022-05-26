@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import vSelect from "vue-select";
-import { PropType, ref } from 'vue'
+import { PropType } from 'vue'
+import { RouterLink } from 'vue-router';
 
 import client from "../api"
 
@@ -37,7 +38,7 @@ const props = defineProps({
                         <h3>
                             Create New List
                         </h3>
-                        <button>Create</button>
+                        <router-link to="/user-games/create" class="route-button">Create</router-link>
                     </li>
                     <li v-for="list in items" class="content-list">
                         <h3>{{ list.title }}</h3>
@@ -60,6 +61,17 @@ const props = defineProps({
 }
 
 // Search Menu
+
+.inline {
+    // display: inline-flex;
+    // border: 1px solid white;
+    text-align: start;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .search-field>p {
     margin-bottom: 0.25em;
 
@@ -76,15 +88,6 @@ button {
     margin-left: 2em;
     height: 3em;
     align-self: center;
-}
-
-.inline {
-    // display: inline-flex;
-    // border: 1px solid white;
-    text-align: start;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
 }
 
 .search-field>input {
